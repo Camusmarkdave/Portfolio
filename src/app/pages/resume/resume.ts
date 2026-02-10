@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-resume',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './resume.html'
+  templateUrl: './resume.html',
+  styleUrl: './resume.css'
 })
 export class ResumeComponent {}

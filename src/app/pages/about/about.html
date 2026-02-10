@@ -1,10 +1,43 @@
-<section class="py-20 bg-slate-50 min-h-screen">
-  <div class="container mx-auto px-6">
+<section class="relative py-20 bg-gradient-to-b from-slate-50 to-white min-h-screen overflow-hidden" (mousemove)="onSectionMouseMove($event)">
+  <!-- Background decoration -->
+  <div class="absolute inset-0 z-0 pointer-events-none">
+    <!-- Moving Grid -->
+    <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
+    
+    <!-- Blobs -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-cyan-400/30 rounded-full blur-3xl mix-blend-multiply animate-blob"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl mix-blend-multiply animate-blob animation-delay-2000"></div>
+  </div>
+
+  <!-- 3D Background Shapes -->
+  <div class="absolute top-20 right-[10%] perspective-wrap pointer-events-none z-0">
+    <div class="cube cube-purple" [style.transform]="shapesTransform()[1]">
+      <div class="cube-face face-front"></div>
+      <div class="cube-face face-back"></div>
+      <div class="cube-face face-right"></div>
+      <div class="cube-face face-left"></div>
+      <div class="cube-face face-top"></div>
+      <div class="cube-face face-bottom"></div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-40 left-[5%] perspective-wrap pointer-events-none z-0">
+    <div class="cube cube-cyan" [style.transform]="shapesTransform()[0]">
+      <div class="cube-face face-front"></div>
+      <div class="cube-face face-back"></div>
+      <div class="cube-face face-right"></div>
+      <div class="cube-face face-left"></div>
+      <div class="cube-face face-top"></div>
+      <div class="cube-face face-bottom"></div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-6 relative z-10">
     
     <!-- Header / Hero -->
-    <div class="flex flex-col lg:flex-row items-center gap-16 mb-24">
+    <div class="flex flex-col lg:flex-row items-center gap-16 mb-24 perspective-container" (mousemove)="onHeroMouseMove($event)" (mouseleave)="resetHeroTilt()">
       <!-- Text Content -->
-      <div class="flex-1">
+      <div class="flex-1 transition-transform duration-100 ease-out will-change-transform animate-fade-in-up" [style.transform]="heroTextTransform()">
         <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">
           More than just <br />
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">code.</span>
@@ -31,10 +64,10 @@
       </div>
 
       <!-- Image -->
-      <div class="flex-1 relative">
-         <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto bg-slate-200">
+      <div class="flex-1 relative transition-transform duration-100 ease-out will-change-transform animate-fade-in-up delay-100" [style.transform]="heroImageTransform()">
+         <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto bg-slate-200 cursor-pointer group" (click)="openProfileModal($event)">
             <!-- Placeholder for Profile Image -->
-            <img src="assets/images/profile.jpg" alt="Profile" class="object-cover w-full h-full" />
+            <img src="assets/images/profile.jpg" alt="Profile" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
             <div class="absolute inset-0 flex items-center justify-center text-slate-400 bg-slate-100 -z-10">
                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -42,20 +75,26 @@
             </div>
          </div>
          <!-- Decorative Blob -->
-         <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-         <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+         <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob pointer-events-none"></div>
+         <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 pointer-events-none"></div>
       </div>
     </div>
 
     <!-- Philosophy / Values -->
-    <div class="mb-24">
+    <div class="mb-24 animate-fade-in-up delay-200">
       <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-4">How I Work</h2>
         <p class="text-slate-600">My approach to development is grounded in three core principles.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+        <div class="perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 0)" (mouseleave)="resetPhilosophyCardTilt(0)">
+        <div class="h-full bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
+             [style.transform]="philosophyTransforms()[0]">
+          <!-- Spotlight -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
+               [style.background]="'radial-gradient(600px circle at ' + philosophySpotlights()[0].x + 'px ' + philosophySpotlights()[0].y + 'px, rgba(6,182,212,0.1), transparent 40%)'"></div>
+
           <div class="w-12 h-12 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
@@ -66,8 +105,15 @@
             I speak both languages: Figma and TypeScript. I ensure the final code matches the design intent perfectly, bridging the gap between design and engineering.
           </p>
         </div>
+        </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+        <div class="perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 1)" (mouseleave)="resetPhilosophyCardTilt(1)">
+        <div class="h-full bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
+             [style.transform]="philosophyTransforms()[1]">
+          <!-- Spotlight -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
+               [style.background]="'radial-gradient(600px circle at ' + philosophySpotlights()[1].x + 'px ' + philosophySpotlights()[1].y + 'px, rgba(168,85,247,0.1), transparent 40%)'"></div>
+
           <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -78,8 +124,15 @@
             I don't just copy-paste tutorials. I break down complex requirements into clean, reusable logic, ensuring maintainability and scalability.
           </p>
         </div>
+        </div>
 
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+        <div class="perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 2)" (mouseleave)="resetPhilosophyCardTilt(2)">
+        <div class="h-full bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
+             [style.transform]="philosophyTransforms()[2]">
+          <!-- Spotlight -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
+               [style.background]="'radial-gradient(600px circle at ' + philosophySpotlights()[2].x + 'px ' + philosophySpotlights()[2].y + 'px, rgba(59,130,246,0.1), transparent 40%)'"></div>
+
           <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -90,11 +143,14 @@
             I balance clean code with practical delivery. I prioritize shipping functional MVPs over perfection, iterating based on real feedback.
           </p>
         </div>
+        </div>
       </div>
     </div>
 
     <!-- Toolkit -->
-    <div class="bg-slate-900 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden">
+    <div class="perspective-container animate-fade-in-up delay-300" (mousemove)="onToolkitMouseMove($event)" (mouseleave)="resetToolkitTilt()">
+    <div class="bg-slate-900 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden transition-transform duration-100 ease-out will-change-transform"
+         [style.transform]="toolkitTransform()">
        <!-- Background decoration -->
        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20">
           <div class="absolute top-0 left-1/4 w-64 h-64 bg-cyan-500 rounded-full mix-blend-overlay filter blur-3xl"></div>
@@ -128,6 +184,26 @@
          </div>
        </div>
     </div>
+    </div>
+
+    <!-- Profile Preview Modal -->
+    @if (isProfileModalOpen()) {
+      <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in"
+           (click)="closeProfileModal()">
+        <div class="relative p-4 bg-white rounded-3xl shadow-2xl transform animate-scale-up max-w-md w-full mx-4"
+             (click)="$event.stopPropagation()">
+           <button class="absolute top-4 right-4 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-1 transition-all z-10 backdrop-blur-sm"
+                   (click)="closeProfileModal()">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+             </svg>
+           </button>
+           <div class="rounded-2xl overflow-hidden aspect-[4/5] relative bg-slate-100">
+             <img src="assets/images/profile.jpg" alt="Profile" class="w-full h-full object-cover" />
+           </div>
+        </div>
+      </div>
+    }
 
   </div>
 </section>
