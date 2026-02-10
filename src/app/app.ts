@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
           
           <!-- Logo -->
           <a routerLink="/" class="flex items-center gap-1">
-            <img src="assets/images/logo.png" alt="Logo" class="h-10 w-auto object-contain" />
+            <img src="assets/uploads/logo.png" alt="Logo" class="h-10 w-auto object-contain" />
           </a>
 
           <!-- Desktop Navigation -->
@@ -66,7 +66,7 @@ import { CommonModule } from '@angular/common';
             <div class="text-center md:text-left">
                <div class="mb-4 md:mb-2">
                  <!-- Footer Logo (White version if available, or same) -->
-                 <img src="assets/images/logo.png" alt="Logo" class="h-8 w-auto inline-block opacity-90 grayscale hover:grayscale-0 transition-all" />
+                 <img src="/assets/uploads/logo.png" alt="Logo" class="h-8 w-auto inline-block opacity-90 grayscale hover:grayscale-0 transition-all" />
                </div>
                <p class="text-sm text-slate-500">© 2025 Mark Dave Camus. All rights reserved.</p>
             </div>
