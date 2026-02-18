@@ -7,15 +7,21 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   template: `
-    <div class="min-h-screen bg-white font-sans text-slate-900 selection:bg-cyan-100 selection:text-cyan-900">
+    <div class="min-h-screen flex flex-col bg-white font-sans text-slate-900 selection:bg-cyan-100 selection:text-cyan-900">
       
       <!-- Modern Navbar with Blur Effect -->
       <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 transition-all duration-300">
         <div class="container mx-auto px-6 h-20 flex items-center justify-between">
           
           <!-- Logo -->
-          <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-1 group relative z-50" title="Preview Logo">
-            <img src="assets/uploads/logo.png" alt="Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
+          <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-3 group relative z-50" title="Preview Logo">
+            <div class="relative">
+                <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
+                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-10 w-auto object-contain transform transition-transform duration-500 group-hover:rotate-12" />
+            </div>
+            <div class="flex flex-col">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none group-hover:text-cyan-500 transition-colors duration-300">Portfolio</span>
+            </div>
           </a>
 
           <!-- Desktop Navigation -->
@@ -45,8 +51,14 @@ import { CommonModule } from '@angular/common';
 
           <!-- CTA Button -->
           <div class="hidden md:block">
-            <a routerLink="/contact" class="px-6 py-2.5 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-              Let's Talk
+            <a routerLink="/contact" class="group relative inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-wider overflow-hidden shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 hover:-translate-y-0.5">
+              <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-cyan-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span class="relative z-10 flex items-center gap-2">
+                Let's Talk
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
             </a>
           </div>
 
@@ -78,7 +90,7 @@ import { CommonModule } from '@angular/common';
       </nav>
 
       <!-- Main Content Area -->
-      <main>
+      <main class="flex-grow relative">
         <router-outlet></router-outlet>
       </main>
 

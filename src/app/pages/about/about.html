@@ -65,7 +65,7 @@
 
       <!-- Image -->
       <div class="flex-1 relative transition-transform duration-100 ease-out will-change-transform animate-fade-in-up delay-100" [style.transform]="heroImageTransform()">
-         <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto bg-slate-200 cursor-pointer group" (click)="openProfileModal($event)">
+         <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] max-w-md mx-auto bg-slate-200 cursor-pointer group animate-float" (click)="openProfileModal($event)">
             <!-- Placeholder for Profile Image -->
             <img src="assets/uploads/profile.jpg" alt="Profile" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
             <div class="absolute inset-0 flex items-center justify-center text-slate-400 bg-slate-100 -z-10">
@@ -95,7 +95,7 @@
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
                [style.background]="'radial-gradient(600px circle at ' + philosophySpotlights()[0].x + 'px ' + philosophySpotlights()[0].y + 'px, rgba(6,182,212,0.1), transparent 40%)'"></div>
 
-          <div class="w-12 h-12 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+          <div class="w-12 h-12 bg-cyan-50 rounded-lg flex items-center justify-center mb-6 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
             </svg>
@@ -114,7 +114,7 @@
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
                [style.background]="'radial-gradient(600px circle at ' + philosophySpotlights()[1].x + 'px ' + philosophySpotlights()[1].y + 'px, rgba(168,85,247,0.1), transparent 40%)'"></div>
 
-          <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+          <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
             </svg>
@@ -133,7 +133,7 @@
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
                [style.background]="'radial-gradient(600px circle at ' + philosophySpotlights()[2].x + 'px ' + philosophySpotlights()[2].y + 'px, rgba(59,130,246,0.1), transparent 40%)'"></div>
 
-          <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+          <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -158,20 +158,20 @@
        </div>
 
        <div class="relative z-10">
-         <h2 class="text-3xl font-black text-white mb-12 tracking-tight">My Toolkit</h2>
+         <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 mb-12 tracking-tight">My Toolkit</h2>
          
          <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Angular</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">TypeScript</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Tailwind CSS</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">RxJS</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Figma</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Git & GitHub</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">VS Code</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Node.js</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Postman</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">React</span>
-           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default">Vue</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Angular</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">TypeScript</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Tailwind CSS</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">RxJS</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Figma</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Git & GitHub</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">VS Code</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Node.js</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Postman</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">React</span>
+           <span class="px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-bold text-sm border border-slate-700 hover:border-cyan-500 hover:text-white transition-all cursor-default hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/20">Vue</span>
          </div>
 
          <h3 class="text-xl font-bold text-slate-400 mt-12 mb-8 uppercase tracking-widest">Soft Skills</h3>

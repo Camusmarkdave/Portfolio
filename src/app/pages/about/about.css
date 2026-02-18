@@ -75,3 +75,12 @@
 .face-left   { transform: rotateY(-90deg) translateZ(50px); }
 .face-top    { transform: rotateX(90deg) translateZ(50px); }
 .face-bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
