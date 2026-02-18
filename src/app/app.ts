@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
           <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-3 group relative z-50" title="Preview Logo">
             <div class="relative">
                 <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
-                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-10 w-auto object-contain transform transition-transform duration-500 group-hover:rotate-12" />
+                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-10 w-auto object-contain transform transition-transform duration-500" />
             </div>
             <div class="flex flex-col">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none group-hover:text-cyan-500 transition-colors duration-300">Portfolio</span>
@@ -72,22 +72,40 @@ import { CommonModule } from '@angular/common';
               }
             </svg>
           </button>
-
-          <!-- Mobile Menu Overlay -->
-          <div class="fixed inset-0 bg-white/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 transition-all duration-300 md:hidden"
-               [class.opacity-0]="!isMobileMenuOpen()"
-               [class.pointer-events-none]="!isMobileMenuOpen()"
-               [class.opacity-100]="isMobileMenuOpen()"
-               [class.pointer-events-auto]="isMobileMenuOpen()">
-               
-               <a routerLink="/" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" [routerLinkActiveOptions]="{exact: true}" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Home</a>
-               <a routerLink="/projects" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Projects</a>
-               <a routerLink="/about" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">About</a>
-               <a routerLink="/resume" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Resume</a>
-               <a routerLink="/contact" (click)="closeMobileMenu()" class="px-8 py-3 bg-slate-900 text-white font-bold uppercase tracking-widest rounded-full hover:bg-slate-800 transition-all">Let's Talk</a>
-          </div>
         </div>
       </nav>
+
+      <!-- Mobile Menu Overlay -->
+      <div class="fixed inset-0 bg-slate-900/98 backdrop-blur-2xl z-[60] flex flex-col items-center justify-center transition-all duration-300 md:hidden"
+           [class.opacity-0]="!isMobileMenuOpen()"
+           [class.pointer-events-none]="!isMobileMenuOpen()"
+           [class.opacity-100]="isMobileMenuOpen()"
+           [class.pointer-events-auto]="isMobileMenuOpen()">
+
+           <!-- Background Blobs -->
+           <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] -mr-20 -mt-20 pointer-events-none opacity-50"></div>
+           <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] -ml-20 -mb-20 pointer-events-none opacity-50"></div>
+
+           <!-- Close Button -->
+           <button class="absolute top-6 right-6 p-2 text-slate-400 hover:text-white transition-colors" (click)="closeMobileMenu()">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+             </svg>
+           </button>
+           
+           <nav class="flex flex-col items-center gap-8 relative z-10">
+             <a routerLink="/" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" [routerLinkActiveOptions]="{exact: true}" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">Home</a>
+             <a routerLink="/projects" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">Projects</a>
+             <a routerLink="/about" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">About</a>
+             <a routerLink="/resume" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">Resume</a>
+           </nav>
+
+           <div class="w-16 h-1 bg-slate-800 rounded-full my-10 relative z-10"></div>
+
+           <a routerLink="/contact" (click)="closeMobileMenu()" class="relative z-10 px-10 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold uppercase tracking-widest rounded-full hover:shadow-lg hover:shadow-cyan-500/25 hover:-translate-y-1 transition-all">
+             Let's Talk
+           </a>
+      </div>
 
       <!-- Main Content Area -->
       <main class="flex-grow relative">
