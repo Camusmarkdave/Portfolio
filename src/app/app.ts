@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, signal, inject } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -9,102 +10,121 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="min-h-screen flex flex-col bg-white font-sans text-slate-900 selection:bg-cyan-100 selection:text-cyan-900">
       
-      <!-- Modern Navbar with Blur Effect -->
-      <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 transition-all duration-300">
+      <!-- Modern Minimalist Navbar -->
+      <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-300 animate-slide-down"
+           [ngClass]="isDarkNav() ? 'bg-[#0f172a]/90 border-slate-800' : 'bg-white/80 border-slate-100'">
         <div class="container mx-auto px-6 h-20 flex items-center justify-between">
           
           <!-- Logo -->
-          <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-3 group relative z-50" title="Preview Logo">
+          <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-3 group relative" title="Preview Logo">
             <div class="relative">
                 <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
-                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-10 w-auto object-contain transform transition-transform duration-500" />
+                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-9 w-auto object-contain" />
             </div>
-            <div class="flex flex-col">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none group-hover:text-cyan-500 transition-colors duration-300">Portfolio</span>
-            </div>
+             <span class="text-sm font-bold tracking-widest uppercase transition-colors"
+                   [ngClass]="isDarkNav() ? 'text-white group-hover:text-cyan-400' : 'text-slate-900 group-hover:text-cyan-600'">Portfolio</span>
           </a>
 
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center gap-8">
+          <!-- Desktop Nav (Pill Style) -->
+          <div class="hidden md:flex items-center gap-1 p-1 rounded-full border transition-colors duration-300"
+               [ngClass]="isDarkNav() ? 'bg-slate-800/50 border-slate-700/50' : 'bg-slate-100/50 border-slate-200/50'">
             <a routerLink="/" 
-               routerLinkActive="text-cyan-600 font-semibold after:w-full" 
+               routerLinkActive
+               #rlaHome="routerLinkActive"
                [routerLinkActiveOptions]="{exact: true}"
-               class="relative text-sm font-medium text-slate-600 hover:text-cyan-600 transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-cyan-600 after:transition-all after:duration-300 hover:after:w-full">
+               class="px-5 py-2 rounded-full text-sm font-bold transition-all duration-300"
+               [ngClass]="{
+                 'bg-slate-700 text-white shadow-sm': isDarkNav() && rlaHome.isActive,
+                 'bg-white text-slate-900 shadow-sm': !isDarkNav() && rlaHome.isActive,
+                 'text-slate-400 hover:text-white': isDarkNav() && !rlaHome.isActive,
+                 'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaHome.isActive
+               }">
               Home
             </a>
             <a routerLink="/projects" 
-               routerLinkActive="text-cyan-600 font-semibold after:w-full"
-               class="relative text-sm font-medium text-slate-600 hover:text-cyan-600 transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-cyan-600 after:transition-all after:duration-300 hover:after:w-full">
+               routerLinkActive
+               #rlaProjects="routerLinkActive"
+               class="px-5 py-2 rounded-full text-sm font-bold transition-all duration-300"
+               [ngClass]="{
+                 'bg-slate-700 text-white shadow-sm': isDarkNav() && rlaProjects.isActive,
+                 'bg-white text-slate-900 shadow-sm': !isDarkNav() && rlaProjects.isActive,
+                 'text-slate-400 hover:text-white': isDarkNav() && !rlaProjects.isActive,
+                 'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaProjects.isActive
+               }">
               Projects
             </a>
             <a routerLink="/about" 
-               routerLinkActive="text-cyan-600 font-semibold after:w-full"
-               class="relative text-sm font-medium text-slate-600 hover:text-cyan-600 transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-cyan-600 after:transition-all after:duration-300 hover:after:w-full">
+               routerLinkActive
+               #rlaAbout="routerLinkActive"
+               class="px-5 py-2 rounded-full text-sm font-bold transition-all duration-300"
+               [ngClass]="{
+                 'bg-slate-700 text-white shadow-sm': isDarkNav() && rlaAbout.isActive,
+                 'bg-white text-slate-900 shadow-sm': !isDarkNav() && rlaAbout.isActive,
+                 'text-slate-400 hover:text-white': isDarkNav() && !rlaAbout.isActive,
+                 'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaAbout.isActive
+               }">
               About
             </a>
             <a routerLink="/resume" 
-               routerLinkActive="text-cyan-600 font-semibold after:w-full"
-               class="relative text-sm font-medium text-slate-600 hover:text-cyan-600 transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-cyan-600 after:transition-all after:duration-300 hover:after:w-full">
+               routerLinkActive
+               #rlaResume="routerLinkActive"
+               class="px-5 py-2 rounded-full text-sm font-bold transition-all duration-300"
+               [ngClass]="{
+                 'bg-slate-700 text-white shadow-sm': isDarkNav() && rlaResume.isActive,
+                 'bg-white text-slate-900 shadow-sm': !isDarkNav() && rlaResume.isActive,
+                 'text-slate-400 hover:text-white': isDarkNav() && !rlaResume.isActive,
+                 'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaResume.isActive
+               }">
               Resume
             </a>
           </div>
 
-          <!-- CTA Button -->
-          <div class="hidden md:block">
-            <a routerLink="/contact" class="group relative inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-wider overflow-hidden shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 hover:-translate-y-0.5">
-              <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-cyan-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span class="relative z-10 flex items-center gap-2">
-                Let's Talk
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          <!-- Right Actions -->
+          <div class="flex items-center gap-4">
+             <a routerLink="/contact" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-cyan-600 transition-all shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5">
+               Let's Talk
+             </a>
+             
+             <!-- Mobile Menu Toggle -->
+             <button class="md:hidden p-2 transition-colors" 
+                     [ngClass]="isDarkNav() ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'"
+                     (click)="toggleMobileMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  @if (isMobileMenuOpen()) {
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  } @else {
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                  }
                 </svg>
-              </span>
-            </a>
+             </button>
           </div>
-
-          <!-- Mobile Menu Button -->
-          <button class="md:hidden relative z-50 p-2 text-slate-600 hover:text-slate-900 transition-colors" (click)="toggleMobileMenu()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              @if (isMobileMenuOpen()) {
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              } @else {
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              }
-            </svg>
-          </button>
         </div>
       </nav>
 
       <!-- Mobile Menu Overlay -->
-      <div class="fixed inset-0 bg-slate-900/98 backdrop-blur-2xl z-[60] flex flex-col items-center justify-center transition-all duration-300 md:hidden"
+      <div class="fixed inset-0 bg-white z-[60] flex flex-col transition-all duration-300 md:hidden"
            [class.opacity-0]="!isMobileMenuOpen()"
            [class.pointer-events-none]="!isMobileMenuOpen()"
            [class.opacity-100]="isMobileMenuOpen()"
            [class.pointer-events-auto]="isMobileMenuOpen()">
 
-           <!-- Background Blobs -->
-           <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] -mr-20 -mt-20 pointer-events-none opacity-50"></div>
-           <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] -ml-20 -mb-20 pointer-events-none opacity-50"></div>
-
-           <!-- Close Button -->
-           <button class="absolute top-6 right-6 p-2 text-slate-400 hover:text-white transition-colors" (click)="closeMobileMenu()">
+           <!-- Mobile Header -->
+           <div class="flex items-center justify-between p-6 border-b border-slate-100">
+             <span class="text-xl font-bold text-slate-900">Menu</span>
+             <button class="p-2 text-slate-500 hover:text-slate-900 transition-colors" (click)="closeMobileMenu()">
              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
              </svg>
            </button>
+           </div>
            
-           <nav class="flex flex-col items-center gap-8 relative z-10">
-             <a routerLink="/" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" [routerLinkActiveOptions]="{exact: true}" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">Home</a>
-             <a routerLink="/projects" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">Projects</a>
-             <a routerLink="/about" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">About</a>
-             <a routerLink="/resume" (click)="closeMobileMenu()" routerLinkActive="text-cyan-400" class="text-4xl font-black text-white hover:text-cyan-400 transition-colors tracking-tight">Resume</a>
+           <nav class="flex flex-col p-8 gap-6">
+             <a routerLink="/" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" [routerLinkActiveOptions]="{exact: true}" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Home</a>
+             <a routerLink="/projects" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Projects</a>
+             <a routerLink="/about" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">About</a>
+             <a routerLink="/resume" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Resume</a>
+             <a routerLink="/contact" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Contact</a>
            </nav>
-
-           <div class="w-16 h-1 bg-slate-800 rounded-full my-10 relative z-10"></div>
-
-           <a routerLink="/contact" (click)="closeMobileMenu()" class="relative z-10 px-10 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold uppercase tracking-widest rounded-full hover:shadow-lg hover:shadow-cyan-500/25 hover:-translate-y-1 transition-all">
-             Let's Talk
-           </a>
       </div>
 
       <!-- Main Content Area -->
@@ -226,11 +246,24 @@ import { CommonModule } from '@angular/common';
     .animate-scale-up { animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .animate-slide-down { animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   `]
 })
 export class AppComponent {
+  private router = inject(Router);
   protected readonly isLogoModalOpen = signal(false);
   protected readonly isMobileMenuOpen = signal(false);
+  protected readonly isDarkNav = signal(false);
+
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      const url = event.urlAfterRedirects;
+      this.isDarkNav.set(url.includes('/projects') || url.includes('/resume'));
+    });
+  }
 
   protected openLogoModal(event: Event) {
     event.preventDefault();
