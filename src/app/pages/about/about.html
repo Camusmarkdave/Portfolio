@@ -235,156 +235,164 @@
           <p class="text-slate-600">Continuous learning is part of the journey.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <!-- Legacy JavaScript Algorithms and Data Structures -->
-          <div class="bg-white p-8 shadow-sm hover:shadow-xl border border-slate-200 hover:border-yellow-200 transition-all duration-300 rounded-2xl group relative overflow-hidden perspective-container"
+          <div class="bg-white p-8 shadow-sm hover:shadow-2xl border border-slate-100 hover:border-yellow-200 transition-all duration-500 rounded-3xl group relative overflow-hidden perspective-container"
                (mousemove)="onCertificationsMouseMove($event, 0)" (mouseleave)="resetCertificationsTilt(0)">
             <div class="transition-transform duration-100 ease-out will-change-transform h-full flex flex-col" [style.transform]="certificationsTransform()[0]">
               <!-- Spotlight -->
               <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
                    [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[0].x + 'px ' + certificationsSpotlight()[0].y + 'px, rgba(234,179,8,0.05), transparent 40%)'"></div>
               
-              <div class="relative z-10 flex-grow">
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="w-12 h-12 shrink-0 bg-yellow-50 rounded-xl flex items-center justify-center text-yellow-600 border border-yellow-100 group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Verified</span>
-                    </div>
+              <div class="relative z-10 flex-grow flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-yellow-50 rounded-2xl flex items-center justify-center text-yellow-600 border border-yellow-100 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
                 </div>
                 
-                <h3 class="text-lg font-bold text-slate-900 leading-tight mb-1 group-hover:text-yellow-600 transition-colors">Legacy JavaScript Algorithms</h3>
-                <p class="text-slate-500 font-medium text-sm mb-4">freeCodeCamp</p>
+                <h3 class="text-xl font-bold text-slate-900 leading-tight mb-2 group-hover:text-yellow-600 transition-colors">Legacy JavaScript Algorithms</h3>
                 
-                <p class="text-slate-600 leading-relaxed mb-6 text-sm">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-xs font-medium text-slate-500 mb-6">
+                    <span>freeCodeCamp</span>
+                    <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                    <span class="text-yellow-600 flex items-center gap-1 font-bold">
+                        Verified <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    </span>
+                </div>
+                
+                <p class="text-slate-600 leading-relaxed mb-8 text-sm">
                   Demonstrates proficiency in core JavaScript fundamentals, data structures, and problem-solving.
                 </p>
-              </div>
 
-              <button class="relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-yellow-50 hover:text-yellow-700 hover:border-yellow-200 transition-all duration-300 flex items-center justify-center gap-2" (click)="openCertificateModal('legacy-js', $event)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                View Credential
-              </button>
+                <button class="mt-auto relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-white text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-yellow-50 hover:text-yellow-700 hover:border-yellow-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn" (click)="openCertificateModal('legacy-js', $event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 group-hover/btn:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View Credential
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- SEO Certified & HubSpot SEO II Certified -->
-          <div class="bg-white p-8 shadow-sm hover:shadow-xl border border-slate-200 hover:border-orange-200 transition-all duration-300 rounded-2xl group relative overflow-hidden perspective-container"
+          <!-- Angular Certified (Moved to 2nd position) -->
+          <div class="bg-white p-8 shadow-sm hover:shadow-2xl border border-slate-100 hover:border-cyan-200 transition-all duration-500 rounded-3xl group relative overflow-hidden perspective-container"
                (mousemove)="onCertificationsMouseMove($event, 1)" (mouseleave)="resetCertificationsTilt(1)">
             <div class="transition-transform duration-100 ease-out will-change-transform h-full flex flex-col" [style.transform]="certificationsTransform()[1]">
               <!-- Spotlight -->
               <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[1].x + 'px ' + certificationsSpotlight()[1].y + 'px, rgba(249,115,22,0.05), transparent 40%)'"></div>
+                   [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[1].x + 'px ' + certificationsSpotlight()[1].y + 'px, rgba(6,182,212,0.05), transparent 40%)'"></div>
               
-              <div class="relative z-10 flex-grow">
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="w-12 h-12 shrink-0 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 border border-orange-100 group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Verified</span>
-                    </div>
+              <div class="relative z-10 flex-grow flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 border border-cyan-100 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
                 </div>
 
-                <h3 class="text-lg font-bold text-slate-900 leading-tight mb-1 group-hover:text-orange-600 transition-colors">SEO & HubSpot SEO II</h3>
-                <p class="text-slate-500 font-medium text-sm mb-4">HubSpot Academy</p>
+                <h3 class="text-xl font-bold text-slate-900 leading-tight mb-2 group-hover:text-cyan-600 transition-colors">Angular Certified</h3>
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-xs font-medium text-slate-500 mb-6">
+                    <span>Google / Angular Training</span>
+                    <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                    <span class="text-cyan-600 flex items-center gap-1 font-bold">
+                        Verified <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    </span>
+                </div>
 
-                <p class="text-slate-600 leading-relaxed mb-6 text-sm">
-                  Validates knowledge of search engine optimization best practices for building performant and discoverable web interfaces.
+                <p class="text-slate-600 leading-relaxed mb-8 text-sm">
+                  Mastered core concepts including Signals, Standalone Components, Dependency Injection, and RxJS.
                 </p>
-              </div>
 
-              <button class="relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 transition-all duration-300 flex items-center justify-center gap-2" (click)="openCertificateModal('hubspot-seo', $event)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                View Credential
-              </button>
+                <button class="mt-auto relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-white text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-cyan-50 hover:text-cyan-700 hover:border-cyan-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn" (click)="openCertificateModal('angular', $event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 group-hover/btn:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View Credential
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Angular Certified -->
-          <div class="bg-white p-8 shadow-sm hover:shadow-xl border border-slate-200 hover:border-cyan-200 transition-all duration-300 rounded-2xl group relative overflow-hidden perspective-container"
+          <!-- SEO Certified & HubSpot SEO II Certified (Moved to 3rd position) -->
+          <div class="bg-white p-8 shadow-sm hover:shadow-2xl border border-slate-100 hover:border-orange-200 transition-all duration-500 rounded-3xl group relative overflow-hidden perspective-container"
                (mousemove)="onCertificationsMouseMove($event, 2)" (mouseleave)="resetCertificationsTilt(2)">
             <div class="transition-transform duration-100 ease-out will-change-transform h-full flex flex-col" [style.transform]="certificationsTransform()[2]">
               <!-- Spotlight -->
               <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[2].x + 'px ' + certificationsSpotlight()[2].y + 'px, rgba(6,182,212,0.05), transparent 40%)'"></div>
+                   [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[2].x + 'px ' + certificationsSpotlight()[2].y + 'px, rgba(249,115,22,0.05), transparent 40%)'"></div>
               
-              <div class="relative z-10 flex-grow">
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="w-12 h-12 shrink-0 bg-cyan-50 rounded-xl flex items-center justify-center text-cyan-600 border border-cyan-100 group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Verified</span>
-                    </div>
+              <div class="relative z-10 flex-grow flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 border border-orange-100 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
                 </div>
 
-                <h3 class="text-lg font-bold text-slate-900 leading-tight mb-1 group-hover:text-cyan-600 transition-colors">Angular Certified</h3>
-                <p class="text-slate-500 font-medium text-sm mb-4">Google / Angular Training</p>
+                <h3 class="text-xl font-bold text-slate-900 leading-tight mb-2 group-hover:text-orange-600 transition-colors">SEO & HubSpot SEO II</h3>
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-xs font-medium text-slate-500 mb-6">
+                    <span>HubSpot Academy</span>
+                    <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                    <span class="text-orange-600 flex items-center gap-1 font-bold">
+                        Verified <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    </span>
+                </div>
 
-                <p class="text-slate-600 leading-relaxed mb-6 text-sm">
-                  Mastered core concepts including Signals, Standalone Components, Dependency Injection, and RxJS.
+                <p class="text-slate-600 leading-relaxed mb-8 text-sm">
+                  Validates knowledge of search engine optimization best practices for building performant and discoverable web interfaces.
                 </p>
-              </div>
 
-              <button class="relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-cyan-50 hover:text-cyan-700 hover:border-cyan-200 transition-all duration-300 flex items-center justify-center gap-2" (click)="openCertificateModal('angular', $event)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                View Credential
-              </button>
+                <button class="mt-auto relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-white text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn" (click)="openCertificateModal('hubspot-seo', $event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 group-hover/btn:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View Credential
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- HubSpot SEO (Original) -->
-          <div class="bg-white p-8 shadow-sm hover:shadow-xl border border-slate-200 hover:border-orange-200 transition-all duration-300 rounded-2xl group relative overflow-hidden perspective-container"
+          <div class="bg-white p-8 shadow-sm hover:shadow-2xl border border-slate-100 hover:border-orange-200 transition-all duration-500 rounded-3xl group relative overflow-hidden perspective-container"
                (mousemove)="onCertificationsMouseMove($event, 3)" (mouseleave)="resetCertificationsTilt(3)">
             <div class="transition-transform duration-100 ease-out will-change-transform h-full flex flex-col" [style.transform]="certificationsTransform()[3]">
               <!-- Spotlight -->
               <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
                    [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[3].x + 'px ' + certificationsSpotlight()[3].y + 'px, rgba(249,115,22,0.05), transparent 40%)'"></div>
               
-              <div class="relative z-10 flex-grow">
-                <div class="flex items-start justify-between gap-4 mb-6">
-                    <div class="w-12 h-12 shrink-0 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 border border-orange-100 group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Verified</span>
-                    </div>
+              <div class="relative z-10 flex-grow flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 border border-orange-100 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
                 </div>
 
-                <h3 class="text-lg font-bold text-slate-900 leading-tight mb-1 group-hover:text-orange-600 transition-colors">HubSpot SEO</h3>
-                <p class="text-slate-500 font-medium text-sm mb-4">HubSpot Academy</p>
+                <h3 class="text-xl font-bold text-slate-900 leading-tight mb-2 group-hover:text-orange-600 transition-colors">HubSpot SEO</h3>
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-xs font-medium text-slate-500 mb-6">
+                    <span>HubSpot Academy</span>
+                    <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                    <span class="text-orange-600 flex items-center gap-1 font-bold">
+                        Verified <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                    </span>
+                </div>
 
-                <p class="text-slate-600 leading-relaxed mb-6 text-sm">
+                <p class="text-slate-600 leading-relaxed mb-8 text-sm">
                   Demonstrated ability to execute SEO strategies that improve search performance and website optimization.
                 </p>
-              </div>
 
-              <button class="relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 transition-all duration-300 flex items-center justify-center gap-2" (click)="openCertificateModal('hubspot-seo-basic', $event)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                View Credential
-              </button>
+                <button class="mt-auto relative z-10 w-full py-3 rounded-xl border border-slate-200 bg-white text-slate-600 text-xs font-bold uppercase tracking-wider hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn" (click)="openCertificateModal('hubspot-seo-basic', $event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 group-hover/btn:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View Credential
+                </button>
+              </div>
             </div>
           </div>
         </div>

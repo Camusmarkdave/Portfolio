@@ -230,9 +230,11 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in-up delay-200">
+    <!-- Marquee Container with Gradient Mask -->
+    <div class="w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] animate-fade-in-up delay-200">
+      <div class="flex w-max gap-8 animate-scroll hover:[animation-play-state:paused]">
       <!-- Card 1 -->
-      <div class="bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden"
+      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 0)">
         <!-- Spotlight -->
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
@@ -254,7 +256,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden"
+      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 1)">
          <!-- Spotlight -->
          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
@@ -276,7 +278,7 @@
       </div>
 
       <!-- Card 3 -->
-      <div class="bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden"
+      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 2)">
          <!-- Spotlight -->
          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
@@ -295,6 +297,66 @@
               Optimizing for speed and efficiency. Lazy loading, efficient state management, and smooth performance.
             </p>
          </div>
+      </div>
+
+      <!-- DUPLICATE CARDS FOR LOOP -->
+      <!-- Card 1 Copy -->
+      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
+           (mousemove)="onServiceMouseMove($event, 0)">
+        <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
+             [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[0].x + 'px ' + serviceSpotlights()[0].y + 'px, rgba(6,182,212,0.1), transparent 40%)'"></div>
+        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500"></div>
+        <div class="relative z-10">
+            <div class="w-16 h-16 bg-cyan-100 rounded-2xl flex items-center justify-center mb-8 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Frontend Dev</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Building responsive, single-page applications using Angular and React. Clean, semantic, and SEO-friendly code.
+            </p>
+        </div>
+      </div>
+
+      <!-- Card 2 Copy -->
+      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
+           (mousemove)="onServiceMouseMove($event, 1)">
+         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
+              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[1].x + 'px ' + serviceSpotlights()[1].y + 'px, rgba(168,85,247,0.1), transparent 40%)'"></div>
+         <div class="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500"></div>
+         <div class="relative z-10">
+            <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-8 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">UI/UX Design</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Designing intuitive interfaces with Figma. Focusing on typography, spacing, and color theory for engaging user journeys.
+            </p>
+         </div>
+      </div>
+
+      <!-- Card 3 Copy -->
+      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
+           (mousemove)="onServiceMouseMove($event, 2)">
+         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
+              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[2].x + 'px ' + serviceSpotlights()[2].y + 'px, rgba(59,130,246,0.1), transparent 40%)'"></div>
+         <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500"></div>
+         <div class="relative z-10">
+            <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-8 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Optimization</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Optimizing for speed and efficiency. Lazy loading, efficient state management, and smooth performance.
+            </p>
+         </div>
+      </div>
+
       </div>
     </div>
   </div>

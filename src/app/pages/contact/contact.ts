@@ -1,14 +1,42 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contact.html',
   styleUrl: './contact.css'
 })
 export class ContactComponent {
+  private fb = inject(FormBuilder);
+
+  protected contactForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    subject: ['', Validators.required],
+    message: ['', Validators.required]
+  });
+
+  protected isSubmitting = signal(false);
+  protected isSent = signal(false);
+
+  async onSubmit() {
+    if (this.contactForm.valid) {
+      this.isSubmitting.set(true);
+      
+      // SIMULATION: To actually send to Gmail, use EmailJS here (https://www.emailjs.com/)
+      // await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this.contactForm.value, 'YOUR_PUBLIC_KEY');
+      
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Fake 2s delay
+      
+      this.isSubmitting.set(false);
+      this.isSent.set(true);
+      this.contactForm.reset();
+    }
+  }
+
   // Form Tilt State
   protected readonly formTransform = signal('rotateX(0deg) rotateY(0deg)');
 

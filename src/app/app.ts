@@ -271,6 +271,7 @@ export class AppComponent {
     ).subscribe((event: NavigationEnd) => {
       const url = event.urlAfterRedirects;
       this.isDarkNav.set(url.includes('/projects') || url.includes('/resume'));
+      window.scrollTo(0, 0);
     });
   }
 
