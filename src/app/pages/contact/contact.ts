@@ -21,6 +21,11 @@ export class ContactComponent {
     'rotateX(0deg) rotateY(0deg)'
   ]);
 
+  // Cards Spotlight State
+  protected readonly cardSpotlights = signal<{x: number, y: number}[]>([
+    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
+  ]);
+
   protected onFormMouseMove(event: MouseEvent) {
     const container = event.currentTarget as HTMLElement;
     const rect = container.getBoundingClientRect();
@@ -55,6 +60,10 @@ export class ContactComponent {
     const newTransforms = [...this.cardTransforms()];
     newTransforms[index] = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
     this.cardTransforms.set(newTransforms);
+
+    const newSpotlights = [...this.cardSpotlights()];
+    newSpotlights[index] = {x, y};
+    this.cardSpotlights.set(newSpotlights);
   }
 
   protected resetCardTilt(index: number) {

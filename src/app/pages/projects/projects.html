@@ -22,6 +22,7 @@
     </div>
 
     <!-- Featured Project -->
+    @defer (on viewport) {
     <div class="mb-20 animate-fade-in-up delay-200">
       <h2 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Featured Project</h2>
       <div class="perspective-container" (mousemove)="onFeaturedMouseMove($event)" (mouseleave)="resetFeaturedTilt()">
@@ -65,8 +66,12 @@
       </div>
       </div>
     </div>
+    } @placeholder {
+      <div class="h-96"></div>
+    }
 
     <!-- Project Grid -->
+    @defer (on viewport) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20 animate-fade-in-up delay-300">
       
       <!-- Card 1 -->
@@ -145,8 +150,12 @@
       </div>
 
     </div>
+    } @placeholder {
+      <div class="h-96"></div>
+    }
 
     <!-- Design Experiments Section -->
+    @defer (on viewport) {
     <div class="mb-20 animate-fade-in-up delay-300">
         <h2 class="text-3xl font-black text-white mb-8 tracking-tight">Creative Playground</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -196,8 +205,12 @@
             </div>
         </div>
     </div>
+    } @placeholder {
+      <div class="h-96"></div>
+    }
 
     <!-- Certifications Section -->
+    @defer (on viewport) {
     <div class="mb-20 animate-fade-in-up delay-300">
         <h2 class="text-3xl font-black text-white mb-8 tracking-tight">Certifications</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -223,8 +236,12 @@
             </div>
         </div>
     </div>
+    } @placeholder {
+      <div class="h-48"></div>
+    }
 
     <!-- Open Source Section -->
+    @defer (on viewport) {
     <div class="bg-slate-800 rounded-3xl p-8 md:p-12 text-center md:text-left relative overflow-hidden border border-slate-700 animate-fade-in-up delay-300">
         <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -239,6 +256,9 @@
             </a>
         </div>
     </div>
+    } @placeholder {
+      <div class="h-48"></div>
+    }
 
   </div>
 </section>

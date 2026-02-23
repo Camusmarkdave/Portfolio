@@ -27,6 +27,7 @@ export class AboutComponent {
 
   // Toolkit Transform
   protected readonly toolkitTransform = signal('rotateX(0deg) rotateY(0deg)');
+  protected readonly toolkitSpotlight = signal<{x: number, y: number}>({x: 0, y: 0});
 
   protected onHeroMouseMove(event: MouseEvent) {
     const container = event.currentTarget as HTMLElement;
@@ -90,10 +91,48 @@ export class AboutComponent {
     const rotateY = ((x - centerX) / centerX) * 2;
 
     this.toolkitTransform.set(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
+    this.toolkitSpotlight.set({x, y});
   }
 
   protected resetToolkitTilt() {
     this.toolkitTransform.set('perspective(1000px) rotateX(0deg) rotateY(0deg)');
+  }
+
+  // Certifications Card Transform
+  protected readonly certificationsTransform = signal<string[]>([
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+  ]);
+  protected readonly certificationsSpotlight = signal<{x: number, y: number}[]>([
+    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
+  ]);
+
+  protected onCertificationsMouseMove(event: MouseEvent, index: number) {
+    const card = event.currentTarget as HTMLElement;
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -5;
+    const rotateY = ((x - centerX) / centerX) * 5;
+
+    const newTransforms = [...this.certificationsTransform()];
+    newTransforms[index] = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    this.certificationsTransform.set(newTransforms);
+
+    const newSpotlights = [...this.certificationsSpotlight()];
+    newSpotlights[index] = {x, y};
+    this.certificationsSpotlight.set(newSpotlights);
+  }
+
+  protected resetCertificationsTilt(index: number) {
+    const newTransforms = [...this.certificationsTransform()];
+    newTransforms[index] = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+    this.certificationsTransform.set(newTransforms);
   }
 
   // Profile Modal State
@@ -108,10 +147,24 @@ export class AboutComponent {
     this.isProfileModalOpen.set(false);
   }
 
+  // Certificate Modal State
+  protected readonly selectedCertificate = signal<string | null>(null);
+
+  protected openCertificateModal(certId: string, event: Event) {
+    event.stopPropagation();
+    this.selectedCertificate.set(certId);
+  }
+
+  protected closeCertificateModal() {
+    this.selectedCertificate.set(null);
+  }
+
   // Background 3D Shapes
   protected readonly shapesTransform = signal<string[]>([
     'rotateX(20deg) rotateY(20deg)',
-    'rotateX(-20deg) rotateY(-20deg)'
+    'rotateX(-20deg) rotateY(-20deg)',
+    'rotateX(20deg) rotateY(-20deg)',
+    'rotateX(-20deg) rotateY(20deg)'
   ]);
 
   protected onSectionMouseMove(event: MouseEvent) {
@@ -128,7 +181,9 @@ export class AboutComponent {
 
     this.shapesTransform.set([
       `rotateX(${20 + rotateX}deg) rotateY(${20 + rotateY}deg)`,
-      `rotateX(${-20 - rotateX}deg) rotateY(${-20 - rotateY}deg)`
+      `rotateX(${-20 - rotateX}deg) rotateY(${-20 - rotateY}deg)`,
+      `rotateX(${20 + rotateX}deg) rotateY(${-20 - rotateY}deg)`,
+      `rotateX(${-20 - rotateX}deg) rotateY(${20 + rotateY}deg)`
     ]);
   }
 }

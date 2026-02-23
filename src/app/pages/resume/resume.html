@@ -17,9 +17,22 @@
     .delay-200 { animation-delay: 200ms; }
     .delay-300 { animation-delay: 300ms; }
     .will-change-transform { will-change: transform; }
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+    .animate-grid-move { animation: gridMove 3s linear infinite; }
+    @keyframes blob {
+      0% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animate-blob { animation: blob 7s infinite; }
+    .animation-delay-2000 { animation-delay: 2s; }
   </style>
   <div class="absolute inset-0 z-0 pointer-events-none">
-    <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
+    <div class="absolute inset-0 opacity-[0.1] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
     
     <div class="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 bg-cyan-500/20 rounded-full blur-[100px] animate-blob"></div>
     <div class="absolute bottom-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
@@ -43,6 +56,7 @@
       </a>
     </div>
 
+    @defer (on viewport) {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12 animate-fade-in-up delay-200">
       
       <div class="lg:col-span-2 space-y-6 md:space-y-12">
@@ -203,28 +217,10 @@
         </div>
         </div>
 
-        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 4)" (mouseleave)="resetCardTilt(4)">
-        <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-3xl shadow-lg text-white relative overflow-hidden border border-slate-700 transition-transform duration-100 ease-out will-change-transform group"
-             [style.transform]="cardTransforms()[4]">
-          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[4].x + 'px ' + cardSpotlights()[4].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-          <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-10 -mt-10"></div>
-          <h3 class="text-lg font-black mb-6 uppercase tracking-wider relative z-10">Certifications</h3>
-          
-          <div class="space-y-6 relative z-10">
-            <div class="border-b border-slate-700 pb-4">
-              <h4 class="font-bold text-cyan-400">HubSpot SEO</h4>
-              <p class="text-xs text-slate-400 mt-1">HubSpot Academy (In Progress)</p>
-            </div>
-            <div>
-              <h4 class="font-bold text-cyan-400">Legacy Responsive Design</h4>
-              <p class="text-xs text-slate-400 mt-1">freeCodeCamp (Sept 2024)</p>
-            </div>
-          </div>
-        </div>
-        </div>
-
       </div>
     </div>
+    } @placeholder {
+      <div class="h-96"></div>
+    }
   </div>
 </section>

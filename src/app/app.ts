@@ -1,6 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Title, Meta } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -252,11 +253,19 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   private router = inject(Router);
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
   protected readonly isLogoModalOpen = signal(false);
   protected readonly isMobileMenuOpen = signal(false);
   protected readonly isDarkNav = signal(false);
 
   constructor() {
+    this.titleService.setTitle('Mark Dave Camus | Web Developer & UI Engineer');
+    this.metaService.addTags([
+      { name: 'description', content: 'Portfolio of Mark Dave Camus, a Web Developer and UI Engineer specializing in Angular, React, and modern web design.' },
+      { name: 'keywords', content: 'Web Developer, Frontend, UI/UX, Angular, Tailwind CSS' }
+    ]);
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {

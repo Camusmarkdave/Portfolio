@@ -55,3 +55,17 @@
 .face-left   { transform: rotateY(-90deg) translateZ(50px); }
 .face-top    { transform: rotateX(90deg) translateZ(50px); }
 .face-bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+/* Staggered Fade In Up */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
