@@ -11,30 +11,31 @@ import { filter } from 'rxjs/operators';
   template: `
     @if (showLoader()) {
       <div class="fixed inset-0 z-[999] bg-[#0f172a] flex flex-col items-center justify-center transition-opacity duration-700"
+           style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; background-color: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center;"
            [class.opacity-0]="hideLoaderAnimation()"
            [class.pointer-events-none]="hideLoaderAnimation()">
         
-        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move pointer-events-none"></div>
+        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move pointer-events-none" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.05;"></div>
 
-        <div class="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-cyan-500/20 rounded-full blur-[120px] animate-blob pointer-events-none mix-blend-screen"></div>
-        <div class="absolute bottom-0 left-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none mix-blend-screen"></div>
+        <div class="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-cyan-500/20 rounded-full blur-[120px] animate-blob pointer-events-none mix-blend-screen" style="position: absolute; top: 0; right: 0; width: 400px; height: 400px;"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none mix-blend-screen" style="position: absolute; bottom: 0; left: 0; width: 400px; height: 400px;"></div>
         
-        <div class="relative z-10 flex flex-col items-center w-full px-6 max-w-3xl">
+        <div class="relative z-10 flex flex-col items-center w-full px-6 max-w-3xl" style="position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%;">
           
-          <div class="relative w-64 md:w-80 lg:w-[400px] mb-16 animate-float-loader">
-             <div class="absolute -inset-8 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full opacity-20 blur-3xl animate-pulse"></div>
-             <img src="assets/uploads/logo.png" alt="Mark Dave Camus Logo" class="relative w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.4)]" />
+          <div class="relative w-64 md:w-80 lg:w-[400px] mb-16 animate-float-loader" style="position: relative; width: 300px; max-width: 80vw; margin-bottom: 4rem;">
+             <div class="absolute -inset-8 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full opacity-20 blur-3xl animate-pulse" style="position: absolute; top: -2rem; left: -2rem; right: -2rem; bottom: -2rem; background: linear-gradient(to right, #06b6d4, #3b82f6, #a855f7); border-radius: 9999px; filter: blur(40px); opacity: 0.2;"></div>
+             <img src="assets/uploads/logo.png" alt="Mark Dave Camus Logo" class="relative w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.4)]" style="width: 100%; height: auto;" />
           </div>
           
-          <div class="w-full max-w-md h-2 md:h-3 bg-slate-800/60 backdrop-blur-md rounded-full overflow-hidden relative border border-slate-700/50 shadow-inner">
-             <div class="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-loading-bar origin-left shadow-[0_0_15px_rgba(6,182,212,0.8)]"></div>
+          <div class="w-full max-w-md h-2 md:h-3 bg-slate-800/60 backdrop-blur-md rounded-full overflow-hidden relative border border-slate-700/50 shadow-inner" style="width: 100%; max-width: 28rem; height: 8px; background-color: rgba(30, 41, 59, 0.6); border-radius: 9999px; overflow: hidden; position: relative;">
+             <div class="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-loading-bar origin-left shadow-[0_0_15px_rgba(6,182,212,0.8)]" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: linear-gradient(to right, #22d3ee, #3b82f6, #a855f7);"></div>
           </div>
           
-          <div class="mt-8 flex flex-col items-center gap-3">
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 text-sm md:text-base font-black tracking-[0.5em] uppercase animate-pulse">
+          <div class="mt-8 flex flex-col items-center gap-3" style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 text-sm md:text-base font-black tracking-[0.5em] uppercase animate-pulse" style="background: linear-gradient(to right, #22d3ee, #c084fc); -webkit-background-clip: text; color: transparent; letter-spacing: 0.5em; text-transform: uppercase;">
               Initializing
             </span>
-            <span class="text-slate-500 text-xs font-bold tracking-widest uppercase">
+            <span class="text-slate-500 text-xs font-bold tracking-widest uppercase" style="color: #64748b; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">
               Portfolio Experience
             </span>
           </div>
@@ -52,7 +53,7 @@ import { filter } from 'rxjs/operators';
           <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-3 group relative" title="Preview Logo">
             <div class="relative">
                 <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
-                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-9 w-auto object-contain" />
+                <img src="assets/uploads/logo.png" alt="Logo" class="relative h-9 w-auto object-contain" width="100" height="36" style="height: 36px; width: auto;" />
             </div>
              <span class="text-sm font-bold tracking-widest uppercase transition-colors"
                    [ngClass]="isDarkNav() ? 'text-white group-hover:text-cyan-400' : 'text-slate-900 group-hover:text-cyan-600'">Portfolio</span>
@@ -119,7 +120,7 @@ import { filter } from 'rxjs/operators';
              <button class="md:hidden p-2 transition-colors" 
                      [ngClass]="isDarkNav() ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'"
                      (click)="toggleMobileMenu()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
                   @if (isMobileMenuOpen()) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   } @else {
@@ -140,7 +141,7 @@ import { filter } from 'rxjs/operators';
            <div class="flex items-center justify-between p-6 border-b border-slate-100">
              <span class="text-xl font-bold text-slate-900">Menu</span>
              <button class="p-2 text-slate-500 hover:text-slate-900 transition-colors" (click)="closeMobileMenu()">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="32" height="32">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
              </svg>
            </button>
@@ -171,7 +172,7 @@ import { filter } from 'rxjs/operators';
             
             <div class="space-y-4">
                <div class="flex items-center gap-2">
-                 <img src="assets/uploads/logo.png" alt="Logo" class="h-8 w-auto object-contain" />
+                 <img src="assets/uploads/logo.png" alt="Logo" class="h-8 w-auto object-contain" width="100" height="32" style="height: 32px; width: auto;" />
                  <span class="text-xl font-bold text-white tracking-tight">Mark Dave</span>
                </div>
                <p class="text-slate-400 text-sm leading-relaxed">
@@ -195,19 +196,19 @@ import { filter } from 'rxjs/operators';
               <ul class="space-y-3 text-sm">
                 <li>
                   <a href="https://linkedin.com" target="_blank" class="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     <span>LinkedIn</span>
                   </a>
                 </li>
                 <li>
                   <a href="https://github.com" target="_blank" class="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     <span>GitHub</span>
                   </a>
                 </li>
                 <li>
                   <a href="mailto:camusmarkdave@gmail.com" class="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                     <span>Email</span>
                   </a>
                 </li>
@@ -244,7 +245,7 @@ import { filter } from 'rxjs/operators';
                (click)="$event.stopPropagation()">
              <button class="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors"
                      (click)="closeLogoModal()">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                </svg>
              </button>

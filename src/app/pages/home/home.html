@@ -1,25 +1,13 @@
-<style>
-  @keyframes gridMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 40px 40px; }
-  }
-  .animate-grid-move { animation: gridMove 3s linear infinite; }
-</style>
 <section class="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
-  <!-- Background decoration -->
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 pointer-events-none">
     <div class="absolute top-20 left-10 w-72 h-72 bg-cyan-300/20 rounded-full blur-3xl mix-blend-multiply animate-blob"></div>
     <div class="absolute top-20 right-10 w-72 h-72 bg-blue-300/20 rounded-full blur-3xl mix-blend-multiply animate-blob animation-delay-2000"></div>
     <div class="absolute -bottom-32 left-1/2 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl mix-blend-multiply animate-blob animation-delay-4000"></div>
   </div>
 
-  <!-- Moving Grid -->
-  <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move pointer-events-none"></div>
-
   <div class="container mx-auto px-6 relative z-10">
     <div class="flex flex-col lg:flex-row items-center gap-16">
       
-      <!-- Text Content -->
       <div class="flex-1 text-center lg:text-left animate-fade-in-up">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 mb-8 hover:bg-white hover:shadow-md transition-all duration-300 cursor-default">
           <span class="relative flex h-2 w-2">
@@ -50,16 +38,13 @@
         </div>
       </div>
 
-      <!-- Visual Content (Hero Image) -->
       <div class="flex-1 w-full max-w-lg lg:max-w-xl relative perspective-container animate-fade-in-up delay-200"
            (mousemove)="onMouseMove($event)" 
            (mouseleave)="resetTilt()">
          <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-slate-100 aspect-square md:aspect-[4/3] transition-transform duration-100 ease-out will-change-transform"
               [style.transform]="heroImageTransform()">
-            <!-- Placeholder for Hero Image -->
-           <img src="assets/uploads/profile.jpg" alt="Hero Image" class="object-cover w-full h-full">
+            <img src="assets/uploads/profile.jpg" alt="Hero Image" class="object-cover w-full h-full">
          </div>
-         <!-- Decorative elements -->
          <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob pointer-events-none"></div>
          <div class="absolute -top-6 -left-6 w-24 h-24 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 pointer-events-none"></div>
       </div>
@@ -67,14 +52,26 @@
   </div>
 </section>
 
-<!-- Selected Works Section -->
 <section class="py-24 relative overflow-hidden bg-[#0f172a]">
-  <!-- Background Design -->
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800/50 via-[#0f172a] to-[#0f172a]"></div>
-    <div class="absolute inset-0 opacity-[0.05]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E&quot;)"></div>
-    <div class="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-purple-500/20 blur-[80px] animate-blob"></div>
-    <div class="absolute right-[-10%] bottom-[-10%] h-[500px] w-[500px] rounded-full bg-cyan-500/20 blur-[80px] animate-blob animation-delay-2000"></div>
+  <div class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800/50 via-[#0f172a] to-[#0f172a] z-0"></div>
+
+    <div class="absolute top-[30%] left-0 w-[200%] flex -translate-y-1/2 opacity-[0.12] mix-blend-screen z-0">
+        <div class="whitespace-nowrap animate-scroll text-[8rem] md:text-[12rem] lg:text-[15rem] font-black text-transparent" style="-webkit-text-stroke: 3px #06b6d4;">
+            SELECTED WORKS • UI/UX • FRONTEND • SELECTED WORKS • UI/UX • FRONTEND • SELECTED WORKS • UI/UX • FRONTEND • SELECTED WORKS • UI/UX • FRONTEND • 
+        </div>
+    </div>
+    
+    <div class="absolute top-[70%] left-0 w-[200%] flex -translate-y-1/2 opacity-[0.12] mix-blend-screen z-0">
+        <div class="whitespace-nowrap animate-scroll text-[8rem] md:text-[12rem] lg:text-[15rem] font-black text-transparent" style="-webkit-text-stroke: 3px #a855f7; animation-direction: reverse;">
+            CREATIVE DEV • ANGULAR • WEB DESIGN • CREATIVE DEV • ANGULAR • WEB DESIGN • CREATIVE DEV • ANGULAR • WEB DESIGN • CREATIVE DEV • ANGULAR • WEB DESIGN • 
+        </div>
+    </div>
+
+    <div class="absolute inset-0 opacity-[0.05] z-0" style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E&quot;)"></div>
+    
+    <div class="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-purple-500/20 blur-[80px] animate-blob z-0 mix-blend-screen"></div>
+    <div class="absolute right-[-10%] bottom-[-10%] h-[500px] w-[500px] rounded-full bg-cyan-500/20 blur-[80px] animate-blob animation-delay-2000 z-0 mix-blend-screen"></div>
   </div>
 
   @defer (on viewport) {
@@ -91,13 +88,11 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 animate-fade-in-up delay-200">
-      <!-- Project 1 -->
       <a href="https://Danonos.com" target="_blank" class="block group cursor-pointer perspective-container"
            (mousemove)="onProjectMouseMove($event, 0)"
            (mouseleave)="resetProjectTilt(0)">
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[0]">
-            <!-- Spotlight -->
             <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-2xl"
                  [style.background]="'radial-gradient(600px circle at ' + selectedWorkSpotlights()[0].x + 'px ' + selectedWorkSpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
@@ -124,13 +119,11 @@
             </div>
         </div>
       </a>
-      <!-- Project 2 -->
-       <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank" class="block group cursor-pointer perspective-container"
+      <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank" class="block group cursor-pointer perspective-container"
            (mousemove)="onProjectMouseMove($event, 1)"
            (mouseleave)="resetProjectTilt(1)">
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[1]">
-            <!-- Spotlight -->
             <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-2xl"
                  [style.background]="'radial-gradient(600px circle at ' + selectedWorkSpotlights()[1].x + 'px ' + selectedWorkSpotlights()[1].y + 'px, rgba(16,185,129,0.15), transparent 40%)'"></div>
 
@@ -164,13 +157,10 @@
   }
 </section>
 
-<!-- Services Section -->
 <section class="py-24 bg-white relative overflow-hidden" (mousemove)="onServicesSectionMouseMove($event)">
   <div class="absolute inset-0 z-0 pointer-events-none">
-    <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
   </div>
   
-  <!-- 3D Background Shapes -->
   <div class="absolute top-20 left-[10%] perspective-wrap pointer-events-none z-0">
     <div class="cube cube-cyan" [style.transform]="shapesTransform()[0]">
       <div class="cube-face face-front"></div>
@@ -230,13 +220,10 @@
       </div>
     </div>
 
-    <!-- Marquee Container with Gradient Mask -->
     <div class="w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] animate-fade-in-up delay-200">
       <div class="flex w-max gap-8 animate-scroll hover:[animation-play-state:paused]">
-      <!-- Card 1 -->
       <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 0)">
-        <!-- Spotlight -->
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[0].x + 'px ' + serviceSpotlights()[0].y + 'px, rgba(6,182,212,0.1), transparent 40%)'"></div>
         
@@ -255,10 +242,8 @@
         </div>
       </div>
 
-      <!-- Card 2 -->
       <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 1)">
-         <!-- Spotlight -->
          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
               [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[1].x + 'px ' + serviceSpotlights()[1].y + 'px, rgba(168,85,247,0.1), transparent 40%)'"></div>
 
@@ -277,10 +262,8 @@
          </div>
       </div>
 
-      <!-- Card 3 -->
       <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 2)">
-         <!-- Spotlight -->
          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
               [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[2].x + 'px ' + serviceSpotlights()[2].y + 'px, rgba(59,130,246,0.1), transparent 40%)'"></div>
 
@@ -299,8 +282,6 @@
          </div>
       </div>
 
-      <!-- DUPLICATE CARDS FOR LOOP -->
-      <!-- Card 1 Copy -->
       <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 0)">
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
@@ -319,7 +300,6 @@
         </div>
       </div>
 
-      <!-- Card 2 Copy -->
       <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 1)">
          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
@@ -338,7 +318,6 @@
          </div>
       </div>
 
-      <!-- Card 3 Copy -->
       <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl group border border-slate-100 relative overflow-hidden flex-shrink-0"
            (mousemove)="onServiceMouseMove($event, 2)">
          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
