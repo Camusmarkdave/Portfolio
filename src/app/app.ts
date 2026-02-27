@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Title, Meta } from '@angular/platform-browser';
@@ -9,14 +9,46 @@ import { filter } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   template: `
+    @if (showLoader()) {
+      <div class="fixed inset-0 z-[999] bg-[#0f172a] flex flex-col items-center justify-center transition-opacity duration-700"
+           [class.opacity-0]="hideLoaderAnimation()"
+           [class.pointer-events-none]="hideLoaderAnimation()">
+        
+        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move pointer-events-none"></div>
+
+        <div class="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-cyan-500/20 rounded-full blur-[120px] animate-blob pointer-events-none mix-blend-screen"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none mix-blend-screen"></div>
+        
+        <div class="relative z-10 flex flex-col items-center w-full px-6 max-w-3xl">
+          
+          <div class="relative w-64 md:w-80 lg:w-[400px] mb-16 animate-float-loader">
+             <div class="absolute -inset-8 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+             <img src="assets/uploads/logo.png" alt="Mark Dave Camus Logo" class="relative w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.4)]" />
+          </div>
+          
+          <div class="w-full max-w-md h-2 md:h-3 bg-slate-800/60 backdrop-blur-md rounded-full overflow-hidden relative border border-slate-700/50 shadow-inner">
+             <div class="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-loading-bar origin-left shadow-[0_0_15px_rgba(6,182,212,0.8)]"></div>
+          </div>
+          
+          <div class="mt-8 flex flex-col items-center gap-3">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 text-sm md:text-base font-black tracking-[0.5em] uppercase animate-pulse">
+              Initializing
+            </span>
+            <span class="text-slate-500 text-xs font-bold tracking-widest uppercase">
+              Portfolio Experience
+            </span>
+          </div>
+          
+        </div>
+      </div>
+    }
+
     <div class="min-h-screen flex flex-col bg-white font-sans text-slate-900 selection:bg-cyan-100 selection:text-cyan-900">
       
-      <!-- Modern Minimalist Navbar -->
       <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-300 animate-slide-down"
            [ngClass]="isDarkNav() ? 'bg-[#0f172a]/90 border-slate-800' : 'bg-white/80 border-slate-100'">
         <div class="container mx-auto px-6 h-20 flex items-center justify-between">
           
-          <!-- Logo -->
           <a href="#" (click)="openLogoModal($event)" class="flex items-center gap-3 group relative" title="Preview Logo">
             <div class="relative">
                 <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-20 blur transition duration-500"></div>
@@ -26,7 +58,6 @@ import { filter } from 'rxjs/operators';
                    [ngClass]="isDarkNav() ? 'text-white group-hover:text-cyan-400' : 'text-slate-900 group-hover:text-cyan-600'">Portfolio</span>
           </a>
 
-          <!-- Desktop Nav (Pill Style) -->
           <div class="hidden md:flex items-center gap-1 p-1 rounded-full border transition-colors duration-300"
                [ngClass]="isDarkNav() ? 'bg-slate-800/50 border-slate-700/50' : 'bg-slate-100/50 border-slate-200/50'">
             <a routerLink="/" 
@@ -80,13 +111,11 @@ import { filter } from 'rxjs/operators';
             </a>
           </div>
 
-          <!-- Right Actions -->
           <div class="flex items-center gap-4">
              <a routerLink="/contact" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-cyan-600 transition-all shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5">
                Let's Talk
              </a>
              
-             <!-- Mobile Menu Toggle -->
              <button class="md:hidden p-2 transition-colors" 
                      [ngClass]="isDarkNav() ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'"
                      (click)="toggleMobileMenu()">
@@ -102,14 +131,12 @@ import { filter } from 'rxjs/operators';
         </div>
       </nav>
 
-      <!-- Mobile Menu Overlay -->
       <div class="fixed inset-0 bg-white z-[60] flex flex-col transition-all duration-300 md:hidden"
            [class.opacity-0]="!isMobileMenuOpen()"
            [class.pointer-events-none]="!isMobileMenuOpen()"
            [class.opacity-100]="isMobileMenuOpen()"
            [class.pointer-events-auto]="isMobileMenuOpen()">
 
-           <!-- Mobile Header -->
            <div class="flex items-center justify-between p-6 border-b border-slate-100">
              <span class="text-xl font-bold text-slate-900">Menu</span>
              <button class="p-2 text-slate-500 hover:text-slate-900 transition-colors" (click)="closeMobileMenu()">
@@ -128,14 +155,11 @@ import { filter } from 'rxjs/operators';
            </nav>
       </div>
 
-      <!-- Main Content Area -->
       <main class="flex-grow relative">
         <router-outlet></router-outlet>
       </main>
 
-      <!-- Modern Footer -->
       <footer class="relative bg-slate-900 text-slate-300 py-16 border-t border-slate-800 overflow-hidden">
-        <!-- Background Design -->
         <div class="absolute inset-0 pointer-events-none">
             <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-slate-800/20 via-[#0f172a] to-[#0f172a]"></div>
             <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
@@ -145,7 +169,6 @@ import { filter } from 'rxjs/operators';
         <div class="container mx-auto px-6 relative z-10">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             
-            <!-- Brand Section -->
             <div class="space-y-4">
                <div class="flex items-center gap-2">
                  <img src="assets/uploads/logo.png" alt="Logo" class="h-8 w-auto object-contain" />
@@ -156,7 +179,6 @@ import { filter } from 'rxjs/operators';
                </p>
             </div>
 
-            <!-- Navigation -->
             <div>
               <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-6">Navigation</h3>
               <ul class="space-y-3 text-sm">
@@ -168,7 +190,6 @@ import { filter } from 'rxjs/operators';
               </ul>
             </div>
 
-            <!-- Connect -->
             <div>
               <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-6">Socials</h3>
               <ul class="space-y-3 text-sm">
@@ -193,7 +214,6 @@ import { filter } from 'rxjs/operators';
               </ul>
             </div>
 
-            <!-- Availability -->
             <div>
                 <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-6">Availability</h3>
                 <p class="text-slate-400 text-sm leading-relaxed mb-4">
@@ -217,7 +237,6 @@ import { filter } from 'rxjs/operators';
         </div>
       </footer>
 
-      <!-- Logo Preview Modal -->
       @if (isLogoModalOpen()) {
         <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in"
              (click)="closeLogoModal()">
@@ -249,12 +268,51 @@ import { filter } from 'rxjs/operators';
     @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .animate-slide-down { animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    
+    /* Loader Specific Animations */
+    @keyframes floatLoader {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .animate-float-loader { 
+      animation: floatLoader 3.5s ease-in-out infinite; 
+    }
+    
+    @keyframes loadingBarProgress {
+      0% { transform: scaleX(0); }
+      50% { transform: scaleX(1); }
+      100% { transform: scaleX(0); transform-origin: right; }
+    }
+    .animate-loading-bar { 
+      animation: loadingBarProgress 1.5s ease-in-out infinite; 
+    }
+
+    /* Ambient Background Animations (Copied from other pages) */
+    @keyframes blob {
+      0% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+      100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animate-blob { animation: blob 7s infinite; }
+    .animation-delay-2000 { animation-delay: 2s; }
+    
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+    .animate-grid-move { animation: gridMove 3s linear infinite; }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private router = inject(Router);
   private titleService = inject(Title);
   private metaService = inject(Meta);
+  
+  // Loader States
+  protected readonly showLoader = signal(true);
+  protected readonly hideLoaderAnimation = signal(false);
+  
   protected readonly isLogoModalOpen = signal(false);
   protected readonly isMobileMenuOpen = signal(false);
   protected readonly isDarkNav = signal(false);
@@ -273,6 +331,19 @@ export class AppComponent {
       this.isDarkNav.set(url.includes('/projects') || url.includes('/resume'));
       window.scrollTo(0, 0);
     });
+  }
+
+  ngOnInit() {
+    // Keep loader on screen for 2 seconds
+    setTimeout(() => {
+      // Trigger the opacity fade-out animation first
+      this.hideLoaderAnimation.set(true);
+      
+      // Remove completely from the DOM after the transition is finished (700ms duration)
+      setTimeout(() => {
+        this.showLoader.set(false);
+      }, 700);
+    }, 2000);
   }
 
   protected openLogoModal(event: Event) {
