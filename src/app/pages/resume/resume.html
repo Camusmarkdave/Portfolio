@@ -30,12 +30,66 @@
     }
     .animate-blob { animation: blob 7s infinite; }
     .animation-delay-2000 { animation-delay: 2s; }
+    
+    /* Cube Styles */
+    .cube {
+      --cube-size: 100px;
+      width: var(--cube-size);
+      height: var(--cube-size);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+    }
+    .cube-face {
+      position: absolute;
+      width: var(--cube-size);
+      height: var(--cube-size);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+    }
+    .cube-cyan .cube-face { border-color: rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.05); }
+    .cube-purple .cube-face { border-color: rgba(168, 85, 247, 0.3); background: rgba(168, 85, 247, 0.05); }
+    .face-front  { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-back   { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-right  { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-top    { transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .animate-float-slow { animation: float 8s ease-in-out infinite; }
   </style>
   <div class="absolute inset-0 z-0 pointer-events-none">
     <div class="absolute inset-0 opacity-[0.1] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
     
     <div class="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 bg-cyan-500/20 rounded-full blur-[100px] animate-blob"></div>
     <div class="absolute bottom-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
+
+    <div class="absolute top-40 right-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow">
+      <div class="cube cube-cyan" style="--cube-size: 80px;">
+        <div class="cube-face face-front"></div>
+        <div class="cube-face face-back"></div>
+        <div class="cube-face face-right"></div>
+        <div class="cube-face face-left"></div>
+        <div class="cube-face face-top"></div>
+        <div class="cube-face face-bottom"></div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-40 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
+      <div class="cube cube-purple" style="--cube-size: 60px;">
+        <div class="cube-face face-front"></div>
+        <div class="cube-face face-back"></div>
+        <div class="cube-face face-right"></div>
+        <div class="cube-face face-left"></div>
+        <div class="cube-face face-top"></div>
+        <div class="cube-face face-bottom"></div>
+      </div>
+    </div>
   </div>
 
   <div class="container mx-auto px-4 md:px-6 relative z-10">
@@ -213,6 +267,43 @@
             <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">Firebase</span>
             <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">Notion</span>
             <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">DevTools</span>
+          </div>
+        </div>
+        </div>
+
+        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 0)" (mouseleave)="resetCardTilt(0)">
+        <div class="bg-slate-800 p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
+             [style.transform]="cardTransforms()[0]">
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
+               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[0].x + 'px ' + cardSpotlights()[0].y + 'px, rgba(16,185,129,0.15), transparent 40%)'"></div>
+          <div class="relative z-20">
+          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider">Certifications</h3>
+          <div class="space-y-3">
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Responsive Web Design
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-yellow-500"></span> JS Algorithms & Data Structures
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> Back End Dev & APIs
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> SEO Certified
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-cyan-500"></span> HubSpot SEO II
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-orange-500"></span> Content Marketing
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span> Digital Marketing
+             </div>
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                <span class="w-2 h-2 rounded-full bg-red-500"></span> Digital Advertising
+             </div>
+          </div>
           </div>
         </div>
         </div>

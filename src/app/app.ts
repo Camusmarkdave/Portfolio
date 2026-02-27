@@ -113,7 +113,8 @@ import { filter } from 'rxjs/operators';
           </div>
 
           <div class="flex items-center gap-4">
-             <a routerLink="/contact" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-cyan-600 transition-all shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5">
+             <a routerLink="/contact" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-white text-sm font-bold rounded-full transition-all shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5"
+                [ngClass]="isDarkNav() ? 'bg-cyan-600 hover:bg-cyan-500' : 'bg-slate-900 hover:bg-cyan-600'">
                Let's Talk
              </a>
              

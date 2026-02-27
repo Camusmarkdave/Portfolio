@@ -199,7 +199,7 @@ export class AboutComponent {
       'backend': 'assets/uploads/back.png',
       'content-marketing': 'assets/uploads/contentmarketing.png',
       'digital-ad': 'assets/uploads/digitalad.png',
-      'digital-marketing': 'assets/uploads/digitalmarketing.png',
+      'digital-marketing': 'assets/uploads/digitalmarket.png',
       'legacy-js': 'assets/uploads/legacy.png',
       'responsive': 'assets/uploads/responsive.png',
       'seo': 'assets/uploads/seo.png',
