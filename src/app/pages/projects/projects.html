@@ -1,17 +1,101 @@
-<section class="relative py-20 bg-[#0f172a] min-h-screen overflow-hidden">
-  <!-- Background decoration -->
+<section class="relative py-20 bg-[#0f172a] min-h-screen overflow-hidden" (mousemove)="onSectionMouseMove($event)">
+  <style>
+    @keyframes ocean {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .btn-ocean {
+      background: linear-gradient(270deg, #0891b2, #06b6d4, #3b82f6);
+      background-size: 200% 200%;
+      animation: ocean 3s ease infinite;
+    }
+    
+    /* Cube Styles */
+    .perspective-wrap { perspective: 1000px; }
+    .cube {
+      --cube-size: 100px;
+      width: var(--cube-size);
+      height: var(--cube-size);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+    }
+    .cube-face {
+      position: absolute;
+      width: var(--cube-size);
+      height: var(--cube-size);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+    }
+    .cube-cyan .cube-face { border-color: rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.05); }
+    .cube-purple .cube-face { border-color: rgba(168, 85, 247, 0.3); background: rgba(168, 85, 247, 0.05); }
+    .face-front  { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-back   { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-right  { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-top    { transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2)); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+  </style>
   <div class="absolute inset-0 z-0 pointer-events-none">
-    <!-- Moving Grid -->
     <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
     
-    <!-- Blobs -->
     <div class="absolute top-20 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] animate-blob"></div>
     <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
   </div>
 
+  <!-- Mouse Animated Cubes -->
+  <div class="absolute top-40 left-[5%] perspective-wrap pointer-events-none z-0">
+    <div class="cube cube-cyan" style="--cube-size: 80px;" 
+         [style.transform]="'rotateX(' + (mousePosition().y * 0.05) + 'deg) rotateY(' + (mousePosition().x * 0.05) + 'deg)'">
+      <div class="cube-face face-front"></div>
+      <div class="cube-face face-back"></div>
+      <div class="cube-face face-right"></div>
+      <div class="cube-face face-left"></div>
+      <div class="cube-face face-top"></div>
+      <div class="cube-face face-bottom"></div>
+    </div>
+  </div>
+
+  <div class="absolute top-[40%] right-[5%] perspective-wrap pointer-events-none z-0">
+    <div class="cube cube-purple" style="--cube-size: 120px;"
+         [style.transform]="'rotateX(' + (mousePosition().y * -0.03) + 'deg) rotateY(' + (mousePosition().x * -0.03) + 'deg)'">
+      <div class="cube-face face-front"></div>
+      <div class="cube-face face-back"></div>
+      <div class="cube-face face-right"></div>
+      <div class="cube-face face-left"></div>
+      <div class="cube-face face-top"></div>
+      <div class="cube-face face-bottom"></div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-40 left-[10%] perspective-wrap pointer-events-none z-0">
+    <div class="cube cube-purple" style="--cube-size: 60px;"
+         [style.transform]="'rotateX(' + (mousePosition().y * 0.04) + 'deg) rotateY(' + (mousePosition().x * -0.04) + 'deg)'">
+      <div class="cube-face face-front"></div>
+      <div class="cube-face face-back"></div>
+      <div class="cube-face face-right"></div>
+      <div class="cube-face face-left"></div>
+      <div class="cube-face face-top"></div>
+      <div class="cube-face face-bottom"></div>
+    </div>
+  </div>
+
+  <div class="absolute top-20 right-[10%] perspective-wrap pointer-events-none z-0">
+    <div class="cube cube-cyan" style="--cube-size: 100px;"
+         [style.transform]="'rotateX(' + (mousePosition().y * -0.05) + 'deg) rotateY(' + (mousePosition().x * 0.05) + 'deg)'">
+      <div class="cube-face face-front"></div>
+      <div class="cube-face face-back"></div>
+      <div class="cube-face face-right"></div>
+      <div class="cube-face face-left"></div>
+      <div class="cube-face face-top"></div>
+      <div class="cube-face face-bottom"></div>
+    </div>
+  </div>
+
   <div class="container mx-auto px-6 relative z-10">
     
-    <!-- Header -->
     <div class="mb-16 text-center max-w-3xl mx-auto animate-fade-in-up">
       <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
         My <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Projects</span>
@@ -21,25 +105,21 @@
       </p>
     </div>
 
-    <!-- Featured Project -->
     @defer (on viewport) {
     <div class="mb-20 animate-fade-in-up delay-200">
       <h2 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Featured Project</h2>
       <div class="perspective-container" (mousemove)="onFeaturedMouseMove($event)" (mouseleave)="resetFeaturedTilt()">
       <div class="group relative bg-slate-800 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 hover:border-cyan-500/30 transition-all duration-100 ease-out will-change-transform"
            [style.transform]="featuredProjectTransform()">
-        <!-- Spotlight -->
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
              [style.background]="'radial-gradient(800px circle at ' + featuredSpotlight().x + 'px ' + featuredSpotlight().y + 'px, rgba(6,182,212,0.1), transparent 40%)'"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2">
-          <!-- Image Section -->
           <div class="relative h-64 lg:h-auto overflow-hidden bg-slate-900">
              <img src="assets/uploads/danonos.png" alt="Danonos Donut" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
              <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors duration-500"></div>
           </div>
           
-          <!-- Content Section -->
           <div class="p-8 lg:p-12 flex flex-col justify-center">
             <div class="mb-4">
                <span class="inline-block px-3 py-1 rounded-full bg-cyan-900/30 text-cyan-400 border border-cyan-800/50 text-xs font-bold uppercase tracking-wide mb-4">Featured</span>
@@ -50,17 +130,25 @@
             </div>
             
             <div class="flex flex-wrap gap-2 mb-8">
-              <span class="px-3 py-1 rounded-md bg-slate-700 text-slate-300 text-xs font-bold border border-slate-600">Web Design</span>
-              <span class="px-3 py-1 rounded-md bg-slate-700 text-slate-300 text-xs font-bold border border-slate-600">Branding</span>
-              <span class="px-3 py-1 rounded-md bg-slate-700 text-slate-300 text-xs font-bold border border-slate-600">Development</span>
+              <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">PHP</span>
+              <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">MySQL (XAMPP)</span>
+              <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">HTML/CSS</span>
             </div>
 
-            <a href="https://Danonos.com" target="_blank" class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-white hover:text-cyan-400 transition-colors">
-              Visit Site 
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
+            <div class="flex items-center gap-4">
+              <a href="https://Danonos.com" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 btn-ocean text-white text-sm font-bold uppercase tracking-widest rounded-full shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1">
+                Live Site 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+              <a href="https://github.com/gabewebd/WSEA.git" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-slate-600 border border-slate-600 hover:border-slate-500 transition-all transform hover:-translate-y-1">
+                GitHub
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -70,15 +158,12 @@
       <div class="h-96"></div>
     }
 
-    <!-- Project Grid -->
     @defer (on viewport) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20 animate-fade-in-up delay-300">
       
-      <!-- Card 1 -->
       <div class="perspective-container" (mousemove)="onProjectMouseMove($event, 0)" (mouseleave)="resetProjectTilt(0)">
       <div class="h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-lg hover:border-cyan-500/30 transition-transform duration-100 ease-out will-change-transform group flex flex-col"
            [style.transform]="projectTransforms()[0]">
-        <!-- Spotlight -->
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
              [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[0].x + 'px ' + projectSpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
@@ -91,19 +176,24 @@
           <p class="text-slate-400 text-sm mb-4 line-clamp-3">
             An online webshop dedicated to wellness and activewear, focusing on a clean user interface and shopping experience.
           </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">PHP</span>
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">MySQL (XAMPP)</span>
+          </div>
           <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
              <span class="text-xs font-bold text-slate-500 uppercase">E-Commerce</span>
-             <a href="http://the-wellness-apparel.onlinewebshop.net/" target="_blank" class="text-sm font-bold text-white hover:text-cyan-400 transition-colors">View Project</a>
+             <div class="flex gap-3">
+               <a href="https://github.com/gabewebd/the-wellness-apparel.git" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
+               <a href="http://the-wellness-apparel.onlinewebshop.net/" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
+             </div>
           </div>
         </div>
       </div>
       </div>
 
-      <!-- Card 2 -->
       <div class="perspective-container" (mousemove)="onProjectMouseMove($event, 1)" (mouseleave)="resetProjectTilt(1)">
       <div class="h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-lg hover:border-cyan-500/30 transition-transform duration-100 ease-out will-change-transform group flex flex-col"
            [style.transform]="projectTransforms()[1]">
-        <!-- Spotlight -->
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
              [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[1].x + 'px ' + projectSpotlights()[1].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
@@ -116,19 +206,26 @@
           <p class="text-slate-400 text-sm mb-4 line-clamp-3">
             An interactive platform focused on ecological education and quests to promote environmental awareness.
           </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">MongoDB</span>
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Express</span>
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">React</span>
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Node.js</span>
+          </div>
           <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
              <span class="text-xs font-bold text-slate-500 uppercase">Web App</span>
-             <a href="https://hauecoquest.vercel.app/" target="_blank" class="text-sm font-bold text-white hover:text-cyan-400 transition-colors">View Project</a>
+             <div class="flex gap-3">
+               <a href="https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
+               <a href="https://hauecoquest.vercel.app/" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
+             </div>
           </div>
         </div>
       </div>
       </div>
 
-      <!-- Card 3 -->
       <div class="perspective-container" (mousemove)="onProjectMouseMove($event, 2)" (mouseleave)="resetProjectTilt(2)">
       <div class="h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-lg hover:border-cyan-500/30 transition-transform duration-100 ease-out will-change-transform group flex flex-col"
            [style.transform]="projectTransforms()[2]">
-        <!-- Spotlight -->
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
              [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[2].x + 'px ' + projectSpotlights()[2].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
@@ -141,9 +238,17 @@
           <p class="text-slate-400 text-sm mb-4 line-clamp-3">
             A stylish web project showcasing fashion, lifestyle, and brand aesthetics.
           </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Angular</span>
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Tailwind CSS</span>
+            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">TypeScript</span>
+          </div>
           <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
              <span class="text-xs font-bold text-slate-500 uppercase">Fashion</span>
-             <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank" class="text-sm font-bold text-white hover:text-cyan-400 transition-colors">View Project</a>
+             <div class="flex gap-3">
+               <a href="https://github.com/gabewebd/6AWEB-TheFourWhoAdore.git" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
+               <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
+             </div>
           </div>
         </div>
       </div>
@@ -154,7 +259,6 @@
       <div class="h-96"></div>
     }
 
-    <!-- Design Experiments Section -->
     @defer (on viewport) {
     <div class="mb-20 animate-fade-in-up delay-300">
         <h2 class="text-3xl font-black text-white mb-8 tracking-tight">Creative Playground</h2>
@@ -209,12 +313,10 @@
       <div class="h-96"></div>
     }
 
-    <!-- Process Section -->
     @defer (on viewport) {
     <div class="mb-20 animate-fade-in-up delay-300">
         <h2 class="text-3xl font-black text-white mb-12 tracking-tight text-center">My <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Process</span></h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-            <!-- Step 1 -->
             <div class="relative p-8 bg-slate-800/50 rounded-3xl border border-slate-700 hover:bg-slate-800 transition-all duration-300 group hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/10 hover:border-cyan-500/30">
                 <div class="absolute -top-6 left-8 w-12 h-12 bg-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform">1</div>
                 <h3 class="text-xl font-bold text-white mt-4 mb-3">Discovery & Strategy</h3>
@@ -223,7 +325,6 @@
                 </p>
             </div>
             
-            <!-- Step 2 -->
             <div class="relative p-8 bg-slate-800/50 rounded-3xl border border-slate-700 hover:bg-slate-800 transition-all duration-300 group hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-500/30">
                 <div class="absolute -top-6 left-8 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">2</div>
                 <h3 class="text-xl font-bold text-white mt-4 mb-3">Design & Development</h3>
@@ -232,7 +333,6 @@
                 </p>
             </div>
 
-            <!-- Step 3 -->
             <div class="relative p-8 bg-slate-800/50 rounded-3xl border border-slate-700 hover:bg-slate-800 transition-all duration-300 group hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/10 hover:border-purple-500/30">
                 <div class="absolute -top-6 left-8 w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">3</div>
                 <h3 class="text-xl font-bold text-white mt-4 mb-3">Launch & Optimize</h3>
@@ -246,7 +346,6 @@
       <div class="h-64"></div>
     }
 
-    <!-- Open Source Section -->
     @defer (on viewport) {
     <div class="bg-slate-800 rounded-3xl p-8 md:p-12 text-center md:text-left relative overflow-hidden border border-slate-700 animate-fade-in-up delay-300 hover:border-cyan-500/50 transition-colors duration-500 group hover:shadow-2xl hover:shadow-cyan-500/10">
         <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
@@ -257,7 +356,7 @@
                     I believe in giving back to the community. I actively contribute to various open-source projects and maintain a few of my own libraries.
                 </p>
             </div>
-            <a href="https://github.com" target="_blank" class="px-8 py-4 bg-white text-slate-900 font-bold uppercase tracking-widest hover:bg-cyan-50 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 rounded-full">
+            <a href="https://github.com/Camusmarkdave" target="_blank" class="px-8 py-4 btn-ocean text-white font-bold uppercase tracking-widest shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1 rounded-full">
                 Visit GitHub
             </a>
         </div>

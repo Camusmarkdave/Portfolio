@@ -74,18 +74,6 @@ import { filter } from 'rxjs/operators';
                }">
               Home
             </a>
-            <a routerLink="/projects" 
-               routerLinkActive
-               #rlaProjects="routerLinkActive"
-               class="px-5 py-2 rounded-full text-sm font-bold transition-all duration-300"
-               [ngClass]="{
-                 'bg-slate-700 text-white shadow-sm': isDarkNav() && rlaProjects.isActive,
-                 'bg-white text-slate-900 shadow-sm': !isDarkNav() && rlaProjects.isActive,
-                 'text-slate-400 hover:text-white': isDarkNav() && !rlaProjects.isActive,
-                 'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaProjects.isActive
-               }">
-              Projects
-            </a>
             <a routerLink="/about" 
                routerLinkActive
                #rlaAbout="routerLinkActive"
@@ -97,6 +85,18 @@ import { filter } from 'rxjs/operators';
                  'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaAbout.isActive
                }">
               About
+            </a>
+            <a routerLink="/projects" 
+               routerLinkActive
+               #rlaProjects="routerLinkActive"
+               class="px-5 py-2 rounded-full text-sm font-bold transition-all duration-300"
+               [ngClass]="{
+                 'bg-slate-700 text-white shadow-sm': isDarkNav() && rlaProjects.isActive,
+                 'bg-white text-slate-900 shadow-sm': !isDarkNav() && rlaProjects.isActive,
+                 'text-slate-400 hover:text-white': isDarkNav() && !rlaProjects.isActive,
+                 'text-slate-500 hover:text-slate-900': !isDarkNav() && !rlaProjects.isActive
+               }">
+              Projects
             </a>
             <a routerLink="/resume" 
                routerLinkActive
@@ -150,8 +150,8 @@ import { filter } from 'rxjs/operators';
            
            <nav class="flex flex-col p-8 gap-6">
              <a routerLink="/" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" [routerLinkActiveOptions]="{exact: true}" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Home</a>
-             <a routerLink="/projects" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Projects</a>
              <a routerLink="/about" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">About</a>
+             <a routerLink="/projects" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Projects</a>
              <a routerLink="/resume" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Resume</a>
              <a routerLink="/contact" (click)="closeMobileMenu()" routerLinkActive="text-cyan-600" class="text-2xl font-bold text-slate-800 hover:text-cyan-600 transition-colors">Contact</a>
            </nav>
@@ -185,8 +185,8 @@ import { filter } from 'rxjs/operators';
               <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-6">Navigation</h3>
               <ul class="space-y-3 text-sm">
                 <li><a routerLink="/" class="text-slate-400 hover:text-cyan-400 transition-colors">Home</a></li>
-                <li><a routerLink="/projects" class="text-slate-400 hover:text-cyan-400 transition-colors">Projects</a></li>
                 <li><a routerLink="/about" class="text-slate-400 hover:text-cyan-400 transition-colors">About</a></li>
+                <li><a routerLink="/projects" class="text-slate-400 hover:text-cyan-400 transition-colors">Projects</a></li>
                 <li><a routerLink="/resume" class="text-slate-400 hover:text-cyan-400 transition-colors">Resume</a></li>
                 <li><a routerLink="/contact" class="text-slate-400 hover:text-cyan-400 transition-colors">Contact</a></li>
               </ul>

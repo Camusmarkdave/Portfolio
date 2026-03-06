@@ -20,6 +20,13 @@ export class ProjectsComponent {
   // Design Experiments Transforms (4 items)
   protected readonly experimentTransforms = signal<string[]>(Array(4).fill('rotateX(0deg) rotateY(0deg)'));
 
+  // Mouse position for background animations
+  protected readonly mousePosition = signal({ x: 0, y: 0 });
+
+  protected onSectionMouseMove(event: MouseEvent) {
+    this.mousePosition.set({ x: event.clientX, y: event.clientY });
+  }
+
   protected onFeaturedMouseMove(event: MouseEvent) {
     const card = event.currentTarget as HTMLElement;
     const rect = card.getBoundingClientRect();
