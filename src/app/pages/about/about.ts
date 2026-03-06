@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -32,6 +32,104 @@ export class AboutComponent {
   // Certifications Card Transforms & Spotlights (for 8 cards)
   protected readonly certificationsTransform = signal<string[]>(Array(8).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)'));
   protected readonly certificationsSpotlight = signal<{x: number, y: number}[]>(Array(8).fill({x: 0, y: 0}));
+
+  // Certificates Data
+  protected readonly certificates = [
+    {
+      id: 'responsive',
+      title: 'Legacy Responsive Web Design',
+      image: 'assets/uploads/responsive.png',
+      category: 'Development',
+      provider: 'freeCodeCamp',
+      description: 'Demonstrates foundational knowledge of HTML, CSS, and responsive design principles.',
+      color: 'blue',
+      spotlight: 'rgba(59,130,246,0.06)'
+    },
+    {
+      id: 'legacy-js',
+      title: 'Legacy JavaScript Algorithms and Data Structures',
+      image: 'assets/uploads/legacy.png',
+      category: 'Development',
+      provider: 'freeCodeCamp',
+      description: 'Demonstrates proficiency in core JavaScript fundamentals, data structures, and problem-solving.',
+      color: 'yellow',
+      spotlight: 'rgba(234,179,8,0.06)'
+    },
+    {
+      id: 'backend',
+      title: 'Back End Development and APIs',
+      image: 'assets/uploads/back.png',
+      category: 'Development',
+      provider: 'freeCodeCamp',
+      description: 'Demonstrates proficiency in back end development and building APIs.',
+      color: 'indigo',
+      spotlight: 'rgba(99,102,241,0.06)'
+    },
+    {
+      id: 'seo',
+      title: 'SEO Certified',
+      image: 'assets/uploads/seo.png',
+      category: 'SEO',
+      provider: 'HubSpot',
+      description: 'Knowledgeable about SEO and capable of optimizing a website for search engines.',
+      color: 'emerald',
+      spotlight: 'rgba(16,185,129,0.06)'
+    },
+    {
+      id: 'seo2',
+      title: 'HubSpot SEO II Certified',
+      image: 'assets/uploads/seo2.png',
+      category: 'SEO',
+      provider: 'HubSpot',
+      description: 'Capable of implementing advanced SEO tactics on a website for enhanced search visibility.',
+      color: 'cyan',
+      spotlight: 'rgba(6,182,212,0.06)'
+    },
+    {
+      id: 'content-marketing',
+      title: 'Content Marketing Certified',
+      image: 'assets/uploads/contentmarketing.png',
+      category: 'Marketing',
+      provider: 'HubSpot',
+      description: 'Capable and skilled in long-term content planning, creation, promotion, and analysis.',
+      color: 'orange',
+      spotlight: 'rgba(249,115,22,0.06)'
+    },
+    {
+      id: 'digital-marketing',
+      title: 'Digital Marketing Certified',
+      image: 'assets/uploads/digitalmarket.png',
+      category: 'Marketing',
+      provider: 'HubSpot',
+      description: 'Skilled in applying digital marketing with an inbound mindset and social media strategy.',
+      color: 'purple',
+      spotlight: 'rgba(168,85,247,0.06)'
+    },
+    {
+      id: 'digital-ad',
+      title: 'Digital Advertising Certified',
+      image: 'assets/uploads/digitalad.png',
+      category: 'Marketing',
+      provider: 'HubSpot',
+      description: 'Tested on content and best practices, demonstrating a solid understanding of digital advertising.',
+      color: 'red',
+      spotlight: 'rgba(239,68,68,0.06)'
+    }
+  ];
+
+  protected readonly filterCategory = signal<'All' | 'Development' | 'Marketing' | 'SEO'>('All');
+
+  protected readonly filteredCertificates = computed(() => {
+    const category = this.filterCategory();
+    if (category === 'All') return this.certificates;
+    return this.certificates.filter(c => c.category === category);
+  });
+
+  protected setFilter(category: 'All' | 'Development' | 'Marketing' | 'SEO') {
+    this.filterCategory.set(category);
+    this.certificationsTransform.set(Array(8).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)'));
+    this.certificationsSpotlight.set(Array(8).fill({x: 0, y: 0}));
+  }
 
   // Profile Modal State
   protected readonly isProfileModalOpen = signal(false);
@@ -177,34 +275,16 @@ export class AboutComponent {
   }
 
   protected getCertificateTitle(): string {
-    const cert = this.selectedCertificate();
-    if (!cert) return '';
-    const map: Record<string, string> = {
-      'backend': 'Back End Development and APIs',
-      'content-marketing': 'Content Marketing Certified',
-      'digital-ad': 'Digital Advertising Certified',
-      'digital-marketing': 'Digital Marketing Certified',
-      'legacy-js': 'Legacy JavaScript Algorithms and Data Structures',
-      'responsive': 'Legacy Responsive Web Design',
-      'seo': 'SEO Certified',
-      'seo2': 'HubSpot SEO II Certified'
-    };
-    return map[cert] || 'Certificate';
+    const certId = this.selectedCertificate();
+    if (!certId) return '';
+    const cert = this.certificates.find(c => c.id === certId);
+    return cert ? cert.title : 'Certificate';
   }
 
   protected getCertificateImage(): string {
-    const cert = this.selectedCertificate();
-    if (!cert) return '';
-    const map: Record<string, string> = {
-      'backend': 'assets/uploads/back.png',
-      'content-marketing': 'assets/uploads/contentmarketing.png',
-      'digital-ad': 'assets/uploads/digitalad.png',
-      'digital-marketing': 'assets/uploads/digitalmarket.png',
-      'legacy-js': 'assets/uploads/legacy.png',
-      'responsive': 'assets/uploads/responsive.png',
-      'seo': 'assets/uploads/seo.png',
-      'seo2': 'assets/uploads/seo2.png'
-    };
-    return map[cert] || '';
+    const certId = this.selectedCertificate();
+    if (!certId) return '';
+    const cert = this.certificates.find(c => c.id === certId);
+    return cert ? cert.image : '';
   }
 }
