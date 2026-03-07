@@ -29,6 +29,30 @@ export class AboutComponent {
   protected readonly toolkitTransform = signal('rotateX(0deg) rotateY(0deg)');
   protected readonly toolkitSpotlight = signal<{x: number, y: number}>({x: 0, y: 0});
 
+  // Education Data
+  protected readonly education = [
+    {
+      degree: 'Bachelor of Science in Information Technology',
+      school: 'Holy Angel University',
+      year: 'Ongoing (Expected Graduate 2027)',
+      description: 'Currently a 3rd-year student specializing in Web Development. Acquiring strong fundamentals in software engineering, database management, and user interface design.',
+      achievements: [
+        'Consistent Dean\'s Lister (1st - 3rd Year)',
+        'Working Student (Since 1st Year)',
+        'Active Member of the CodeGeeks'
+      ]
+    },
+    {
+      degree: 'Senior High School (STEM)',
+      school: 'Don Bosco Academy',
+      year: '2021 - 2023',
+      description: 'Completed the Science, Technology, Engineering, and Mathematics strand with a focus on computer science electives.',
+      achievements: [
+        'With Honors'
+      ]
+    }
+  ];
+
   // Certifications Card Transforms & Spotlights (for 8 cards)
   protected readonly certificationsTransform = signal<string[]>(Array(8).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)'));
   protected readonly certificationsSpotlight = signal<{x: number, y: number}[]>(Array(8).fill({x: 0, y: 0}));

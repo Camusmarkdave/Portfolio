@@ -23,6 +23,77 @@ export class ProjectsComponent {
   // Mouse position for background animations
   protected readonly mousePosition = signal({ x: 0, y: 0 });
 
+  // Data Models
+  protected readonly featuredProject = {
+    title: 'Danonos Donut',
+    description: 'A delightful e-commerce experience for a donut shop, featuring a vibrant product showcase and seamless ordering process.',
+    role: 'Frontend Developer.',
+    roleDescription: 'Integrated frontend templates with the PHP/MySQL backend. Dynamically rendered database-driven content for menus, blogs, and locations directly into the DOM.',
+    image: 'assets/uploads/danonos.png',
+    tags: ['PHP', 'MySQL (XAMPP)', 'HTML/CSS'],
+    liveLink: 'https://Danonos.com',
+    githubLink: 'https://github.com/gabewebd/WSEA.git'
+  };
+
+  protected readonly projects = [
+    {
+      title: 'Wellness Apparel',
+      description: 'An online webshop dedicated to wellness and activewear, focusing on a clean user interface and shopping experience.',
+      role: 'Full Stack Developer.',
+      roleDescription: 'Developed the user interface and integrated the PHP/MySQL backend for product management and shopping functionality.',
+      image: 'assets/uploads/wellness.png',
+      tags: ['PHP', 'MySQL (XAMPP)'],
+      category: 'E-Commerce',
+      githubLink: 'https://github.com/gabewebd/the-wellness-apparel.git',
+      liveLink: 'http://the-wellness-apparel.onlinewebshop.net/'
+    },
+    {
+      title: 'Ecoquest',
+      description: 'An interactive platform focused on ecological education and quests to promote environmental awareness.',
+      role: 'UI/UX Designer & Frontend Lead.',
+      roleDescription: 'Designed the complete UI in Figma from scratch and created a gamified experience to drive user engagement.',
+      image: 'assets/uploads/ecoquest.png',
+      tags: ['MongoDB', 'Express', 'React', 'Node.js'],
+      category: 'Web App',
+      githubLink: 'https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git',
+      liveLink: 'https://hauecoquest.vercel.app/'
+    },
+    {
+      title: 'The Four Who Adore',
+      description: 'A stylish web project showcasing fashion, lifestyle, and brand aesthetics.',
+      role: 'Frontend Lead & Material UI Specialist.',
+      roleDescription: 'Translated wireframes into functional code with consistent styling across all pages, utilizing Git for team version control.',
+      image: 'assets/uploads/chanel.png',
+      tags: ['Angular', 'Tailwind CSS', 'TypeScript'],
+      category: 'Fashion',
+      githubLink: 'https://github.com/gabewebd/6AWEB-TheFourWhoAdore.git',
+      liveLink: 'https://prelim-project-thefourwhoadore.netlify.app/home'
+    }
+  ];
+
+  // Role Toggle State
+  protected readonly featuredProjectOpen = signal(false);
+  protected readonly projectOpenStates = signal<boolean[]>(Array(this.projects.length).fill(false));
+
+  protected toggleFeatured() {
+    this.featuredProjectOpen.update(v => !v);
+  }
+
+  protected toggleProject(index: number) {
+    this.projectOpenStates.update(states => {
+      const newStates = [...states];
+      newStates[index] = !newStates[index];
+      return newStates;
+    });
+  }
+
+  protected readonly experiments = [
+    { title: 'Menu Interactions', subtitle: 'Dynamic filtering & cart animations', image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800&auto=format&fit=crop' },
+    { title: 'State Management', subtitle: 'RxJS powered shopping cart', image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800&auto=format&fit=crop' },
+    { title: 'Gamified UI', subtitle: 'Progress tracking & reward systems', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop' },
+    { title: 'Editorial Layouts', subtitle: 'CSS Grid & responsive typography', image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=800&auto=format&fit=crop' }
+  ];
+
   protected onSectionMouseMove(event: MouseEvent) {
     this.mousePosition.set({ x: event.clientX, y: event.clientY });
   }

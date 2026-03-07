@@ -45,7 +45,6 @@
     <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
   </div>
 
-  <!-- Mouse Animated Cubes -->
   <div class="absolute top-40 left-[5%] perspective-wrap pointer-events-none z-0">
     <div class="cube cube-cyan" style="--cube-size: 80px;" 
          [style.transform]="'rotateX(' + (mousePosition().y * 0.05) + 'deg) rotateY(' + (mousePosition().x * 0.05) + 'deg)'">
@@ -116,33 +115,44 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2">
           <div class="relative h-64 lg:h-auto overflow-hidden bg-slate-900">
-             <img src="assets/uploads/danonos.png" alt="Danonos Donut" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+             <img [src]="featuredProject.image" [alt]="featuredProject.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
              <div class="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors duration-500"></div>
           </div>
           
           <div class="p-8 lg:p-12 flex flex-col justify-center">
             <div class="mb-4">
                <span class="inline-block px-3 py-1 rounded-full bg-cyan-900/30 text-cyan-400 border border-cyan-800/50 text-xs font-bold uppercase tracking-wide mb-4">Featured</span>
-               <h3 class="text-3xl md:text-4xl font-black text-white mb-4 group-hover:text-cyan-400 transition-colors">Danonos Donut</h3>
-               <p class="text-slate-400 leading-relaxed mb-6">
-                 A delightful e-commerce experience for a donut shop, featuring a vibrant product showcase and seamless ordering process.
-               </p>
+               <h3 class="text-3xl md:text-4xl font-black text-white mb-4 group-hover:text-cyan-400 transition-colors">{{ featuredProject.title }}</h3>
+               <p class="text-slate-400 leading-relaxed">{{ featuredProject.description }}</p>
+               <div class="mt-6">
+                 <button (click)="toggleFeatured()" class="flex items-center gap-2 text-xs font-bold text-cyan-500 uppercase tracking-wider hover:text-cyan-400 transition-colors focus:outline-none">
+                   Role
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300" [class.rotate-180]="featuredProjectOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                   </svg>
+                 </button>
+                 @if (featuredProjectOpen()) {
+                 <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                   <span class="text-slate-200 font-medium">{{ featuredProject.role }}</span> {{ featuredProject.roleDescription }}
+                 </p>
+                 }
+               </div>
             </div>
             
             <div class="flex flex-wrap gap-2 mb-8">
-              <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">PHP</span>
-              <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">MySQL (XAMPP)</span>
-              <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">HTML/CSS</span>
+              @for (tag of featuredProject.tags; track tag) {
+                <span class="px-4 py-1.5 rounded-full bg-slate-900/50 text-slate-300 text-xs font-bold border border-slate-700/50 uppercase tracking-wider backdrop-blur-sm shadow-sm">{{ tag }}</span>
+              }
             </div>
 
             <div class="flex items-center gap-4">
-              <a href="https://Danonos.com" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 btn-ocean text-white text-sm font-bold uppercase tracking-widest rounded-full shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1">
+              <a [href]="featuredProject.liveLink" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 btn-ocean text-white text-sm font-bold uppercase tracking-widest rounded-full shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1">
                 Live Site 
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
-              <a href="https://github.com/gabewebd/WSEA.git" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-slate-600 border border-slate-600 hover:border-slate-500 transition-all transform hover:-translate-y-1">
+              <a [href]="featuredProject.githubLink" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-slate-600 border border-slate-600 hover:border-slate-500 transition-all transform hover:-translate-y-1">
                 GitHub
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
                   <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
@@ -161,98 +171,49 @@
     @defer (on viewport) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20 animate-fade-in-up delay-300">
       
-      <div class="perspective-container" (mousemove)="onProjectMouseMove($event, 0)" (mouseleave)="resetProjectTilt(0)">
+      @for (project of projects; track $index) {
+      <div class="perspective-container" (mousemove)="onProjectMouseMove($event, $index)" (mouseleave)="resetProjectTilt($index)">
       <div class="h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-lg hover:border-cyan-500/30 transition-transform duration-100 ease-out will-change-transform group flex flex-col"
-           [style.transform]="projectTransforms()[0]">
+           [style.transform]="projectTransforms()[$index]">
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
-             [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[0].x + 'px ' + projectSpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
+             [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[$index].x + 'px ' + projectSpotlights()[$index].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
         <div class="h-48 bg-slate-900 relative overflow-hidden">
-           <img src="assets/uploads/wellness.png" alt="Wellness Apparel" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+           <img [src]="project.image" [alt]="project.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
            <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-colors duration-500"></div>
         </div>
         <div class="p-6 flex flex-col flex-grow">
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Wellness Apparel</h3>
-          <p class="text-slate-400 text-sm mb-4 line-clamp-3">
-            An online webshop dedicated to wellness and activewear, focusing on a clean user interface and shopping experience.
-          </p>
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">{{ project.title }}</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">{{ project.description }}</p>
+          <div class="mb-4">
+            <button (click)="toggleProject($index)" class="flex items-center gap-2 text-xs font-bold text-cyan-500 uppercase tracking-wider hover:text-cyan-400 transition-colors focus:outline-none">
+              Role
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300" [class.rotate-180]="projectOpenStates()[$index]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            @if (projectOpenStates()[$index]) {
+            <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+              <span class="text-slate-200 font-medium">{{ project.role }}</span> {{ project.roleDescription }}
+            </p>
+            }
+          </div>
           <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">PHP</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">MySQL (XAMPP)</span>
+            @for (tag of project.tags; track tag) {
+              <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">{{ tag }}</span>
+            }
           </div>
           <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
-             <span class="text-xs font-bold text-slate-500 uppercase">E-Commerce</span>
+             <span class="text-xs font-bold text-slate-500 uppercase">{{ project.category }}</span>
              <div class="flex gap-3">
-               <a href="https://github.com/gabewebd/the-wellness-apparel.git" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
-               <a href="http://the-wellness-apparel.onlinewebshop.net/" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
+               <a [href]="project.githubLink" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
+               <a [href]="project.liveLink" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
              </div>
           </div>
         </div>
       </div>
       </div>
-
-      <div class="perspective-container" (mousemove)="onProjectMouseMove($event, 1)" (mouseleave)="resetProjectTilt(1)">
-      <div class="h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-lg hover:border-cyan-500/30 transition-transform duration-100 ease-out will-change-transform group flex flex-col"
-           [style.transform]="projectTransforms()[1]">
-        <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
-             [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[1].x + 'px ' + projectSpotlights()[1].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-
-        <div class="h-48 bg-slate-900 relative overflow-hidden">
-           <img src="assets/uploads/ecoquest.png" alt="Ecoquest" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-           <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-colors duration-500"></div>
-        </div>
-        <div class="p-6 flex flex-col flex-grow">
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Ecoquest</h3>
-          <p class="text-slate-400 text-sm mb-4 line-clamp-3">
-            An interactive platform focused on ecological education and quests to promote environmental awareness.
-          </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">MongoDB</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Express</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">React</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Node.js</span>
-          </div>
-          <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
-             <span class="text-xs font-bold text-slate-500 uppercase">Web App</span>
-             <div class="flex gap-3">
-               <a href="https://github.com/Josh-Aguiluz/6WCSERVER-Final-Project.git" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
-               <a href="https://hauecoquest.vercel.app/" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
-             </div>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      <div class="perspective-container" (mousemove)="onProjectMouseMove($event, 2)" (mouseleave)="resetProjectTilt(2)">
-      <div class="h-full bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 shadow-lg hover:border-cyan-500/30 transition-transform duration-100 ease-out will-change-transform group flex flex-col"
-           [style.transform]="projectTransforms()[2]">
-        <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
-             [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[2].x + 'px ' + projectSpotlights()[2].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-
-        <div class="h-48 bg-slate-900 relative overflow-hidden">
-           <img src="assets/uploads/chanel.png" alt="The Four Who Adore" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-           <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-colors duration-500"></div>
-        </div>
-        <div class="p-6 flex flex-col flex-grow">
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">The Four Who Adore</h3>
-          <p class="text-slate-400 text-sm mb-4 line-clamp-3">
-            A stylish web project showcasing fashion, lifestyle, and brand aesthetics.
-          </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Angular</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">Tailwind CSS</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900/50 text-slate-300 text-[10px] font-bold border border-slate-700/50 uppercase tracking-wider">TypeScript</span>
-          </div>
-          <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-700">
-             <span class="text-xs font-bold text-slate-500 uppercase">Fashion</span>
-             <div class="flex gap-3">
-               <a href="https://github.com/gabewebd/6AWEB-TheFourWhoAdore.git" target="_blank" class="px-4 py-2 bg-slate-700 text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-slate-600 transition-all hover:-translate-y-0.5">GitHub</a>
-               <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank" class="px-4 py-2 btn-ocean text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:shadow-cyan-500/20 transition-all hover:-translate-y-0.5">Live</a>
-             </div>
-          </div>
-        </div>
-      </div>
-      </div>
+      }
 
     </div>
     } @placeholder {
@@ -263,50 +224,19 @@
     <div class="mb-20 animate-fade-in-up delay-300">
         <h2 class="text-3xl font-black text-white mb-8 tracking-tight">Creative Playground</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="perspective-container" (mousemove)="onExperimentMouseMove($event, 0)" (mouseleave)="resetExperimentTilt(0)">
+            @for (exp of experiments; track $index) {
+            <div class="perspective-container" (mousemove)="onExperimentMouseMove($event, $index)" (mouseleave)="resetExperimentTilt($index)">
             <div class="aspect-[4/5] bg-slate-800 rounded-2xl relative overflow-hidden group cursor-pointer border border-slate-700 transition-transform duration-100 ease-out will-change-transform p-6 flex flex-col justify-end"
-                 [style.transform]="experimentTransforms()[0]">
-                <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800&auto=format&fit=crop" alt="Menu Interactions" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                 [style.transform]="experimentTransforms()[$index]">
+                <img [src]="exp.image" [alt]="exp.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity duration-300"></div>
                 <div class="relative z-10">
-                    <h3 class="text-lg font-bold text-white mb-1">Menu Interactions</h3>
-                    <p class="text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Dynamic filtering & cart animations</p>
+                    <h3 class="text-lg font-bold text-white mb-1">{{ exp.title }}</h3>
+                    <p class="text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">{{ exp.subtitle }}</p>
                 </div>
             </div>
             </div>
-            <div class="perspective-container" (mousemove)="onExperimentMouseMove($event, 1)" (mouseleave)="resetExperimentTilt(1)">
-            <div class="aspect-[4/5] bg-slate-800 rounded-2xl relative overflow-hidden group cursor-pointer border border-slate-700 transition-transform duration-100 ease-out will-change-transform p-6 flex flex-col justify-end"
-                 [style.transform]="experimentTransforms()[1]">
-                <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800&auto=format&fit=crop" alt="State Management" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity duration-300"></div>
-                <div class="relative z-10">
-                    <h3 class="text-lg font-bold text-white mb-1">State Management</h3>
-                    <p class="text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">RxJS powered shopping cart</p>
-                </div>
-            </div>
-            </div>
-            <div class="perspective-container" (mousemove)="onExperimentMouseMove($event, 2)" (mouseleave)="resetExperimentTilt(2)">
-            <div class="aspect-[4/5] bg-slate-800 rounded-2xl relative overflow-hidden group cursor-pointer border border-slate-700 transition-transform duration-100 ease-out will-change-transform p-6 flex flex-col justify-end"
-                 [style.transform]="experimentTransforms()[2]">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Gamified UI" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity duration-300"></div>
-                <div class="relative z-10">
-                    <h3 class="text-lg font-bold text-white mb-1">Gamified UI</h3>
-                    <p class="text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Progress tracking & reward systems</p>
-                </div>
-            </div>
-            </div>
-            <div class="perspective-container" (mousemove)="onExperimentMouseMove($event, 3)" (mouseleave)="resetExperimentTilt(3)">
-            <div class="aspect-[4/5] bg-slate-800 rounded-2xl relative overflow-hidden group cursor-pointer border border-slate-700 transition-transform duration-100 ease-out will-change-transform p-6 flex flex-col justify-end"
-                 [style.transform]="experimentTransforms()[3]">
-                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=800&auto=format&fit=crop" alt="Editorial Layouts" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 transition-opacity duration-300"></div>
-                <div class="relative z-10">
-                    <h3 class="text-lg font-bold text-white mb-1">Editorial Layouts</h3>
-                    <p class="text-xs text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">CSS Grid & responsive typography</p>
-                </div>
-            </div>
-            </div>
+            }
         </div>
     </div>
     } @placeholder {

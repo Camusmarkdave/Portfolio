@@ -114,7 +114,7 @@ import { filter } from 'rxjs/operators';
 
           <div class="flex items-center gap-4">
              <a routerLink="/contact" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-white text-sm font-bold rounded-full transition-all shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5"
-                [ngClass]="isDarkNav() ? 'bg-cyan-600 hover:bg-cyan-500' : 'bg-slate-900 hover:bg-cyan-600'">
+                [ngClass]="isDarkNav() ? 'btn-ocean' : 'bg-slate-900 hover:bg-cyan-600'">
                Let's Talk
              </a>
              
@@ -304,6 +304,17 @@ import { filter } from 'rxjs/operators';
       100% { background-position: 40px 40px; }
     }
     .animate-grid-move { animation: gridMove 3s linear infinite; }
+
+    @keyframes ocean {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .btn-ocean {
+      background: linear-gradient(270deg, #0891b2, #06b6d4, #3b82f6);
+      background-size: 200% 200%;
+      animation: ocean 3s ease infinite;
+    }
   `]
 })
 export class AppComponent implements OnInit {

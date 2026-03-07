@@ -323,6 +323,96 @@
     </div>
   </section>
 
+  <section class="py-20 bg-[#0f172a] relative overflow-hidden">
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
+        <div class="absolute top-20 left-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] animate-blob mix-blend-screen"></div>
+        <div class="absolute bottom-20 right-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-blob animation-delay-4000 mix-blend-screen"></div>
+    </div>
+
+    <div class="absolute top-40 right-[10%] perspective-wrap pointer-events-none z-0 animate-float-slow">
+      <div class="cube cube-purple" style="--cube-size: 80px;" [style.transform]="shapesTransform()[2]">
+        <div class="cube-face face-front"></div>
+        <div class="cube-face face-back"></div>
+        <div class="cube-face face-right"></div>
+        <div class="cube-face face-left"></div>
+        <div class="cube-face face-top"></div>
+        <div class="cube-face face-bottom"></div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-40 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
+      <div class="cube cube-cyan" style="--cube-size: 50px;" [style.transform]="shapesTransform()[0]">
+        <div class="cube-face face-front"></div>
+        <div class="cube-face face-back"></div>
+        <div class="cube-face face-right"></div>
+        <div class="cube-face face-left"></div>
+        <div class="cube-face face-top"></div>
+        <div class="cube-face face-bottom"></div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        @defer (on viewport) {
+        <!-- Educational Background -->
+        <div class="max-w-4xl mx-auto animate-fade-in-up delay-200">
+            <h2 class="text-3xl font-black text-white mb-12 tracking-tight text-center">Educational <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Background</span></h2>
+
+            <div class="relative border-l-2 border-slate-700 ml-3 md:ml-6 space-y-12">
+                @for (edu of education; track $index) {
+                <div class="relative pl-8 md:pl-12 group">
+                    <!-- Timeline Dot -->
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-900 border-2 border-cyan-500 group-hover:scale-125 group-hover:bg-cyan-500 transition-all duration-300 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    
+                    <!-- Content Card -->
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:border-cyan-500/30 transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:shadow-cyan-500/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl -mr-16 -mt-16 transition-opacity opacity-0 group-hover:opacity-100"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-2">
+                                <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">{{ edu.degree }}</h3>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-700 text-cyan-400 border border-slate-600 shadow-sm whitespace-nowrap w-fit">{{ edu.year }}</span>
+                            </div>
+                            <h4 class="text-lg text-slate-300 mb-4 font-medium flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                {{ edu.school }}
+                            </h4>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                                {{ edu.description }}
+                            </p>
+                            
+                            @if (edu.achievements.length > 0) {
+                            <div class="pt-4 border-t border-slate-700/50">
+                                <h5 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                    </svg>
+                                    Achievements
+                                </h5>
+                                <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    @for (achievement of edu.achievements; track achievement) {
+                                    <li class="flex items-start gap-2 text-sm text-slate-400">
+                                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-cyan-500/50 flex-shrink-0"></span>
+                                        {{ achievement }}
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        } @placeholder {
+            <div class="h-96"></div>
+        }
+    </div>
+  </section>
+
   <section class="py-32 bg-slate-50 relative overflow-hidden">
     <div class="absolute inset-0 z-0 pointer-events-none">
       <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div> 

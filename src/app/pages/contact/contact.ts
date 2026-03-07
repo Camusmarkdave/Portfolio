@@ -1,6 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-contact',
@@ -11,6 +12,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 })
 export class ContactComponent {
   private fb = inject(FormBuilder);
+  private http = inject(HttpClient);
 
   protected contactForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -21,19 +23,33 @@ export class ContactComponent {
 
   protected isSubmitting = signal(false);
   protected isSent = signal(false);
+  protected submitError = signal(false);
 
-  async onSubmit() {
+  onSubmit() {
     if (this.contactForm.valid) {
       this.isSubmitting.set(true);
+      this.submitError.set(false);
       
-      // SIMULATION: To actually send to Gmail, use EmailJS here (https://www.emailjs.com/)
-      // await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this.contactForm.value, 'YOUR_PUBLIC_KEY');
-      
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Fake 2s delay
-      
-      this.isSubmitting.set(false);
-      this.isSent.set(true);
-      this.contactForm.reset();
+      const formData = {
+        ...this.contactForm.value,
+        _subject: `Portfolio Contact: ${this.contactForm.value.subject}`,
+        _captcha: 'false', // Disables the captcha page for a smoother UX
+        _template: 'table'
+      };
+
+      this.http.post('https://formsubmit.co/ajax/camusmarkdave@gmail.com', formData, { responseType: 'text' }).subscribe({
+        next: (response) => {
+          console.log('FormSubmit success:', response);
+          this.isSubmitting.set(false);
+          this.isSent.set(true);
+          this.contactForm.reset();
+        },
+        error: (error) => {
+          console.error('FormSubmit error:', error);
+          this.isSubmitting.set(false);
+          this.submitError.set(true);
+        }
+      });
     }
   }
 
