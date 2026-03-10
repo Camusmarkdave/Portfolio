@@ -11,11 +11,11 @@ import { CommonModule } from '@angular/common';
 export class ProjectsComponent {
   // Featured Project Transform
   protected readonly featuredProjectTransform = signal('rotateX(0deg) rotateY(0deg)');
-  protected readonly featuredSpotlight = signal({x: 0, y: 0});
+  protected readonly featuredSpotlight = signal({ x: 0, y: 0 });
 
   // Project Grid Transforms (6 items)
   protected readonly projectTransforms = signal<string[]>(Array(6).fill('rotateX(0deg) rotateY(0deg)'));
-  protected readonly projectSpotlights = signal<{x: number, y: number}[]>(Array(6).fill({x: 0, y: 0}));
+  protected readonly projectSpotlights = signal<{ x: number, y: number }[]>(Array(6).fill({ x: 0, y: 0 }));
 
   // Design Experiments Transforms (4 items)
   protected readonly experimentTransforms = signal<string[]>(Array(4).fill('rotateX(0deg) rotateY(0deg)'));
@@ -68,6 +68,39 @@ export class ProjectsComponent {
       category: 'Fashion',
       githubLink: 'https://github.com/gabewebd/6AWEB-TheFourWhoAdore.git',
       liveLink: 'https://prelim-project-thefourwhoadore.netlify.app/home'
+    },
+    {
+      title: 'Sagada Tours',
+      description: 'A premium tourism landing page for Sagada, featuring a sophisticated dark and gold aesthetic with elegant scroll animations.',
+      role: 'Frontend Developer.',
+      roleDescription: 'Developed the interactive landing page with tailored Tailwind CSS configurations, responsive design, and smooth scroll animations.',
+      image: 'assets/uploads/sagada.png',
+      tags: ['Angular', 'Tailwind CSS'],
+      category: 'Web App',
+      githubLink: 'https://github.com/Camusmarkdave/Sagada.git',
+      liveLink: 'https://sagada-qg55.vercel.app/'
+    },
+    {
+      title: 'Ongoing Project',
+      description: 'An exciting new project currently in the development phase. Check back soon for updates.',
+      role: 'Full Stack Developer.',
+      roleDescription: 'Architecting the core systems and designing the initial user interface mockups.',
+      image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop',
+      tags: ['Coming Soon'],
+      category: 'In Development',
+      githubLink: 'https://github.com/Camusmarkdave',
+      liveLink: '#'
+    },
+    {
+      title: 'Ongoing Project',
+      description: 'Another innovative project in the early stages of planning and design.',
+      role: 'Software Engineer.',
+      roleDescription: 'Researching technical requirements and setting up the development environment.',
+      image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop',
+      tags: ['Coming Soon'],
+      category: 'In Development',
+      githubLink: 'https://github.com/Camusmarkdave',
+      liveLink: '#'
     }
   ];
 
@@ -106,7 +139,7 @@ export class ProjectsComponent {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    this.featuredSpotlight.set({x, y});
+    this.featuredSpotlight.set({ x, y });
 
     const rotateX = ((y - centerY) / centerY) * -3;
     const rotateY = ((x - centerX) / centerX) * 3;
@@ -127,7 +160,7 @@ export class ProjectsComponent {
     const centerY = rect.height / 2;
 
     const newSpotlights = [...this.projectSpotlights()];
-    newSpotlights[index] = {x, y};
+    newSpotlights[index] = { x, y };
     this.projectSpotlights.set(newSpotlights);
 
     const rotateX = ((y - centerY) / centerY) * -5;

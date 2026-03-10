@@ -178,6 +178,20 @@
         <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-2xl"
              [style.background]="'radial-gradient(600px circle at ' + projectSpotlights()[$index].x + 'px ' + projectSpotlights()[$index].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
+        @if (project.category === 'In Development') {
+          <div class="flex flex-col items-center justify-center h-full p-8 text-center bg-slate-800/80">
+            <div class="relative w-20 h-20 mb-6 rounded-full bg-slate-900 border border-slate-700 shadow-inner flex items-center justify-center overflow-hidden group-hover:border-cyan-500/50 transition-colors duration-500">
+               <div class="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-500 group-hover:text-cyan-400 transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+               </svg>
+            </div>
+            
+            <span class="inline-block px-3 py-1 bg-cyan-900/30 text-cyan-400 text-xs font-bold uppercase tracking-widest rounded-full mb-4 border border-cyan-800/50">In Progress</span>
+            <h3 class="text-2xl font-black text-white mb-2 tracking-wide">{{ project.title }}</h3>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ project.description }}</p>
+          </div>
+        } @else {
         <div class="h-48 bg-slate-900 relative overflow-hidden">
            <img [src]="project.image" [alt]="project.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
            <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-colors duration-500"></div>
@@ -211,6 +225,7 @@
              </div>
           </div>
         </div>
+        }
       </div>
       </div>
       }
