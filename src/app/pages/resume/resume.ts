@@ -9,14 +9,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './resume.css'
 })
 export class ResumeComponent {
-  // Transforms for the 4 cards on the resume page
+  // Transforms for the 5 cards on the resume page
   protected readonly cardTransforms = signal<string[]>(
-    Array(4).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)')
+    Array(5).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)')
   );
 
-  // Spotlights for the 4 cards
+  // Spotlights for the 5 cards
   protected readonly cardSpotlights = signal<{x: number, y: number}[]>(
-    Array.from({ length: 4 }, () => ({ x: 0, y: 0 }))
+    Array.from({ length: 5 }, () => ({ x: 0, y: 0 }))
   );
 
   protected onCardMouseMove(event: MouseEvent, index: number) {

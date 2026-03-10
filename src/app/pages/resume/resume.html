@@ -11,17 +11,37 @@
       box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
     }
     .perspective-container { perspective: 1000px; }
-    .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .animate-fade-in-up { 
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+      opacity: 0; 
+    }
+    @keyframes fadeInUp { 
+      from { opacity: 0; transform: translateY(30px) scale(0.95); } 
+      to { opacity: 1; transform: translateY(0) scale(1); } 
+    }
+    
+    @keyframes fillWidth {
+      from { width: 0%; }
+    }
+    .animate-fill {
+      animation: fillWidth 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
     .delay-100 { animation-delay: 100ms; }
     .delay-200 { animation-delay: 200ms; }
     .delay-300 { animation-delay: 300ms; }
+    .delay-400 { animation-delay: 400ms; }
+    .delay-500 { animation-delay: 500ms; }
+    
     .will-change-transform { will-change: transform; }
+    
     @keyframes gridMove {
       0% { background-position: 0 0; }
       100% { background-position: 40px 40px; }
     }
     .animate-grid-move { animation: gridMove 3s linear infinite; }
+    
     @keyframes blob {
       0% { transform: translate(0px, 0px) scale(1); }
       33% { transform: translate(30px, -50px) scale(1.1); }
@@ -62,7 +82,28 @@
       50% { transform: translateY(-20px); }
     }
     .animate-float-slow { animation: float 8s ease-in-out infinite; }
+    
+    .shiny-sweep {
+      position: relative;
+      overflow: hidden;
+    }
+    .shiny-sweep::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-20deg);
+      transition: all 0.5s ease;
+    }
+    .shiny-sweep:hover::after {
+      left: 150%;
+      transition: all 0.7s ease-in-out;
+    }
   </style>
+
   <div class="absolute inset-0 z-0 pointer-events-none">
     <div class="absolute inset-0 opacity-[0.1] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
     
@@ -95,49 +136,51 @@
   <div class="container mx-auto px-4 md:px-6 relative z-10">
     
     <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 md:mb-16 animate-fade-in-up">
-      <div class="text-center md:text-left">
-        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-2">
+      <div class="text-center md:text-left relative">
+        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 relative z-10">
           My <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Resume</span>
         </h1>
-        <p class="text-lg text-slate-400">IT Student & UI/Frontend Developer</p>
+        <div class="absolute -inset-x-6 -inset-y-4 bg-cyan-500/10 blur-xl rounded-full z-0 opacity-0 animate-[fadeInUp_1s_ease-out_forwards_0.5s]"></div>
+        <p class="text-lg text-slate-400 relative z-10">IT Student & UI/Frontend Developer</p>
       </div>
       
-      <a href="assets/uploads/Resume.pdf" download class="group flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-cyan-600 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-cyan-500 transition-all transform hover:-translate-y-1 shadow-lg hover:shadow-xl w-full md:w-auto">
-        <span>Download PDF</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <a href="assets/uploads/Resume.pdf" download class="shiny-sweep group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-cyan-600 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-cyan-500 transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] w-full md:w-auto overflow-hidden animate-[pulse_3s_ease-in-out_infinite_alternate]">
+        <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <span class="relative z-10">Download PDF</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 h-5 w-5 md:h-6 md:w-6 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
       </a>
     </div>
 
     @defer (on viewport) {
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12 animate-fade-in-up delay-200">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12">
       
       <div class="lg:col-span-2 space-y-6 md:space-y-12">
         
-        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 0)" (mouseleave)="resetCardTilt(0)">
+        <div class="perspective-container animate-fade-in-up delay-100" (mousemove)="onCardMouseMove($event, 0)" (mouseleave)="resetCardTilt(0)">
         <div class="bg-slate-800 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
              [style.transform]="cardTransforms()[0]">
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
                [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[0].x + 'px ' + cardSpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-          <div class="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-900/30 flex items-center justify-center text-cyan-400 border border-cyan-800/50">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 relative z-20">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-900/30 flex items-center justify-center text-cyan-400 border border-cyan-800/50 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 animate-[pulse_2s_ease-in-out_infinite]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M12 14l9-5-9-5-9 5 9 5z" />
                 <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
               </svg>
             </div>
-            <h3 class="text-xl md:text-2xl font-black text-white">Education</h3>
+            <h3 class="text-xl md:text-2xl font-black text-white group-hover:text-cyan-300 transition-colors">Education</h3>
           </div>
           
-          <div class="space-y-8 border-l-2 border-slate-700 ml-1 md:ml-6 pl-8 relative">
-            <div class="relative">
-              <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full border-4 border-slate-800 bg-cyan-500 shadow-sm"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600">Expected 2027</span>
-              <h4 class="text-lg font-bold text-white">BS Information Technology</h4>
-              <p class="text-cyan-400 font-medium mb-2">Holy Angel University | Major in Web Development</p>
-              <p class="text-slate-400 text-sm leading-relaxed">
+          <div class="space-y-8 border-l-2 border-slate-700 ml-1 md:ml-6 pl-8 relative z-20">
+            <div class="group/item relative p-4 -my-4 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
+              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] group-hover/item:scale-125 transition-transform duration-300 pulse-glow"></span>
+              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-cyan-500/50 group-hover/item:text-cyan-300 transition-colors">Expected 2027</span>
+              <h4 class="text-lg font-bold text-white group-hover/item:text-cyan-400 transition-colors">BS Information Technology</h4>
+              <p class="text-cyan-400 font-medium mb-2 group-hover/item:text-cyan-300">Holy Angel University | Major in Web Development</p>
+              <p class="text-slate-400 text-sm leading-relaxed group-hover/item:text-slate-300 transition-colors">
                 Relevant Coursework: Web Systems and Technologies, Mobile Programming, Object-Oriented Programming.
               </p>
             </div>
@@ -145,47 +188,47 @@
         </div>
         </div>
 
-        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 1)" (mouseleave)="resetCardTilt(1)">
+        <div class="perspective-container animate-fade-in-up delay-200" (mousemove)="onCardMouseMove($event, 1)" (mouseleave)="resetCardTilt(1)">
         <div class="bg-slate-800 p-6 md:p-10 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
              [style.transform]="cardTransforms()[1]">
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
                [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[1].x + 'px ' + cardSpotlights()[1].y + 'px, rgba(168,85,247,0.15), transparent 40%)'"></div>
-          <div class="flex items-center gap-4 mb-8">
-            <div class="w-12 h-12 rounded-xl bg-purple-900/30 flex items-center justify-center text-purple-400 border border-purple-800/50">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="flex items-center gap-4 mb-8 relative z-20">
+            <div class="w-12 h-12 rounded-xl bg-purple-900/30 flex items-center justify-center text-purple-400 border border-purple-800/50 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-[pulse_2s_ease-in-out_infinite]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 class="text-2xl font-black text-white">Projects & Experience</h3>
+            <h3 class="text-2xl font-black text-white group-hover:text-purple-300 transition-colors">Projects & Experience</h3>
           </div>
           
-          <div class="space-y-8 border-l-2 border-slate-700 ml-1 md:ml-6 pl-8 relative">
-            <div class="relative">
-              <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full border-4 border-slate-800 bg-purple-500 shadow-sm"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600">Feb 2026</span>
-              <h4 class="text-lg font-bold text-white">Frontend Developer</h4>
-              <p class="text-purple-400 font-medium mb-2">Danono's Donuts | Business Showcase Website</p>
-              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1">
+          <div class="space-y-2 border-l-2 border-slate-700 ml-1 md:ml-6 pl-8 relative z-20">
+            <div class="group/item relative p-4 -my-2 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
+              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] group-hover/item:scale-125 transition-transform duration-300 pulse-glow"></span>
+              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-purple-500/50 group-hover/item:text-purple-300 transition-colors">Feb 2026</span>
+              <h4 class="text-lg font-bold text-white group-hover/item:text-purple-400 transition-colors">Frontend Developer</h4>
+              <p class="text-purple-400 font-medium mb-2 group-hover/item:text-purple-300">Danono's Donuts | Business Showcase Website</p>
+              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1 group-hover/item:text-slate-300 transition-colors">
                 <li>Integrated frontend templates with the PHP/MySQL backend.</li>
                 <li>Dynamically rendered database-driven content for menus, blogs, and locations directly into the DOM.</li>
               </ul>
             </div>
-            <div class="relative">
-              <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full border-4 border-slate-800 bg-slate-600"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600">Dec 2025</span>
-              <h4 class="text-lg font-bold text-white">Frontend Lead & Material UI Specialist</h4>
-              <p class="text-purple-400 font-medium mb-2">The Four Who Adore | Group Profile Dashboard</p>
-              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1">
+            <div class="group/item relative p-4 -my-2 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
+              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-slate-600 group-hover/item:bg-purple-400 group-hover/item:shadow-[0_0_10px_rgba(192,132,252,0.8)] group-hover/item:scale-125 transition-all duration-300"></span>
+              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-purple-500/50 group-hover/item:text-purple-300 transition-colors">Dec 2025</span>
+              <h4 class="text-lg font-bold text-white group-hover/item:text-purple-400 transition-colors">Frontend Lead & Material UI Specialist</h4>
+              <p class="text-purple-400 font-medium mb-2 group-hover/item:text-purple-300">The Four Who Adore | Group Profile Dashboard</p>
+              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1 group-hover/item:text-slate-300 transition-colors">
                 <li>Translated wireframes into functional code, ensuring consistent styling across all pages.</li>
                 <li>Utilized Git & GitHub for version control to manage team contributions and resolve merge conflicts.</li>
               </ul>
             </div>
-            <div class="relative">
-              <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full border-4 border-slate-800 bg-slate-600"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600">Oct 2025</span>
-              <h4 class="text-lg font-bold text-white">UI/UX Designer & Frontend Lead</h4>
-              <p class="text-purple-400 font-medium mb-2">Eco Quest | Gamified Web Application</p>
-              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1">
+            <div class="group/item relative p-4 -my-2 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
+              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-slate-600 group-hover/item:bg-purple-400 group-hover/item:shadow-[0_0_10px_rgba(192,132,252,0.8)] group-hover/item:scale-125 transition-all duration-300"></span>
+              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-purple-500/50 group-hover/item:text-purple-300 transition-colors">Oct 2025</span>
+              <h4 class="text-lg font-bold text-white group-hover/item:text-purple-400 transition-colors">UI/UX Designer & Frontend Lead</h4>
+              <p class="text-purple-400 font-medium mb-2 group-hover/item:text-purple-300">Eco Quest | Gamified Web Application</p>
+              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1 group-hover/item:text-slate-300 transition-colors">
                 <li>Designed the complete user interface in Figma from scratch.</li>
                 <li>Created a gamified experience to drive user engagement in environmental awareness.</li>
               </ul>
@@ -198,110 +241,110 @@
 
       <div class="space-y-6 md:space-y-8">
         
-        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 2)" (mouseleave)="resetCardTilt(2)">
+        <div class="perspective-container animate-fade-in-up delay-300" (mousemove)="onCardMouseMove($event, 2)" (mouseleave)="resetCardTilt(2)">
         <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 md:p-8 rounded-3xl shadow-lg text-white relative overflow-hidden border border-slate-700 transition-transform duration-100 ease-out will-change-transform group"
              [style.transform]="cardTransforms()[2]">
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
                [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[2].x + 'px ' + cardSpotlights()[2].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider">Technical Skills</h3>
-          <div class="space-y-5">
-            <div>
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2">
+          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider relative z-20">Technical Skills</h3>
+          <div class="space-y-5 relative z-20">
+            <div class="group/skill">
+              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
                 <span>Figma</span>
-                <span>90%</span>
+                <span class="text-cyan-400">90%</span>
               </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full water-flow rounded-full" style="width: 90%"></div>
+              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 90%" title="90%"></div>
               </div>
             </div>
-            <div>
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2">
+            <div class="group/skill">
+              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
                 <span>HTML5, CSS3</span>
-                <span>85%</span>
+                <span class="text-cyan-400">85%</span>
               </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full water-flow rounded-full" style="width: 85%"></div>
+              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 85%" title="85%"></div>
               </div>
             </div>
-            <div>
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2">
+            <div class="group/skill">
+              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
                 <span>Git / GitHub</span>
-                <span>75%</span>
+                <span class="text-cyan-400">75%</span>
               </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full water-flow rounded-full" style="width: 75%"></div>
+              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 75%" title="75%"></div>
               </div>
             </div>
-            <div>
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2">
+            <div class="group/skill">
+              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
                 <span>Angular</span>
-                <span>70%</span>
+                <span class="text-cyan-400">70%</span>
               </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full water-flow rounded-full" style="width: 70%"></div>
+              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 70%" title="70%"></div>
               </div>
             </div>
-            <div>
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2">
+            <div class="group/skill">
+              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
                 <span>JavaScript (ES6+)</span>
-                <span>65%</span>
+                <span class="text-cyan-400">65%</span>
               </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full water-flow rounded-full" style="width: 65%"></div>
+              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 65%" title="65%"></div>
               </div>
             </div>
           </div>
         </div>
         </div>
 
-        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 3)" (mouseleave)="resetCardTilt(3)">
+        <div class="perspective-container animate-fade-in-up delay-400" (mousemove)="onCardMouseMove($event, 3)" (mouseleave)="resetCardTilt(3)">
         <div class="bg-slate-800 p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
              [style.transform]="cardTransforms()[3]">
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[3].x + 'px ' + cardSpotlights()[3].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider">Tools</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">VS Code</span>
-            <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">Git/GitHub</span>
-            <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">Adobe XD</span>
-            <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">Firebase</span>
-            <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">Notion</span>
-            <span class="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-md border border-slate-600">DevTools</span>
+               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[3].x + 'px ' + cardSpotlights()[3].y + 'px, rgba(168,85,247,0.15), transparent 40%)'"></div>
+          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider relative z-20">Tools</h3>
+          <div class="flex flex-wrap gap-3 relative z-20">
+            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-cyan-600 hover:text-white hover:border-cyan-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(8,145,178,0.4)] cursor-default">VS Code</span>
+            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-purple-600 hover:text-white hover:border-purple-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(147,51,234,0.4)] cursor-default">Git/GitHub</span>
+            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-pink-600 hover:text-white hover:border-pink-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(219,39,119,0.4)] cursor-default">Adobe XD</span>
+            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-yellow-500 hover:text-white hover:border-yellow-400 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(234,179,8,0.4)] cursor-default">Firebase</span>
+            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-slate-500 hover:text-white hover:border-slate-400 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(100,116,139,0.4)] cursor-default">Notion</span>
+            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(16,185,129,0.4)] cursor-default">DevTools</span>
           </div>
         </div>
         </div>
 
-        <div class="perspective-container" (mousemove)="onCardMouseMove($event, 0)" (mouseleave)="resetCardTilt(0)">
+        <div class="perspective-container animate-fade-in-up delay-500" (mousemove)="onCardMouseMove($event, 4)" (mouseleave)="resetCardTilt(4)">
         <div class="bg-slate-800 p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-             [style.transform]="cardTransforms()[0]">
+             [style.transform]="cardTransforms()[4]">
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[0].x + 'px ' + cardSpotlights()[0].y + 'px, rgba(16,185,129,0.15), transparent 40%)'"></div>
+               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[4].x + 'px ' + cardSpotlights()[4].y + 'px, rgba(16,185,129,0.15), transparent 40%)'"></div>
           <div class="relative z-20">
-          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider">Certifications</h3>
+          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider group-hover:text-emerald-400 transition-colors">Certifications</h3>
           <div class="space-y-3">
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Responsive Web Design
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-emerald-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-emerald-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#10b981] transition-all"></span> Responsive Web Design
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-yellow-500"></span> JS Algorithms & Data Structures
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-yellow-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-yellow-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#eab308] transition-all"></span> JS Algorithms & Data Structures
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> Back End Dev & APIs
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-indigo-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-indigo-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#6366f1] transition-all"></span> Back End Dev & APIs
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> SEO Certified
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-emerald-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-emerald-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#10b981] transition-all"></span> SEO Certified
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-cyan-500"></span> HubSpot SEO II
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-cyan-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-cyan-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#06b6d4] transition-all"></span> HubSpot SEO II
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-orange-500"></span> Content Marketing
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-orange-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-orange-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#f97316] transition-all"></span> Content Marketing
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-purple-500"></span> Digital Marketing
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-purple-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-purple-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#a855f7] transition-all"></span> Digital Marketing
              </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium">
-                <span class="w-2 h-2 rounded-full bg-red-500"></span> Digital Advertising
+             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-red-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
+                <span class="w-3 h-3 rounded-full bg-red-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#ef4444] transition-all"></span> Digital Advertising
              </div>
           </div>
           </div>
