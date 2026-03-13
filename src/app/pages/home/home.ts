@@ -77,13 +77,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Project Tilt State
   protected readonly projectTransforms = signal<string[]>([
     'rotateX(0deg) rotateY(0deg)', 'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)', 'rotateX(0deg) rotateY(0deg)',
     'rotateX(0deg) rotateY(0deg)'
   ]);
 
   // Selected Works Spotlight State
   protected readonly selectedWorkSpotlights = signal<{x: number, y: number}[]>([
-    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
+    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
   ]);
 
   // Service Spotlight State
