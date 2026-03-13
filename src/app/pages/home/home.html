@@ -88,69 +88,308 @@
       </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 animate-fade-in-up delay-200">
-      <a href="https://Danonos.com" target="_blank" class="block group cursor-pointer perspective-container"
-           (mousemove)="onProjectMouseMove($event, 0)"
-           (mouseleave)="resetProjectTilt(0)">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Card 1: Danonos -->
+      <a href="https://Danonos.com" target="_blank"
+         class="block group cursor-pointer perspective-container card-enter card-delay-1"
+         (mousemove)="onProjectMouseMove($event, 0)"
+         (mouseleave)="resetProjectTilt(0)">
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[0]">
-            <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-2xl"
-                 [style.background]="'radial-gradient(600px circle at ' + selectedWorkSpotlights()[0].x + 'px ' + selectedWorkSpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
 
-            <div class="relative overflow-hidden rounded-2xl bg-slate-800 aspect-[4/3] mb-6 shadow-2xl border border-slate-700 group-hover:border-cyan-500/50 transition-all duration-500">
-              <img src="assets/uploads/danonos.png" alt="Danonos Donut" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div class="absolute inset-0 bg-slate-900/80 group-hover:bg-slate-900/60 transition-colors duration-500"></div>
-              <div class="absolute inset-0 p-8 flex flex-col justify-between relative z-10">
-                 <div class="flex justify-end">
-                    <div class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 border border-white/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </div>
-                 </div>
-                 <div>
-                    <h3 class="text-3xl font-black text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Danonos Donut</h3>
-                    <p class="text-slate-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Donut Shop Website</p>
-                 </div>
+          <!-- Spotlight glow -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
+               [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[0].x + 'px ' + selectedWorkSpotlights()[0].y + 'px, rgba(6,182,212,0.18), transparent 40%)'">
+          </div>
+
+          <!-- Gradient border ring + shimmer -->
+          <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/60 group-hover:via-blue-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
+          <!-- Shimmer edge line -->
+          <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
+
+          <!-- Card body -->
+          <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
+
+            <!-- Image container -->
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img src="assets/uploads/danonos.png" alt="Danonos Donut"
+                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
+              <!-- Dark scrim -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
+
+              <!-- Index number -->
+              <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">01</div>
+
+              <!-- Visit icon -->
+              <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+
+              <!-- Frosted info panel -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Web Design · Branding</p>
+                    <h3 class="text-2xl font-black text-white">Danonos Donut</h3>
+                  </div>
+                  <span class="text-xs font-bold text-slate-400 border border-slate-600 rounded-full px-3 py-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Live ↗</span>
+                </div>
               </div>
             </div>
-            <div class="flex gap-2">
-               <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs font-bold">Web Design</span>
-               <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs font-bold">Branding</span>
+
+            <!-- Bottom tag strip -->
+            <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-cyan-900/50 transition-colors duration-500">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 text-cyan-400 animate-glimmer"></span>
+              <span class="text-xs font-semibold text-slate-400 group-hover:text-cyan-300 transition-colors duration-300">Web Design</span>
+              <span class="ml-auto text-xs text-slate-600">Front-end · Branding</span>
             </div>
+          </div>
         </div>
       </a>
-      <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank" class="block group cursor-pointer perspective-container"
-           (mousemove)="onProjectMouseMove($event, 1)"
-           (mouseleave)="resetProjectTilt(1)">
+
+      <!-- Card 2: Chanel -->
+      <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank"
+         class="block group cursor-pointer perspective-container card-enter card-delay-2"
+         (mousemove)="onProjectMouseMove($event, 1)"
+         (mouseleave)="resetProjectTilt(1)">
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[1]">
-            <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-2xl"
-                 [style.background]="'radial-gradient(600px circle at ' + selectedWorkSpotlights()[1].x + 'px ' + selectedWorkSpotlights()[1].y + 'px, rgba(16,185,129,0.15), transparent 40%)'"></div>
 
-            <div class="relative overflow-hidden rounded-2xl bg-slate-800 aspect-[4/3] mb-6 shadow-2xl border border-slate-700 group-hover:border-emerald-500/50 transition-all duration-500">
-              <img src="assets/uploads/chanel.png" alt="Chanel" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div class="absolute inset-0 bg-slate-900/80 group-hover:bg-slate-900/60 transition-colors duration-500"></div>
-              <div class="absolute inset-0 p-8 flex flex-col justify-between relative z-10">
-                 <div class="flex justify-end">
-                    <div class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 border border-white/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </div>
-                 </div>
-                 <div>
-                    <h3 class="text-3xl font-black text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Chanel</h3>
-                    <p class="text-slate-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Fashion & Lifestyle</p>
-                 </div>
+          <!-- Spotlight glow -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
+               [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[1].x + 'px ' + selectedWorkSpotlights()[1].y + 'px, rgba(168,85,247,0.18), transparent 40%)'">
+          </div>
+
+          <!-- Gradient border ring + shimmer -->
+          <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/60 group-hover:via-pink-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
+          <!-- Shimmer edge line -->
+          <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
+
+          <!-- Card body -->
+          <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
+
+            <!-- Image container -->
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img src="assets/uploads/chanel.png" alt="Chanel"
+                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
+              <!-- Dark scrim -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
+
+              <!-- Index number -->
+              <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">02</div>
+
+              <!-- Visit icon -->
+              <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+
+              <!-- Frosted info panel -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Design · Frontend</p>
+                    <h3 class="text-2xl font-black text-white">The Four Who Adore</h3>
+                  </div>
+                  <span class="text-xs font-bold text-slate-400 border border-slate-600 rounded-full px-3 py-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Live ↗</span>
+                </div>
               </div>
             </div>
-            <div class="flex gap-2">
-               <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs font-bold">Design</span>
-               <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs font-bold">Frontend</span>
+
+            <!-- Bottom tag strip -->
+            <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-purple-900/50 transition-colors duration-500">
+              <span class="w-2 h-2 rounded-full bg-purple-400 text-purple-400 animate-glimmer"></span>
+              <span class="text-xs font-semibold text-slate-400 group-hover:text-purple-300 transition-colors duration-300">Fashion & Lifestyle</span>
+              <span class="ml-auto text-xs text-slate-600">Design · Front-end</span>
             </div>
+          </div>
         </div>
       </a>
+
+      <!-- Card 3: Wellness Apparel -->
+      <a href="http://the-wellness-apparel.onlinewebshop.net/" target="_blank"
+         class="block group cursor-pointer perspective-container card-enter card-delay-3"
+         (mousemove)="onProjectMouseMove($event, 2)"
+         (mouseleave)="resetProjectTilt(2)">
+        <div class="relative transition-transform duration-100 ease-out will-change-transform"
+             [style.transform]="projectTransforms()[2]">
+
+          <!-- Spotlight glow -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
+               [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[2].x + 'px ' + selectedWorkSpotlights()[2].y + 'px, rgba(16,185,129,0.18), transparent 40%)'">
+          </div>
+
+          <!-- Gradient border ring + shimmer -->
+          <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-emerald-500/0 via-emerald-500/0 to-emerald-500/0 group-hover:from-emerald-500/60 group-hover:via-teal-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
+          <!-- Shimmer edge line -->
+          <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
+
+          <!-- Card body -->
+          <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
+
+            <!-- Image container -->
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img src="assets/uploads/wellness.png" alt="Wellness Apparel"
+                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
+              <!-- Dark scrim -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
+
+              <!-- Index number -->
+              <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">03</div>
+
+              <!-- Visit icon -->
+              <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+
+              <!-- Frosted info panel -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Full Stack · PHP</p>
+                    <h3 class="text-2xl font-black text-white">Wellness Apparel</h3>
+                  </div>
+                  <span class="text-xs font-bold text-slate-400 border border-slate-600 rounded-full px-3 py-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Live ↗</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom tag strip -->
+            <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-emerald-900/50 transition-colors duration-500">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 text-emerald-400 animate-glimmer"></span>
+              <span class="text-xs font-semibold text-slate-400 group-hover:text-emerald-300 transition-colors duration-300">E-Commerce</span>
+              <span class="ml-auto text-xs text-slate-600">PHP · MySQL</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4: Ecoquest -->
+      <a href="https://hauecoquest.vercel.app/" target="_blank"
+         class="block group cursor-pointer perspective-container card-enter card-delay-1"
+         (mousemove)="onProjectMouseMove($event, 3)"
+         (mouseleave)="resetProjectTilt(3)">
+        <div class="relative transition-transform duration-100 ease-out will-change-transform"
+             [style.transform]="projectTransforms()[3]">
+
+          <!-- Spotlight glow -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
+               [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[3].x + 'px ' + selectedWorkSpotlights()[3].y + 'px, rgba(59,130,246,0.18), transparent 40%)'">
+          </div>
+
+          <!-- Gradient border ring + shimmer -->
+          <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover:from-blue-500/60 group-hover:via-cyan-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
+          <!-- Shimmer edge line -->
+          <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
+
+          <!-- Card body -->
+          <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
+
+            <!-- Image container -->
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img src="assets/uploads/ecoquest.png" alt="Ecoquest"
+                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
+              <!-- Dark scrim -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
+
+              <!-- Index number -->
+              <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">04</div>
+
+              <!-- Visit icon -->
+              <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+
+              <!-- Frosted info panel -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">MERN Stack · UX Lead</p>
+                    <h3 class="text-2xl font-black text-white">Ecoquest</h3>
+                  </div>
+                  <span class="text-xs font-bold text-slate-400 border border-slate-600 rounded-full px-3 py-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Live ↗</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom tag strip -->
+            <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-blue-900/50 transition-colors duration-500">
+              <span class="w-2 h-2 rounded-full bg-blue-400 text-blue-400 animate-glimmer"></span>
+              <span class="text-xs font-semibold text-slate-400 group-hover:text-blue-300 transition-colors duration-300">Environmental Platform</span>
+              <span class="ml-auto text-xs text-slate-600">MongoDB · Express</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5: Sagada Tours -->
+      <a href="https://sagada-qg55.vercel.app/" target="_blank"
+         class="block group cursor-pointer perspective-container card-enter card-delay-2"
+         (mousemove)="onProjectMouseMove($event, 4)"
+         (mouseleave)="resetProjectTilt(4)">
+        <div class="relative transition-transform duration-100 ease-out will-change-transform"
+             [style.transform]="projectTransforms()[4]">
+
+          <!-- Spotlight glow -->
+          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
+               [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[4].x + 'px ' + selectedWorkSpotlights()[4].y + 'px, rgba(234,179,8,0.18), transparent 40%)'">
+          </div>
+
+          <!-- Gradient border ring + shimmer -->
+          <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-yellow-500/0 via-yellow-500/0 to-yellow-500/0 group-hover:from-yellow-500/60 group-hover:via-amber-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
+          <!-- Shimmer edge line -->
+          <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
+
+          <!-- Card body -->
+          <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
+
+            <!-- Image container -->
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img src="assets/uploads/sagada.png" alt="Sagada Tours"
+                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
+              <!-- Dark scrim -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
+
+              <!-- Index number -->
+              <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">05</div>
+
+              <!-- Visit icon -->
+              <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+
+              <!-- Frosted info panel -->
+              <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                <div class="flex items-end justify-between">
+                  <div>
+                    <p class="text-yellow-400 text-xs font-bold uppercase tracking-widest mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Angular · UI Design</p>
+                    <h3 class="text-2xl font-black text-white">Sagada Tours</h3>
+                  </div>
+                  <span class="text-xs font-bold text-slate-400 border border-slate-600 rounded-full px-3 py-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">Live ↗</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom tag strip -->
+            <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-yellow-900/50 transition-colors duration-500">
+              <span class="w-2 h-2 rounded-full bg-yellow-400 text-yellow-400 animate-glimmer"></span>
+              <span class="text-xs font-semibold text-slate-400 group-hover:text-yellow-300 transition-colors duration-300">Tourism Landing Page</span>
+              <span class="ml-auto text-xs text-slate-600">Angular · Tailwind</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
     </div>
   </div>
   } @placeholder {
@@ -222,123 +461,84 @@
       </div>
     </div>
 
-    <div class="w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] animate-fade-in-up delay-200">
-      <div class="flex w-max gap-8 animate-scroll hover:[animation-play-state:paused]">
-      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.15)] transition-all duration-500 rounded-[2rem] group border border-slate-200 hover:border-cyan-100 relative overflow-hidden flex-shrink-0 flex flex-col"
-           (mousemove)="onServiceMouseMove($event, 0)">
-        <div class="pointer-events-none absolute -inset-px transition duration-500 opacity-0 group-hover:opacity-100"
-             [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[0].x + 'px ' + serviceSpotlights()[0].y + 'px, rgba(6,182,212,0.06), transparent 40%)'"></div>
-        
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        
-        <div class="relative z-10">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 text-cyan-500 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-cyan-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Service Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up delay-200">
+
+      <!-- Card 1: Frontend Dev -->
+      <div class="perspective-container card-enter card-delay-1 animate-float"
+           (mousemove)="onServiceMouseMove($event, 0)"
+           (mouseleave)="resetServiceCardTilt(0)">
+        <div class="relative group rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-lg hover:shadow-cyan-200/40 hover:shadow-xl transition-all duration-500 cursor-default will-change-transform"
+             [style.transform]="serviceCardTransforms()[0]">
+          <div class="pointer-events-none absolute inset-0 transition duration-500 opacity-0 group-hover:opacity-100 z-10"
+               [style.background]="'radial-gradient(400px circle at ' + serviceSpotlights()[0].x + 'px ' + serviceSpotlights()[0].y + 'px, rgba(6,182,212,0.08), transparent 60%)'"></div>
+          <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+          <div class="absolute top-6 right-7 text-6xl font-black text-slate-100 group-hover:text-cyan-50 select-none transition-colors duration-500 leading-none">01</div>
+          <div class="relative z-10 p-8 pt-10">
+            <div class="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-500 mb-6 group-hover:bg-cyan-500 group-hover:text-white group-hover:border-cyan-500 group-hover:shadow-[0_0_24px_rgba(6,182,212,0.35)] transition-all duration-500 bounce-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-cyan-600 transition-colors duration-300">Frontend Dev</h3>
-            <p class="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
-              Building responsive, single-page applications using Angular and React. Clean, semantic, and SEO-friendly code.
-            </p>
+            <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-cyan-600 transition-colors duration-300">Frontend Dev</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Building responsive, single-page applications using Angular and React. Clean, semantic, and SEO-friendly code.</p>
+            <div class="mt-6 pt-5 border-t border-slate-100">
+              <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-cyan-500 transition-colors duration-300">Angular · React · TypeScript</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.15)] transition-all duration-500 rounded-[2rem] group border border-slate-200 hover:border-purple-100 relative overflow-hidden flex-shrink-0 flex flex-col"
-           (mousemove)="onServiceMouseMove($event, 1)">
-         <div class="pointer-events-none absolute -inset-px transition duration-500 opacity-0 group-hover:opacity-100"
-              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[1].x + 'px ' + serviceSpotlights()[1].y + 'px, rgba(168,85,247,0.06), transparent 40%)'"></div>
-
-         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        
-         <div class="relative z-10">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 text-purple-500 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-purple-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <!-- Card 2: UI/UX Design -->
+      <div class="perspective-container card-enter card-delay-2 animate-float-slow"
+           (mousemove)="onServiceMouseMove($event, 1)"
+           (mouseleave)="resetServiceCardTilt(1)">
+        <div class="relative group rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-lg hover:shadow-purple-200/40 hover:shadow-xl transition-all duration-500 cursor-default will-change-transform"
+             [style.transform]="serviceCardTransforms()[1]">
+          <div class="pointer-events-none absolute inset-0 transition duration-500 opacity-0 group-hover:opacity-100 z-10"
+               [style.background]="'radial-gradient(400px circle at ' + serviceSpotlights()[1].x + 'px ' + serviceSpotlights()[1].y + 'px, rgba(168,85,247,0.08), transparent 60%)'"></div>
+          <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+          <div class="absolute top-6 right-7 text-6xl font-black text-slate-100 group-hover:text-purple-50 select-none transition-colors duration-500 leading-none">02</div>
+          <div class="relative z-10 p-8 pt-10">
+            <div class="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-500 mb-6 group-hover:bg-purple-500 group-hover:text-white group-hover:border-purple-500 group-hover:shadow-[0_0_24px_rgba(168,85,247,0.35)] transition-all duration-500 bounce-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
               </svg>
             </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-purple-600 transition-colors duration-300">UI/UX Design</h3>
-            <p class="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
-              Designing intuitive interfaces with Figma. Focusing on typography, spacing, and color theory for engaging user journeys.
-            </p>
-         </div>
-      </div>
-
-      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(59,130,246,0.15)] transition-all duration-500 rounded-[2rem] group border border-slate-200 hover:border-blue-100 relative overflow-hidden flex-shrink-0 flex flex-col"
-           (mousemove)="onServiceMouseMove($event, 2)">
-         <div class="pointer-events-none absolute -inset-px transition duration-500 opacity-0 group-hover:opacity-100"
-              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[2].x + 'px ' + serviceSpotlights()[2].y + 'px, rgba(59,130,246,0.06), transparent 40%)'"></div>
-
-         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        
-         <div class="relative z-10">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 text-blue-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-blue-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+            <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">UI/UX Design</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Designing intuitive interfaces with Figma. Focusing on typography, spacing, and color theory for engaging user journeys.</p>
+            <div class="mt-6 pt-5 border-t border-slate-100">
+              <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-purple-500 transition-colors duration-300">Figma Â· Wireframing Â· Prototyping</span>
             </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Optimization</h3>
-            <p class="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
-              Optimizing for speed and efficiency. Lazy loading, efficient state management, and smooth performance.
-            </p>
-         </div>
-      </div>
-
-      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.15)] transition-all duration-500 rounded-[2rem] group border border-slate-200 hover:border-cyan-100 relative overflow-hidden flex-shrink-0 flex flex-col"
-           (mousemove)="onServiceMouseMove($event, 0)">
-        <div class="pointer-events-none absolute -inset-px transition duration-500 opacity-0 group-hover:opacity-100"
-             [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[0].x + 'px ' + serviceSpotlights()[0].y + 'px, rgba(6,182,212,0.06), transparent 40%)'"></div>
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div class="relative z-10">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 text-cyan-500 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-cyan-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-cyan-600 transition-colors duration-300">Frontend Dev</h3>
-            <p class="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
-              Building responsive, single-page applications using Angular and React. Clean, semantic, and SEO-friendly code.
-            </p>
+          </div>
         </div>
       </div>
 
-      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.15)] transition-all duration-500 rounded-[2rem] group border border-slate-200 hover:border-purple-100 relative overflow-hidden flex-shrink-0 flex flex-col"
-           (mousemove)="onServiceMouseMove($event, 1)">
-         <div class="pointer-events-none absolute -inset-px transition duration-500 opacity-0 group-hover:opacity-100"
-              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[1].x + 'px ' + serviceSpotlights()[1].y + 'px, rgba(168,85,247,0.06), transparent 40%)'"></div>
-         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-         <div class="relative z-10">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 text-purple-500 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-purple-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-              </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-purple-600 transition-colors duration-300">UI/UX Design</h3>
-            <p class="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
-              Designing intuitive interfaces with Figma. Focusing on typography, spacing, and color theory for engaging user journeys.
-            </p>
-         </div>
-      </div>
-
-      <div class="w-[350px] md:w-[400px] bg-white p-10 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(59,130,246,0.15)] transition-all duration-500 rounded-[2rem] group border border-slate-200 hover:border-blue-100 relative overflow-hidden flex-shrink-0 flex flex-col"
-           (mousemove)="onServiceMouseMove($event, 2)">
-         <div class="pointer-events-none absolute -inset-px transition duration-500 opacity-0 group-hover:opacity-100"
-              [style.background]="'radial-gradient(600px circle at ' + serviceSpotlights()[2].x + 'px ' + serviceSpotlights()[2].y + 'px, rgba(59,130,246,0.06), transparent 40%)'"></div>
-         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-         <div class="relative z-10">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 text-blue-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-blue-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <!-- Card 3: Optimization -->
+      <div class="perspective-container card-enter card-delay-3 animate-float-delayed"
+           (mousemove)="onServiceMouseMove($event, 2)"
+           (mouseleave)="resetServiceCardTilt(2)">
+        <div class="relative group rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-lg hover:shadow-blue-200/40 hover:shadow-xl transition-all duration-500 cursor-default will-change-transform"
+             [style.transform]="serviceCardTransforms()[2]">
+          <div class="pointer-events-none absolute inset-0 transition duration-500 opacity-0 group-hover:opacity-100 z-10"
+               [style.background]="'radial-gradient(400px circle at ' + serviceSpotlights()[2].x + 'px ' + serviceSpotlights()[2].y + 'px, rgba(59,130,246,0.08), transparent 60%)'"></div>
+          <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+          <div class="absolute top-6 right-7 text-6xl font-black text-slate-100 group-hover:text-blue-50 select-none transition-colors duration-500 leading-none">03</div>
+          <div class="relative z-10 p-8 pt-10">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 mb-6 group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-[0_0_24px_rgba(59,130,246,0.35)] transition-all duration-500 bounce-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">Optimization</h3>
-            <p class="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
-              Optimizing for speed and efficiency. Lazy loading, efficient state management, and smooth performance.
-            </p>
-         </div>
+            <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">Optimization</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Optimizing for speed and efficiency. Lazy loading, efficient state management, and smooth performance.</p>
+            <div class="mt-6 pt-5 border-t border-slate-100">
+              <span class="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-blue-500 transition-colors duration-300">Performance Â· SEO Â· Core Web Vitals</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      </div>
     </div>
   </div>
   } @placeholder {

@@ -81,3 +81,53 @@
 .animate-scroll {
   animation: scroll 80s linear infinite;
 }
+
+/* ── Card float Bob ── */
+@keyframes float-card {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+.animate-float          { animation: float-card 5s ease-in-out infinite; }
+.animate-float-slow     { animation: float-card 7s ease-in-out infinite; }
+.animate-float-delayed  { animation: float-card 5s ease-in-out 1s infinite; }
+
+/* ── Per-card staggered entrance ── */
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(36px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+.card-enter   { opacity: 0; animation: cardEnter 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+.card-delay-1 { animation-delay: 100ms; }
+.card-delay-2 { animation-delay: 250ms; }
+.card-delay-3 { animation-delay: 400ms; }
+
+/* ── Shimmer sweep (project cards) ── */
+@keyframes shimmer-sweep {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.shimmer-border {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(6,182,212,0.7) 40%,
+    rgba(168,85,247,0.7) 60%,
+    transparent 100%
+  ) 0% center / 200% auto;
+  animation: shimmer-sweep 3s linear infinite;
+}
+
+/* ── Glimmer pulse on tag dots ── */
+@keyframes glimmer {
+  0%, 100% { box-shadow: 0 0 4px 0px currentColor; }
+  50%       { box-shadow: 0 0 12px 3px currentColor; }
+}
+.animate-glimmer { animation: glimmer 2s ease-in-out infinite; }
+
+/* ── Icon bounce on service card ── */
+@keyframes icon-bounce {
+  0%, 100% { transform: translateY(0) scale(1);    }
+  30%       { transform: translateY(-6px) scale(1.08); }
+  60%       { transform: translateY(-2px) scale(1.03); }
+}
+.group:hover .bounce-icon { animation: icon-bounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both; }

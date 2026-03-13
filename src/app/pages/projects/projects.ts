@@ -13,9 +13,9 @@ export class ProjectsComponent {
   protected readonly featuredProjectTransform = signal('rotateX(0deg) rotateY(0deg)');
   protected readonly featuredSpotlight = signal({ x: 0, y: 0 });
 
-  // Project Grid Transforms (6 items)
-  protected readonly projectTransforms = signal<string[]>(Array(6).fill('rotateX(0deg) rotateY(0deg)'));
-  protected readonly projectSpotlights = signal<{ x: number, y: number }[]>(Array(6).fill({ x: 0, y: 0 }));
+  // Project Grid Transforms (4 items)
+  protected readonly projectTransforms = signal<string[]>(Array(4).fill('rotateX(0deg) rotateY(0deg)'));
+  protected readonly projectSpotlights = signal<{ x: number, y: number }[]>(Array(4).fill({ x: 0, y: 0 }));
 
   // Design Experiments Transforms (4 items)
   protected readonly experimentTransforms = signal<string[]>(Array(4).fill('rotateX(0deg) rotateY(0deg)'));
@@ -80,6 +80,7 @@ export class ProjectsComponent {
       githubLink: 'https://github.com/Camusmarkdave/Sagada.git',
       liveLink: 'https://sagada-qg55.vercel.app/'
     },
+    /*
     {
       title: 'Ongoing Project',
       description: 'An exciting new project currently in the development phase. Check back soon for updates.',
@@ -102,6 +103,7 @@ export class ProjectsComponent {
       githubLink: 'https://github.com/Camusmarkdave',
       liveLink: '#'
     }
+    */
   ];
 
   // Role Toggle State

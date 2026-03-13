@@ -77,17 +77,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Project Tilt State
   protected readonly projectTransforms = signal<string[]>([
     'rotateX(0deg) rotateY(0deg)', 'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)', 'rotateX(0deg) rotateY(0deg)'
+    'rotateX(0deg) rotateY(0deg)', 'rotateX(0deg) rotateY(0deg)',
+    'rotateX(0deg) rotateY(0deg)'
   ]);
 
   // Selected Works Spotlight State
   protected readonly selectedWorkSpotlights = signal<{x: number, y: number}[]>([
-    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
+    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
   ]);
 
   // Service Spotlight State
   protected readonly serviceSpotlights = signal<{x: number, y: number}[]>([
     {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
+  ]);
+
+  // Service Card Tilt State
+  protected readonly serviceCardTransforms = signal<string[]>([
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)'
   ]);
 
   // Service Header Tilt State
@@ -144,10 +152,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     const rect = card.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // 3D tilt (max 8 degrees)
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+
+    const newTransforms = [...this.serviceCardTransforms()];
+    newTransforms[index] = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+    this.serviceCardTransforms.set(newTransforms);
 
     const newSpotlights = [...this.serviceSpotlights()];
     newSpotlights[index] = {x, y};
     this.serviceSpotlights.set(newSpotlights);
+  }
+
+  protected resetServiceCardTilt(index: number) {
+    const newTransforms = [...this.serviceCardTransforms()];
+    newTransforms[index] = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+    this.serviceCardTransforms.set(newTransforms);
   }
 
   // Services Section Background 3D Shapes
