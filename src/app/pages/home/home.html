@@ -42,10 +42,97 @@
       <div class="flex-1 w-full max-w-lg lg:max-w-xl relative perspective-container animate-fade-in-up delay-200"
            (mousemove)="onMouseMove($event)" 
            (mouseleave)="resetTilt()">
-         <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-slate-100 aspect-square md:aspect-[4/3] transition-transform duration-100 ease-out will-change-transform"
+           
+         <div class="relative rounded-3xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] border border-slate-700/50 bg-[#0b1121] aspect-square md:aspect-[4/3] transition-transform duration-100 ease-out will-change-transform group ring-1 ring-white/5"
               [style.transform]="heroImageTransform()">
-            <img src="assets/uploads/profile.jpg" alt="Hero Image" class="object-cover w-full h-full">
+           
+           <!-- Dynamic Grid Background -->
+           <div class="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:2rem_2rem] animate-grid-move pointer-events-none"></div>
+
+           <!-- Ambient Glows -->
+           <div class="absolute top-1/4 left-1/4 w-48 h-48 bg-cyan-500/20 rounded-full blur-[80px] animate-blob pointer-events-none"></div>
+           <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-purple-500/20 rounded-full blur-[80px] animate-blob animation-delay-2000 pointer-events-none"></div>
+           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/10 rounded-full blur-[100px] animate-blob animation-delay-4000 pointer-events-none"></div>
+
+           <!-- Floating Symbols -->
+           <div class="absolute top-[10%] left-[8%] text-7xl font-black text-slate-800/40 rotate-12 animate-float pointer-events-none select-none">
+             &#123; &#125;
+           </div>
+           
+           <div class="absolute bottom-[10%] right-[8%] text-7xl font-black text-slate-800/40 -rotate-12 animate-float animation-delay-2000 pointer-events-none select-none">
+             &lt;/&gt;
+           </div>
+
+           <!-- Main Code Window -->
+           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] sm:w-[80%] max-h-[75%] bg-[#0f172a]/90 backdrop-blur-xl border border-slate-600/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden animate-float pointer-events-none ring-1 ring-white/5">
+             <!-- Window Header -->
+             <div class="h-12 bg-slate-800/80 flex items-center justify-between px-4 border-b border-slate-700/50">
+               <div class="flex items-center gap-2.5">
+                 <div class="w-3 h-3 rounded-full bg-[#ff5f56] shadow-[0_0_10px_rgba(255,95,86,0.4)]"></div>
+                 <div class="w-3 h-3 rounded-full bg-[#ffbd2e] shadow-[0_0_10px_rgba(255,189,46,0.4)]"></div>
+                 <div class="w-3 h-3 rounded-full bg-[#27c93f] shadow-[0_0_10px_rgba(39,201,63,0.4)]"></div>
+               </div>
+               <div class="flex items-center gap-2 bg-slate-900/50 px-3 py-1.5 rounded border border-slate-700/50">
+                 <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                 <span class="text-[10px] font-mono text-slate-400 tracking-wider">developer.ts</span>
+               </div>
+               <div class="w-12"></div> <!-- Spacer for centering -->
+             </div>
+             
+             <!-- Window Body -->
+             <div class="flex flex-1 overflow-hidden relative">
+               <!-- Line Numbers -->
+               <div class="hidden sm:flex flex-col items-end px-3 py-5 bg-slate-900/30 border-r border-slate-700/50 font-mono text-[11px] sm:text-sm text-slate-600 select-none">
+                 <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+               </div>
+               <!-- Code Content -->
+               <div class="p-5 font-mono text-[11px] sm:text-sm text-cyan-100 leading-[1.6] overflow-hidden w-full relative z-10">
+                 <span class="text-purple-400">import</span> &#123; <span class="text-cyan-200">Component</span> &#125; <span class="text-purple-400">from</span> <span class="text-emerald-400">'@angular/core'</span>;<br><br>
+                 <span class="text-blue-400 font-bold">@Component</span>(&#123;<br>
+                 &nbsp;&nbsp;<span class="text-cyan-300">selector</span>: <span class="text-emerald-400">'app-creator'</span>,<br>
+                 &nbsp;&nbsp;<span class="text-cyan-300">standalone</span>: <span class="text-orange-400">true</span>,<br>
+                 &nbsp;&nbsp;<span class="text-cyan-300">template</span>: <span class="text-emerald-400">'&lt;ui-canvas /&gt;'</span><br>
+                 &#125;)<br>
+                 <span class="text-purple-400">export class</span> <span class="text-yellow-300">Engineer</span> &#123;<br>
+                 &nbsp;&nbsp;<span class="text-blue-300">specialty</span> = [<span class="text-emerald-400">'UI/UX'</span>, <span class="text-emerald-400">'Frontend'</span>];<br>
+                 &nbsp;&nbsp;<span class="text-blue-300">passion</span> = <span class="text-orange-400">true</span>;<br>
+                 &#125;<span class="inline-block w-2 h-4 ml-1 bg-cyan-400 animate-pulse translate-y-0.5"></span>
+               </div>
+             </div>
+           </div>
+
+           <!-- Floating UI Widget (Stats) -->
+           <div class="absolute top-[10%] right-[3%] sm:right-[5%] w-36 sm:w-44 p-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl animate-float animation-delay-2000 pointer-events-none overflow-hidden">
+             <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-bl-full -mr-8 -mt-8"></div>
+             <div class="flex items-center gap-3 mb-4">
+               <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+               </div>
+               <div>
+                 <div class="text-[9px] text-cyan-100 font-medium tracking-widest uppercase">Performance</div>
+                 <div class="text-base font-black text-white leading-none mt-1">99%</div>
+               </div>
+             </div>
+             <div class="space-y-3">
+               <div class="w-full h-1.5 bg-slate-800/80 rounded-full overflow-hidden shadow-inner"><div class="w-[95%] h-full bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.5)]"></div></div>
+               <div class="w-full h-1.5 bg-slate-800/80 rounded-full overflow-hidden shadow-inner"><div class="w-[88%] h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div></div>
+               <div class="w-full h-1.5 bg-slate-800/80 rounded-full overflow-hidden shadow-inner"><div class="w-[100%] h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div></div>
+             </div>
+           </div>
+
+           <!-- Floating Terminal/Action Pill -->
+           <div class="absolute bottom-[20%] left-[3%] sm:left-[5%] px-5 py-3.5 bg-slate-900/90 backdrop-blur-xl border border-slate-600/50 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-center gap-3 animate-float animation-delay-4000 pointer-events-none ring-1 ring-white/10">
+             <div class="relative flex h-3 w-3">
+               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+               <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
+             </div>
+             <div class="flex flex-col">
+                <span class="text-[9px] font-mono text-slate-400 uppercase tracking-widest leading-none mb-1.5">Status</span>
+                <span class="text-xs font-bold text-white tracking-widest leading-none">SYSTEM.READY</span>
+             </div>
+           </div>
          </div>
+         
          <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob pointer-events-none"></div>
          <div class="absolute -top-6 -left-6 w-24 h-24 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 pointer-events-none"></div>
       </div>
@@ -90,7 +177,6 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-      <!-- Card 1: Danonos -->
       <a href="https://Danonos.com" target="_blank"
          class="block group cursor-pointer perspective-container card-enter card-delay-1"
          (mousemove)="onProjectMouseMove($event, 0)"
@@ -98,37 +184,28 @@
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[0]">
 
-          <!-- Spotlight glow -->
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
                [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[0].x + 'px ' + selectedWorkSpotlights()[0].y + 'px, rgba(6,182,212,0.18), transparent 40%)'">
           </div>
 
-          <!-- Gradient border ring + shimmer -->
           <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/60 group-hover:via-blue-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
-          <!-- Shimmer edge line -->
           <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
 
-          <!-- Card body -->
           <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
 
-            <!-- Image container -->
             <div class="relative aspect-[16/10] overflow-hidden">
               <img src="assets/uploads/danonos.png" alt="Danonos Donut"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
-              <!-- Dark scrim -->
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
 
-              <!-- Index number -->
               <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">01</div>
 
-              <!-- Visit icon -->
               <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </div>
 
-              <!-- Frosted info panel -->
               <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 <div class="flex items-end justify-between">
                   <div>
@@ -140,7 +217,6 @@
               </div>
             </div>
 
-            <!-- Bottom tag strip -->
             <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-cyan-900/50 transition-colors duration-500">
               <span class="w-2 h-2 rounded-full bg-cyan-400 text-cyan-400 animate-glimmer"></span>
               <span class="text-xs font-semibold text-slate-400 group-hover:text-cyan-300 transition-colors duration-300">Web Design</span>
@@ -150,7 +226,6 @@
         </div>
       </a>
 
-      <!-- Card 2: Wellness Apparel -->
       <a href="http://the-wellness-apparel.onlinewebshop.net/" target="_blank"
          class="block group cursor-pointer perspective-container card-enter card-delay-2"
          (mousemove)="onProjectMouseMove($event, 1)"
@@ -158,37 +233,28 @@
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[1]">
 
-          <!-- Spotlight glow -->
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
                [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[1].x + 'px ' + selectedWorkSpotlights()[1].y + 'px, rgba(16,185,129,0.18), transparent 40%)'">
           </div>
 
-          <!-- Gradient border ring + shimmer -->
           <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-emerald-500/0 via-emerald-500/0 to-emerald-500/0 group-hover:from-emerald-500/60 group-hover:via-teal-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
-          <!-- Shimmer edge line -->
           <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
 
-          <!-- Card body -->
           <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
 
-            <!-- Image container -->
             <div class="relative aspect-[16/10] overflow-hidden">
               <img src="assets/uploads/wellness.png" alt="Wellness Apparel"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
-              <!-- Dark scrim -->
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
 
-              <!-- Index number -->
               <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">02</div>
 
-              <!-- Visit icon -->
               <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </div>
 
-              <!-- Frosted info panel -->
               <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 <div class="flex items-end justify-between">
                   <div>
@@ -200,7 +266,6 @@
               </div>
             </div>
 
-            <!-- Bottom tag strip -->
             <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-emerald-900/50 transition-colors duration-500">
               <span class="w-2 h-2 rounded-full bg-emerald-400 text-emerald-400 animate-glimmer"></span>
               <span class="text-xs font-semibold text-slate-400 group-hover:text-emerald-300 transition-colors duration-300">E-Commerce</span>
@@ -210,7 +275,6 @@
         </div>
       </a>
 
-      <!-- Card 3: The Four Who Adore -->
       <a href="https://prelim-project-thefourwhoadore.netlify.app/home" target="_blank"
          class="block group cursor-pointer perspective-container card-enter card-delay-3"
          (mousemove)="onProjectMouseMove($event, 2)"
@@ -218,37 +282,28 @@
         <div class="relative transition-transform duration-100 ease-out will-change-transform"
              [style.transform]="projectTransforms()[2]">
 
-          <!-- Spotlight glow -->
           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-30 rounded-3xl"
                [style.background]="'radial-gradient(500px circle at ' + selectedWorkSpotlights()[2].x + 'px ' + selectedWorkSpotlights()[2].y + 'px, rgba(168,85,247,0.18), transparent 40%)'">
           </div>
 
-          <!-- Gradient border ring + shimmer -->
           <div class="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/0 group-hover:from-purple-500/60 group-hover:via-pink-500/40 group-hover:to-transparent transition-all duration-700 z-0"></div>
-          <!-- Shimmer edge line -->
           <div class="absolute bottom-0 left-4 right-4 h-[1px] shimmer-border opacity-30 group-hover:opacity-80 transition-opacity duration-500 z-20 rounded-full"></div>
 
-          <!-- Card body -->
           <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-700/80 group-hover:border-transparent transition-all duration-500 shadow-2xl z-10">
 
-            <!-- Image container -->
             <div class="relative aspect-[16/10] overflow-hidden">
               <img src="assets/uploads/chanel.png" alt="The Four Who Adore"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 scale-100" />
-              <!-- Dark scrim -->
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent group-hover:via-slate-900/10 transition-all duration-500"></div>
 
-              <!-- Index number -->
               <div class="absolute top-5 left-6 text-[5rem] font-black leading-none text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none">03</div>
 
-              <!-- Visit icon -->
               <div class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </div>
 
-              <!-- Frosted info panel -->
               <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 <div class="flex items-end justify-between">
                   <div>
@@ -260,7 +315,6 @@
               </div>
             </div>
 
-            <!-- Bottom tag strip -->
             <div class="flex items-center gap-2 px-6 py-4 border-t border-slate-800 group-hover:border-purple-900/50 transition-colors duration-500">
               <span class="w-2 h-2 rounded-full bg-purple-400 text-purple-400 animate-glimmer"></span>
               <span class="text-xs font-semibold text-slate-400 group-hover:text-purple-300 transition-colors duration-300">Fashion & Lifestyle</span>
@@ -341,15 +395,17 @@
       </div>
     </div>
 
-    <!-- Service Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up delay-200">
 
-      <!-- Card 1: Frontend Dev -->
       <div class="perspective-container card-enter card-delay-1 animate-float"
            (mousemove)="onServiceMouseMove($event, 0)"
            (mouseleave)="resetServiceCardTilt(0)">
-        <div class="relative group rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-lg hover:shadow-cyan-200/40 hover:shadow-xl transition-all duration-500 cursor-default will-change-transform"
+        <div class="relative group rounded-3xl overflow-hidden bg-white/90 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_60px_-15px_rgba(6,182,212,0.2)] transition-all duration-500 cursor-default will-change-transform ring-1 ring-slate-900/5"
              [style.transform]="serviceCardTransforms()[0]">
+             
+          <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/30 transition-colors duration-500 z-0"></div>
+
           <div class="pointer-events-none absolute inset-0 transition duration-500 opacity-0 group-hover:opacity-100 z-10"
                [style.background]="'radial-gradient(400px circle at ' + serviceSpotlights()[0].x + 'px ' + serviceSpotlights()[0].y + 'px, rgba(6,182,212,0.08), transparent 60%)'"></div>
           <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
@@ -369,12 +425,15 @@
         </div>
       </div>
 
-      <!-- Card 2: UI/UX Design -->
       <div class="perspective-container card-enter card-delay-2 animate-float-slow"
            (mousemove)="onServiceMouseMove($event, 1)"
            (mouseleave)="resetServiceCardTilt(1)">
-        <div class="relative group rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-lg hover:shadow-purple-200/40 hover:shadow-xl transition-all duration-500 cursor-default will-change-transform"
+        <div class="relative group rounded-3xl overflow-hidden bg-white/90 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_60px_-15px_rgba(168,85,247,0.2)] transition-all duration-500 cursor-default will-change-transform ring-1 ring-slate-900/5"
              [style.transform]="serviceCardTransforms()[1]">
+             
+          <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl group-hover:bg-purple-400/30 transition-colors duration-500 z-0"></div>
+
           <div class="pointer-events-none absolute inset-0 transition duration-500 opacity-0 group-hover:opacity-100 z-10"
                [style.background]="'radial-gradient(400px circle at ' + serviceSpotlights()[1].x + 'px ' + serviceSpotlights()[1].y + 'px, rgba(168,85,247,0.08), transparent 60%)'"></div>
           <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
@@ -394,12 +453,15 @@
         </div>
       </div>
 
-      <!-- Card 3: Optimization -->
       <div class="perspective-container card-enter card-delay-3 animate-float-delayed"
            (mousemove)="onServiceMouseMove($event, 2)"
            (mouseleave)="resetServiceCardTilt(2)">
-        <div class="relative group rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-lg hover:shadow-blue-200/40 hover:shadow-xl transition-all duration-500 cursor-default will-change-transform"
+        <div class="relative group rounded-3xl overflow-hidden bg-white/90 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_60px_-15px_rgba(59,130,246,0.2)] transition-all duration-500 cursor-default will-change-transform ring-1 ring-slate-900/5"
              [style.transform]="serviceCardTransforms()[2]">
+             
+          <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl group-hover:bg-blue-400/30 transition-colors duration-500 z-0"></div>
+
           <div class="pointer-events-none absolute inset-0 transition duration-500 opacity-0 group-hover:opacity-100 z-10"
                [style.background]="'radial-gradient(400px circle at ' + serviceSpotlights()[2].x + 'px ' + serviceSpotlights()[2].y + 'px, rgba(59,130,246,0.08), transparent 60%)'"></div>
           <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
