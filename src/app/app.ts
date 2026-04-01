@@ -207,12 +207,12 @@ import { filter } from 'rxjs/operators';
                     <span>GitHub</span>
                   </a>
                 </li>
-                <li>
-                  <a href="mailto:camusmarkdave@gmail.com" class="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                    <span>Email</span>
-                  </a>
-                </li>
+               <li>
+  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=camusmarkdave@gmail.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors group">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+    <span>Email</span>
+  </a>
+</li>
               </ul>
             </div>
 
