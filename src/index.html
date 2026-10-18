@@ -2,30 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MyPortfolio</title>
+  <title>Mark Dave Camus | Web Developer & UI Engineer</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="assets/uploads/logo.png">
+  <meta name="description" content="Mark Dave Camus is a web developer and UI engineer who builds accessible, pixel-perfect, performant web apps with Angular, TypeScript, and Figma.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fbf9f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+
+  <!-- Social previews. Crawlers don't run JavaScript, so these must stay static. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mark Dave Camus">
+  <meta property="og:title" content="Mark Dave Camus | Web Developer & UI Engineer">
+  <meta property="og:description" content="Accessible, pixel-perfect, performant web apps, from the first Figma frame to production.">
+  <meta property="og:image" content="https://markdavecamus.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mark Dave Camus, Web Developer and UI Engineer: Building digital experiences that matter.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="assets/uploads/logo.png">
+  <link rel="preload" href="/fonts/geist-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/geist-mono-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Apply the saved (or OS) theme before first paint so there's no flash. Mirrors core/theme.service.ts. -->
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
   <style>
-    body { margin: 0; background-color: #0f172a; font-family: system-ui, -apple-system, sans-serif; }
-    .loading-overlay { 
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-      display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; 
+    html { background: #fbf9f5; }
+    html[data-theme='dark'] { background: #0f172a; }
+    .boot-bar { position: fixed; inset: 0 0 auto; height: 2px; overflow: hidden; }
+    .boot-bar::after {
+      content: ''; position: absolute; inset: 0; width: 40%;
+      background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+      animation: boot 1.1s ease-in-out infinite;
     }
-    .loading-logo { 
-      width: 60vw; max-width: 500px; height: auto; 
-      animation: breathe 10s ease-in-out infinite; 
-      filter: drop-shadow(0 0 30px rgba(6,182,212,0.4)); 
-    }
-    @keyframes breathe { 0%, 100% { transform: scale(0.95); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 60px rgba(6,182,212,0.6)); } }
+    @keyframes boot { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+    @media (prefers-reduced-motion: reduce) { .boot-bar::after { animation: none; width: 100%; } }
   </style>
 </head>
 <body>
-  <app-root>
-    <div class="loading-overlay">
-      <img src="assets/uploads/logo.png" alt="Loading..." class="loading-logo">
-    </div>
-  </app-root>
+  <!-- Replaced by the app on bootstrap; a 2px bar is the only loading state. -->
+  <app-root><div class="boot-bar" aria-hidden="true"></div></app-root>
+  <noscript>This portfolio needs JavaScript. You can reach Mark Dave at camusmarkdave@gmail.com.</noscript>
 </body>
 </html>

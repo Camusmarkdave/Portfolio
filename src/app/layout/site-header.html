@@ -1,0 +1,70 @@
+<!-- Named view transition: the header stays put while pages change beneath it. -->
+<header class="fixed inset-x-0 top-0 z-40 border-b border-line/70 bg-canvas/80 backdrop-blur-md [view-transition-name:site-header]">
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <a routerLink="/" class="-m-1 shrink-0 rounded-xl p-1">
+      <img src="assets/brand/logo.webp" alt="Mark Dave Camus, home" width="252" height="109" class="h-9 w-auto" />
+    </a>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-1 rounded-full border border-line bg-surface/80 p-1">
+        @for (item of nav; track item.path) {
+          <li>
+            <a
+              [routerLink]="item.path"
+              routerLinkActive
+              [routerLinkActiveOptions]="{ exact: !!item.exact }"
+              ariaCurrentWhenActive="page"
+              class="block rounded-full px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-ink aria-[current=page]:bg-canvas aria-[current=page]:text-ink aria-[current=page]:shadow-sm"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      @if (theme.canToggle()) {
+        <button type="button" class="icon-btn" [attr.aria-pressed]="theme.theme() === 'dark'" (click)="theme.toggle()">
+          <span class="sr-only">Dark theme</span>
+          <app-icon [name]="theme.theme() === 'dark' ? 'sun' : 'moon'" class="size-5" />
+        </button>
+      }
+
+      <a routerLink="/contact" class="btn btn-primary hidden md:inline-flex">Let's Talk</a>
+
+      <button
+        #menuButton
+        type="button"
+        class="icon-btn md:hidden"
+        aria-controls="mobile-menu"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="toggleMenu()"
+      >
+        <span class="sr-only">Menu</span>
+        <app-icon [name]="menuOpen() ? 'close' : 'menu'" class="size-6" />
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Mobile" class="border-t border-line bg-canvas md:hidden" [hidden]="!menuOpen()">
+    <ul class="container-page flex flex-col py-3">
+      @for (item of nav; track item.path) {
+        <li>
+          <a
+            [routerLink]="item.path"
+            routerLinkActive
+            [routerLinkActiveOptions]="{ exact: !!item.exact }"
+            ariaCurrentWhenActive="page"
+            class="flex min-h-12 items-center text-2xl font-semibold tracking-tight text-muted aria-[current=page]:text-ink"
+          >
+            {{ item.label }}
+          </a>
+        </li>
+      }
+      <li class="pb-2 pt-4">
+        <a routerLink="/contact" class="btn btn-primary w-full">Let's Talk</a>
+      </li>
+    </ul>
+  </nav>
+</header>

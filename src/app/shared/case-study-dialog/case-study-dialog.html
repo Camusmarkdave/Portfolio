@@ -1,0 +1,100 @@
+<dialog
+  class="dialog"
+  aria-labelledby="case-study-title"
+  [appModal]="project() !== null"
+  (closed)="closed.emit()"
+  #modal="appModal"
+>
+  @if (project(); as p) {
+    <article class="project-card" [attr.data-accent]="p.accent">
+      <header
+        class="sticky top-0 z-10 flex items-start justify-between gap-6 border-b border-line bg-canvas/95 px-6 py-5 backdrop-blur sm:px-8"
+      >
+        <div>
+          <p class="eyebrow">
+            Case study<span aria-hidden="true"> · </span><span class="sr-only">, </span>{{ p.category }}
+            @if (p.year) {
+              <span aria-hidden="true"> · </span><span class="sr-only">, </span>{{ p.year }}
+            }
+          </p>
+          <h2 id="case-study-title" class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{{ p.title }}</h2>
+        </div>
+        <button type="button" class="icon-btn -mr-2 -mt-1 border border-line" (click)="modal.close()">
+          <span class="sr-only">Close case study</span>
+          <app-icon name="close" class="size-5" />
+        </button>
+      </header>
+
+      <div class="px-6 pb-8 pt-6 sm:px-8">
+        <p class="max-w-2xl text-lg text-pretty text-muted">{{ p.summary }}</p>
+
+        @if (p.cover; as cover) {
+          <figure class="browser-frame mt-6 rounded-2xl border-b">
+            <div class="browser-frame-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+            <img
+              [src]="cover.src"
+              [attr.srcset]="srcset(cover)"
+              sizes="(min-width: 960px) 830px, calc(100vw - 5rem)"
+              [alt]="cover.alt"
+              [width]="cover.width"
+              [height]="cover.height"
+              decoding="async"
+              class="block h-auto w-full"
+            />
+          </figure>
+        }
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          <section class="tile p-6" aria-labelledby="case-problem">
+            <h3 id="case-problem" class="eyebrow">The problem</h3>
+            <p class="mt-3 text-pretty">{{ p.caseStudy.problem }}</p>
+          </section>
+
+          <section class="tile p-6" aria-labelledby="case-role">
+            <h3 id="case-role" class="eyebrow">My role</h3>
+            <p class="mt-3 font-semibold">{{ p.caseStudy.role }}</p>
+            <ul class="mt-3 space-y-2 text-muted">
+              @for (item of p.caseStudy.contributions; track item) {
+                <li class="flex gap-2.5">
+                  <app-icon name="check" class="mt-1 size-4 text-accent" />
+                  <span>{{ item }}</span>
+                </li>
+              }
+            </ul>
+          </section>
+
+          <section class="tile p-6" aria-labelledby="case-stack">
+            <h3 id="case-stack" class="eyebrow">Stack</h3>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              @for (tech of p.caseStudy.stack; track tech) {
+                <li class="chip text-ink">{{ tech }}</li>
+              }
+            </ul>
+          </section>
+
+          <section class="tile p-6" aria-labelledby="case-outcome">
+            <h3 id="case-outcome" class="eyebrow">Outcome</h3>
+            <p class="mt-3 text-pretty">{{ p.caseStudy.outcome }}</p>
+          </section>
+        </div>
+
+        @if (p.links.live || p.links.repo) {
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            @if (p.links.live; as live) {
+              <a [href]="live" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                Visit the live site<span class="sr-only"> (opens in a new tab)</span>
+                <app-icon name="arrow-up-right" class="size-4" />
+              </a>
+            }
+            @if (p.links.repo; as repo) {
+              <a [href]="repo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <app-icon name="github" class="size-4" />
+                View the code<span class="sr-only"> on GitHub (opens in a new tab)</span>
+              </a>
+            }
+          </div>
+        }
+      </div>
+    </article>
+  }
+</dialog>

@@ -1,314 +1,52 @@
-import { Component, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, computed, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import {
+  Certificate,
+  CertificateCategory,
+  certificateCategories,
+  certificateStatus,
+  certificates,
+  education,
+} from '../../data/credentials';
+import { stats } from '../../data/profile';
+import { skills } from '../../data/skills';
+import { CountUpComponent } from '../../shared/count-up';
+import { IconComponent } from '../../shared/icon';
+import { ModalDirective } from '../../shared/modal.directive';
+import { RevealDirective } from '../../shared/reveal.directive';
+import { designTokens, principles } from './about.data';
+
+type Filter = 'All' | CertificateCategory;
 
 @Component({
   selector: 'app-about',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [RouterLink, IconComponent, RevealDirective, ModalDirective, CountUpComponent],
   templateUrl: './about.html',
-  styleUrl: './about.css'
+  styleUrl: './about.css',
 })
 export class AboutComponent {
-  // Hero Section Transforms
-  protected readonly heroTextTransform = signal('rotateX(0deg) rotateY(0deg)');
-  protected readonly heroImageTransform = signal('rotateX(0deg) rotateY(0deg)');
+  protected readonly stats = stats;
+  protected readonly principles = principles;
+  protected readonly designTokens = designTokens;
+  protected readonly education = education;
+  protected readonly skills = skills;
+  protected readonly current = education.find((item) => item.current);
 
-  // Philosophy Cards Transforms
-  protected readonly philosophyTransforms = signal<string[]>([
-    'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)'
-  ]);
+  /** Bento placement, matched by position (full class names so Tailwind can find them). */
+  protected readonly principleSlots = ['lg:col-span-7 lg:row-span-2', 'lg:col-span-5', 'lg:col-span-5'];
+  protected readonly educationSlots = ['lg:col-span-7', 'lg:col-span-5'];
 
-  // Philosophy Spotlights
-  protected readonly philosophySpotlights = signal<{x: number, y: number}[]>([
-    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
-  ]);
-
-  // Toolkit Transform
-  protected readonly toolkitTransform = signal('rotateX(0deg) rotateY(0deg)');
-  protected readonly toolkitSpotlight = signal<{x: number, y: number}>({x: 0, y: 0});
-
-  // Education Data
-  protected readonly education = [
-    {
-      degree: 'Bachelor of Science in Information Technology',
-      school: 'Holy Angel University',
-      year: 'Ongoing (Expected Graduate 2027)',
-      description: 'Currently a 3rd-year student specializing in Web Development. Acquiring strong fundamentals in software engineering, database management, and user interface design.',
-      achievements: [
-        'Consistent Dean\'s Lister (1st - 3rd Year)',
-        'Working Student (Since 1st Year)',
-        'Active Member of the CodeGeeks'
-      ]
-    },
-    {
-      degree: 'Senior High School (STEM)',
-      school: 'Don Bosco Academy',
-      year: '2021 - 2023',
-      description: 'Completed the Science, Technology, Engineering, and Mathematics strand with a focus on computer science electives.',
-      achievements: [
-        'With Honors'
-      ]
-    }
-  ];
-
-  // Certifications Card Transforms & Spotlights (for 8 cards)
-  protected readonly certificationsTransform = signal<string[]>(Array(8).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)'));
-  protected readonly certificationsSpotlight = signal<{x: number, y: number}[]>(Array(8).fill({x: 0, y: 0}));
-
-  // Certificates Data
-  protected readonly certificates = [
-    {
-      id: 'responsive',
-      title: 'Legacy Responsive Web Design',
-      image: 'assets/uploads/responsive.png',
-      category: 'Development',
-      provider: 'freeCodeCamp',
-      description: 'Demonstrates foundational knowledge of HTML, CSS, and responsive design principles.',
-      color: 'blue',
-      spotlight: 'rgba(59,130,246,0.06)'
-    },
-    {
-      id: 'legacy-js',
-      title: 'Legacy JavaScript Algorithms and Data Structures',
-      image: 'assets/uploads/legacy.png',
-      category: 'Development',
-      provider: 'freeCodeCamp',
-      description: 'Demonstrates proficiency in core JavaScript fundamentals, data structures, and problem-solving.',
-      color: 'yellow',
-      spotlight: 'rgba(234,179,8,0.06)'
-    },
-    {
-      id: 'backend',
-      title: 'Back End Development and APIs',
-      image: 'assets/uploads/back.png',
-      category: 'Development',
-      provider: 'freeCodeCamp',
-      description: 'Demonstrates proficiency in back end development and building APIs.',
-      color: 'indigo',
-      spotlight: 'rgba(99,102,241,0.06)'
-    },
-    {
-      id: 'seo',
-      title: 'SEO Certified',
-      image: 'assets/uploads/seo.png',
-      category: 'SEO',
-      provider: 'HubSpot',
-      description: 'Knowledgeable about SEO and capable of optimizing a website for search engines.',
-      color: 'emerald',
-      spotlight: 'rgba(16,185,129,0.06)'
-    },
-    {
-      id: 'seo2',
-      title: 'HubSpot SEO II Certified',
-      image: 'assets/uploads/seo2.png',
-      category: 'SEO',
-      provider: 'HubSpot',
-      description: 'Capable of implementing advanced SEO tactics on a website for enhanced search visibility.',
-      color: 'cyan',
-      spotlight: 'rgba(6,182,212,0.06)'
-    },
-    {
-      id: 'content-marketing',
-      title: 'Content Marketing Certified',
-      image: 'assets/uploads/contentmarketing.png',
-      category: 'Marketing',
-      provider: 'HubSpot',
-      description: 'Capable and skilled in long-term content planning, creation, promotion, and analysis.',
-      color: 'orange',
-      spotlight: 'rgba(249,115,22,0.06)'
-    },
-    {
-      id: 'digital-marketing',
-      title: 'Digital Marketing Certified',
-      image: 'assets/uploads/digitalmarket.png',
-      category: 'Marketing',
-      provider: 'HubSpot',
-      description: 'Skilled in applying digital marketing with an inbound mindset and social media strategy.',
-      color: 'purple',
-      spotlight: 'rgba(168,85,247,0.06)'
-    },
-    {
-      id: 'digital-ad',
-      title: 'Digital Advertising Certified',
-      image: 'assets/uploads/digitalad.png',
-      category: 'Marketing',
-      provider: 'HubSpot',
-      description: 'Tested on content and best practices, demonstrating a solid understanding of digital advertising.',
-      color: 'red',
-      spotlight: 'rgba(239,68,68,0.06)'
-    }
-  ];
-
-  protected readonly filterCategory = signal<'All' | 'Development' | 'Marketing' | 'SEO'>('All');
-
-  protected readonly filteredCertificates = computed(() => {
-    const category = this.filterCategory();
-    if (category === 'All') return this.certificates;
-    return this.certificates.filter(c => c.category === category);
-  });
-
-  protected setFilter(category: 'All' | 'Development' | 'Marketing' | 'SEO') {
-    this.filterCategory.set(category);
-    this.certificationsTransform.set(Array(8).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)'));
-    this.certificationsSpotlight.set(Array(8).fill({x: 0, y: 0}));
-  }
-
-  // Profile Modal State
-  protected readonly isProfileModalOpen = signal(false);
-
-  // Certificate Modal State
-  protected readonly selectedCertificate = signal<string | null>(null);
-
-  // Background 3D Shapes
-  protected readonly shapesTransform = signal<string[]>([
-    'rotateX(20deg) rotateY(20deg)',
-    'rotateX(-20deg) rotateY(-20deg)',
-    'rotateX(20deg) rotateY(-20deg)',
-    'rotateX(-20deg) rotateY(20deg)'
-  ]);
-
-  // --- Event Handlers ---
-
-  protected onHeroMouseMove(event: MouseEvent) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Text tilts slightly
-    const textRotateX = ((y - centerY) / centerY) * -2;
-    const textRotateY = ((x - centerX) / centerX) * 2;
-    this.heroTextTransform.set(`perspective(1000px) rotateX(${textRotateX}deg) rotateY(${textRotateY}deg)`);
-
-    // Image tilts more for parallax
-    const imgRotateX = ((y - centerY) / centerY) * -5;
-    const imgRotateY = ((x - centerX) / centerX) * 5;
-    this.heroImageTransform.set(`perspective(1000px) rotateX(${imgRotateX}deg) rotateY(${imgRotateY}deg)`);
-  }
-
-  protected resetHeroTilt() {
-    this.heroTextTransform.set('perspective(1000px) rotateX(0deg) rotateY(0deg)');
-    this.heroImageTransform.set('perspective(1000px) rotateX(0deg) rotateY(0deg)');
-  }
-
-  protected onPhilosophyCardMouseMove(event: MouseEvent, index: number) {
-    this.handleCardTilt(event, index, this.philosophyTransforms, this.philosophySpotlights);
-  }
-
-  protected resetPhilosophyCardTilt(index: number) {
-    this.resetCardTilt(index, this.philosophyTransforms);
-  }
-
-  protected onCertificationsMouseMove(event: MouseEvent, index: number) {
-    this.handleCardTilt(event, index, this.certificationsTransform, this.certificationsSpotlight);
-  }
-
-  protected resetCertificationsTilt(index: number) {
-    this.resetCardTilt(index, this.certificationsTransform);
-  }
-
-  protected onToolkitMouseMove(event: MouseEvent) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -2;
-    const rotateY = ((x - centerX) / centerX) * 2;
-
-    this.toolkitTransform.set(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
-    this.toolkitSpotlight.set({x, y});
-  }
-
-  protected resetToolkitTilt() {
-    this.toolkitTransform.set('perspective(1000px) rotateX(0deg) rotateY(0deg)');
-  }
-
-  protected onSectionMouseMove(event: MouseEvent) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * 45; 
-    const rotateY = ((x - centerX) / centerX) * 45;
-
-    this.shapesTransform.set([
-      `rotateX(${20 + rotateX}deg) rotateY(${20 + rotateY}deg)`,
-      `rotateX(${-20 - rotateX}deg) rotateY(${-20 - rotateY}deg)`,
-      `rotateX(${20 + rotateX}deg) rotateY(${-20 - rotateY}deg)`,
-      `rotateX(${-20 - rotateX}deg) rotateY(${20 + rotateY}deg)`
-    ]);
-  }
-
-  // --- Modal Handlers ---
-
-  protected openProfileModal(event: Event) {
-    event.preventDefault();
-    this.isProfileModalOpen.set(true);
-  }
-
-  protected closeProfileModal() {
-    this.isProfileModalOpen.set(false);
-  }
-
-  protected openCertificateModal(certId: string, event: Event) {
-    event.stopPropagation();
-    this.selectedCertificate.set(certId);
-  }
-
-  protected closeCertificateModal() {
-    this.selectedCertificate.set(null);
-  }
-
-  // --- Helpers ---
-
-  private handleCardTilt(event: MouseEvent, index: number, transformsSignal: any, spotlightsSignal: any) {
-    const card = event.currentTarget as HTMLElement;
-    const rect = card.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-
-    const newTransforms = [...transformsSignal()];
-    newTransforms[index] = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-    transformsSignal.set(newTransforms);
-
-    const newSpotlights = [...spotlightsSignal()];
-    newSpotlights[index] = {x, y};
-    spotlightsSignal.set(newSpotlights);
-  }
-
-  private resetCardTilt(index: number, transformsSignal: any) {
-    const newTransforms = [...transformsSignal()];
-    newTransforms[index] = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-    transformsSignal.set(newTransforms);
-  }
-
-  protected getCertificateTitle(): string {
-    const certId = this.selectedCertificate();
-    if (!certId) return '';
-    const cert = this.certificates.find(c => c.id === certId);
-    return cert ? cert.title : 'Certificate';
-  }
-
-  protected getCertificateImage(): string {
-    const certId = this.selectedCertificate();
-    if (!certId) return '';
-    const cert = this.certificates.find(c => c.id === certId);
-    return cert ? cert.image : '';
-  }
+  // Certifications: filter + full-size viewer.
+  protected readonly filters: Filter[] = ['All', ...certificateCategories];
+  protected readonly counts = Object.fromEntries(
+    this.filters.map((f) => [f, f === 'All' ? certificates.length : certificates.filter((c) => c.category === f).length]),
+  ) as Record<Filter, number>;
+  /** Worked out once per visit from today's date, so expiry labels never go stale. */
+  protected readonly statuses = new Map(certificates.map((cert) => [cert.id, certificateStatus(cert)]));
+  protected readonly filter = signal<Filter>('All');
+  protected readonly visibleCertificates = computed(() =>
+    this.filter() === 'All' ? certificates : certificates.filter((cert) => cert.category === this.filter()),
+  );
+  protected readonly activeCertificate = signal<Certificate | null>(null);
+  protected readonly totalCertificates = certificates.length;
 }

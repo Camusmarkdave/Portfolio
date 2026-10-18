@@ -1,627 +1,345 @@
-<div class="relative" (mousemove)="onSectionMouseMove($event)">
-  <style>
-    .perspective-container { perspective: 1000px; }
-    .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .delay-100 { animation-delay: 100ms; }
-    .delay-200 { animation-delay: 200ms; }
-    .delay-300 { animation-delay: 300ms; }
-    .will-change-transform { will-change: transform; }
-    
-    /* Standard Blob Animation */
-    @keyframes blob {
-      0% { transform: translate(0px, 0px) scale(1); }
-      33% { transform: translate(30px, -50px) scale(1.1); }
-      66% { transform: translate(-20px, 20px) scale(0.9); }
-      100% { transform: translate(0px, 0px) scale(1); }
-    }
-    .animate-blob { animation: blob 7s infinite; }
-    .animation-delay-2000 { animation-delay: 2s; }
-    .animation-delay-4000 { animation-delay: 4s; }
-    
-    /* Smooth Floating Animation */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    .animate-float-slow { animation: float 8s ease-in-out infinite; }
-    
-    /* Grid Moving Animation */
-    @keyframes gridMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 40px; }
-    }
-    .animate-grid-move { animation: gridMove 3s linear infinite; }
-    
-    /* Horizontal Scrolling Animation */
-    @keyframes scroll {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-    .animate-scroll { animation: scroll 60s linear infinite; }
-    
-    /* --- NEW: Modern Morphing Aurora Animations --- */
-    @keyframes spin-slow {
-      100% { transform: rotate(360deg); }
-    }
-    .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-    
-    @keyframes spin-slow-reverse {
-      100% { transform: rotate(-360deg); }
-    }
-    .animate-spin-slow-reverse { animation: spin-slow-reverse 25s linear infinite; }
+<!-- ═══ Hero ═══════════════════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden" aria-labelledby="about-title">
+  <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-    @keyframes morph {
-      0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-      50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-      100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-    }
-    .animate-morph { animation: morph 8s ease-in-out infinite; }
-
-    /* 3D Cube Styles */
-    .perspective-wrap { perspective: 1000px; }
-    .cube {
-      --cube-size: 100px;
-      width: var(--cube-size);
-      height: var(--cube-size);
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.1s ease-out;
-    }
-    .cube-face {
-      position: absolute;
-      width: var(--cube-size);
-      height: var(--cube-size);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(5px);
-    }
-    .cube-cyan .cube-face { border-color: rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.05); }
-    .cube-purple .cube-face { border-color: rgba(168, 85, 247, 0.3); background: rgba(168, 85, 247, 0.05); }
-    .face-front  { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-back   { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-right  { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-top    { transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2)); }
-
-    @keyframes ocean {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .btn-ocean {
-      background: linear-gradient(270deg, #0891b2, #06b6d4, #3b82f6);
-      background-size: 200% 200%;
-      animation: ocean 3s ease infinite;
-    }
-  </style>
-  
-  <section class="relative pt-32 pb-24 bg-slate-50 overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none">
-      <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
-      <div class="absolute top-20 left-10 w-72 h-72 bg-cyan-300/30 rounded-full blur-3xl mix-blend-multiply animate-blob"></div>
-      <div class="absolute bottom-20 right-10 w-72 h-72 bg-purple-300/30 rounded-full blur-3xl mix-blend-multiply animate-blob animation-delay-2000"></div>
-    </div>
-
-    <div class="absolute top-20 right-[10%] perspective-wrap pointer-events-none z-0 animate-float-slow">
-      <div class="cube cube-purple" style="--cube-size: 120px;" [style.transform]="shapesTransform()[1]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-10 left-[15%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
-      <div class="cube cube-cyan" style="--cube-size: 60px;" [style.transform]="shapesTransform()[2]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="flex flex-col lg:flex-row items-center gap-16 perspective-container" (mousemove)="onHeroMouseMove($event)" (mouseleave)="resetHeroTilt()">
-        <div class="flex-1 transition-transform duration-100 ease-out will-change-transform animate-fade-in-up" [style.transform]="heroTextTransform()">
-          <h1 class="text-5xl md:text-6xl font-black text-slate-900 tracking-tight mb-6">
-            More than just <br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">code.</span>
-          </h1>
-          
-          <p class="text-lg text-slate-600 leading-relaxed mb-10 max-w-xl">
-            I build digital experiences that matter. My workflow combines the creativity of UI/UX design with the structure of semantic coding. I believe in raw, honest design and writing code that is scalable, accessible, and high-performance.
-          </p>
-
-          <div class="grid grid-cols-3 gap-8 border-t border-slate-200 pt-8 max-w-xl">
-            <div>
-              <div class="text-4xl font-black text-slate-900 mb-1">3+</div>
-              <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Years Exp</div>
-            </div>
-            <div>
-              <div class="text-4xl font-black text-slate-900 mb-1">15+</div>
-              <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Projects</div>
-            </div>
-            <div>
-              <div class="text-4xl font-black text-slate-900 mb-1">100%</div>
-              <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Committed</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex-1 relative transition-transform duration-100 ease-out will-change-transform animate-fade-in-up delay-100" [style.transform]="heroImageTransform()">
-           <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/50 aspect-[4/5] max-w-md mx-auto bg-white cursor-pointer group animate-float-slow" (click)="openProfileModal($event)">
-             <img src="assets/uploads/profile.png" alt="Profile" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700" />
-             <div class="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-3xl pointer-events-none"></div>
-           </div>
-           
-           <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-cyan-400/30 rounded-full filter blur-[80px] animate-blob pointer-events-none"></div>
-           <div class="absolute -top-10 -right-10 w-64 h-64 bg-purple-400/30 rounded-full filter blur-[80px] animate-blob animation-delay-2000 pointer-events-none"></div>
+  <div class="container-page relative pb-20 pt-28 sm:pt-32 lg:pb-24">
+    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-7">
+        <p class="eyebrow">About</p>
+        <h1 id="about-title" class="mt-6 text-balance text-display font-extrabold text-ink">
+          More than just <span class="text-gradient">code.</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+          I build digital experiences that matter. My workflow combines the creativity of UI/UX design with the
+          structure of semantic code.
+        </p>
+        <p class="mt-4 max-w-xl text-pretty text-lg leading-relaxed text-muted">
+          I believe in raw, honest design, and in writing code that is scalable, accessible, and fast.
+        </p>
+        <div class="rise-in mt-9 flex flex-col gap-3 sm:flex-row" style="--rise-delay: 150ms">
+          <a routerLink="/resume" class="btn btn-primary">
+            View My Resume
+            <app-icon name="arrow-right" class="size-4" />
+          </a>
+          <a routerLink="/contact" class="btn btn-secondary">Contact Me</a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="py-32 bg-[#0a0f1a] relative overflow-hidden">
-    
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
-      <div class="absolute inset-0 opacity-[0.04]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E&quot;)"></div>
-      
-      <div class="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-gradient-to-br from-cyan-500/20 to-transparent blur-[100px] animate-morph animate-spin-slow mix-blend-screen pointer-events-none"></div>
-      <div class="absolute bottom-[-20%] right-[-10%] w-[800px] h-[800px] bg-gradient-to-tl from-purple-600/20 to-transparent blur-[100px] animate-morph animate-spin-slow-reverse mix-blend-screen pointer-events-none animation-delay-2000"></div>
-    </div>
-
-    <div class="absolute top-40 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow">
-      <div class="cube cube-cyan" style="--cube-size: 80px;" [style.transform]="shapesTransform()[3]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-20 right-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-4000">
-      <div class="cube cube-purple" style="--cube-size: 140px;" [style.transform]="shapesTransform()[0]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="container mx-auto px-6 relative z-10">
-      @defer (on viewport) {
-      <div class="animate-fade-in-up delay-100">
-        <div class="text-center max-w-2xl mx-auto mb-20 relative">
-          <h2 class="text-4xl font-black text-white tracking-tight mb-4">How <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">I Work</span></h2>
-          <p class="text-slate-400 text-lg">My approach to development is grounded in three core principles.</p>
+      <figure class="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
+        <div class="tile p-2">
+          <img
+            src="assets/about/profile-960.webp"
+            srcset="assets/about/profile-480.webp 480w, assets/about/profile-960.webp 960w"
+            sizes="(min-width: 1024px) 440px, (min-width: 480px) 448px, calc(100vw - 2rem)"
+            width="960"
+            height="885"
+            fetchpriority="high"
+            decoding="async"
+            alt="Portrait of Mark Dave Camus smiling, in a black blazer and white shirt."
+            class="block aspect-[4/5] w-full rounded-[1.125rem] object-cover"
+          />
         </div>
-
-        <div class="w-full overflow-hidden [mask-image:_linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] pb-10">
-          <div class="flex w-max gap-8 animate-scroll hover:[animation-play-state:paused] px-4">
-          
-          <div class="w-[85vw] md:w-[420px] flex-shrink-0 perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 0)" (mouseleave)="resetPhilosophyCardTilt(0)">
-            <div class="h-full bg-slate-800/40 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl border border-slate-700/50 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-                 [style.transform]="philosophyTransforms()[0]">
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(800px circle at ' + philosophySpotlights()[0].x + 'px ' + philosophySpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-
-              <div class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-8 text-cyan-400 border border-cyan-500/20 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(6,182,212,0.1)] group-hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] group-hover:-translate-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Visual Developer</h3>
-              <p class="text-slate-400 leading-relaxed">
-                I speak both languages: Figma and TypeScript. I ensure the final code matches the design intent perfectly, bridging the gap between design and engineering.
-              </p>
-            </div>
-          </div>
-
-          <div class="w-[85vw] md:w-[420px] flex-shrink-0 perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 1)" (mouseleave)="resetPhilosophyCardTilt(1)">
-            <div class="h-full bg-slate-800/40 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl border border-slate-700/50 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-                 [style.transform]="philosophyTransforms()[1]">
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(800px circle at ' + philosophySpotlights()[1].x + 'px ' + philosophySpotlights()[1].y + 'px, rgba(168,85,247,0.15), transparent 40%)'"></div>
-
-              <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-8 text-purple-400 border border-purple-500/20 group-hover:bg-purple-500 group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(168,85,247,0.1)] group-hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] group-hover:-translate-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Logic Driven</h3>
-              <p class="text-slate-400 leading-relaxed">
-                I don't just copy-paste tutorials. I break down complex requirements into clean, reusable logic, ensuring maintainability and scalability.
-              </p>
-            </div>
-          </div>
-
-          <div class="w-[85vw] md:w-[420px] flex-shrink-0 perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 2)" (mouseleave)="resetPhilosophyCardTilt(2)">
-            <div class="h-full bg-slate-800/40 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl border border-slate-700/50 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-                 [style.transform]="philosophyTransforms()[2]">
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(800px circle at ' + philosophySpotlights()[2].x + 'px ' + philosophySpotlights()[2].y + 'px, rgba(59,130,246,0.15), transparent 40%)'"></div>
-
-              <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 text-blue-400 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] group-hover:-translate-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Deadline Focused</h3>
-              <p class="text-slate-400 leading-relaxed">
-                I balance clean code with practical delivery. I prioritize shipping functional MVPs over perfection, iterating based on real feedback.
-              </p>
-            </div>
-          </div>
-
-          <div class="w-[85vw] md:w-[420px] flex-shrink-0 perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 0)" (mouseleave)="resetPhilosophyCardTilt(0)">
-            <div class="h-full bg-slate-800/40 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl border border-slate-700/50 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-                 [style.transform]="philosophyTransforms()[0]">
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(800px circle at ' + philosophySpotlights()[0].x + 'px ' + philosophySpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-              <div class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-8 text-cyan-400 border border-cyan-500/20 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(6,182,212,0.1)] group-hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] group-hover:-translate-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Visual Developer</h3>
-              <p class="text-slate-400 leading-relaxed">
-                I speak both languages: Figma and TypeScript. I ensure the final code matches the design intent perfectly, bridging the gap between design and engineering.
-              </p>
-            </div>
-          </div>
-          <div class="w-[85vw] md:w-[420px] flex-shrink-0 perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 1)" (mouseleave)="resetPhilosophyCardTilt(1)">
-            <div class="h-full bg-slate-800/40 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl border border-slate-700/50 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-                 [style.transform]="philosophyTransforms()[1]">
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(800px circle at ' + philosophySpotlights()[1].x + 'px ' + philosophySpotlights()[1].y + 'px, rgba(168,85,247,0.15), transparent 40%)'"></div>
-              <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-8 text-purple-400 border border-purple-500/20 group-hover:bg-purple-500 group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(168,85,247,0.1)] group-hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] group-hover:-translate-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Logic Driven</h3>
-              <p class="text-slate-400 leading-relaxed">
-                I don't just copy-paste tutorials. I break down complex requirements into clean, reusable logic, ensuring maintainability and scalability.
-              </p>
-            </div>
-          </div>
-
-          <div class="w-[85vw] md:w-[420px] flex-shrink-0 perspective-container" (mousemove)="onPhilosophyCardMouseMove($event, 2)" (mouseleave)="resetPhilosophyCardTilt(2)">
-            <div class="h-full bg-slate-800/40 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl border border-slate-700/50 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-                 [style.transform]="philosophyTransforms()[2]">
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                   [style.background]="'radial-gradient(800px circle at ' + philosophySpotlights()[2].x + 'px ' + philosophySpotlights()[2].y + 'px, rgba(59,130,246,0.15), transparent 40%)'"></div>
-
-              <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 text-blue-400 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] group-hover:-translate-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold text-white mb-4 tracking-tight">Deadline Focused</h3>
-              <p class="text-slate-400 leading-relaxed">
-                I balance clean code with practical delivery. I prioritize shipping functional MVPs over perfection, iterating based on real feedback.
-              </p>
-            </div>
-          </div>
-
-          </div>
-        </div>
-      </div>
-      } @placeholder {
-        <div class="h-96"></div>
-      }
-    </div>
-  </section>
-
-  <section class="py-20 bg-[#0f172a] relative overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none">
-        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
-        <div class="absolute top-20 left-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] animate-blob mix-blend-screen"></div>
-        <div class="absolute bottom-20 right-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-blob animation-delay-4000 mix-blend-screen"></div>
-    </div>
-
-    <div class="absolute top-40 right-[10%] perspective-wrap pointer-events-none z-0 animate-float-slow">
-      <div class="cube cube-purple" style="--cube-size: 80px;" [style.transform]="shapesTransform()[2]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-40 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
-      <div class="cube cube-cyan" style="--cube-size: 50px;" [style.transform]="shapesTransform()[0]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="container mx-auto px-6 relative z-10">
-        @defer (on viewport) {
-        <!-- Educational Background -->
-        <div class="max-w-4xl mx-auto animate-fade-in-up delay-200">
-            <h2 class="text-3xl font-black text-white mb-12 tracking-tight text-center">Educational <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Background</span></h2>
-
-            <div class="relative border-l-2 border-slate-700 ml-3 md:ml-6 space-y-12">
-                @for (edu of education; track $index) {
-                <div class="relative pl-8 md:pl-12 group">
-                    <!-- Timeline Dot -->
-                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-900 border-2 border-cyan-500 group-hover:scale-125 group-hover:bg-cyan-500 transition-all duration-300 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
-                    
-                    <!-- Content Card -->
-                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:border-cyan-500/30 transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:shadow-cyan-500/5 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl -mr-16 -mt-16 transition-opacity opacity-0 group-hover:opacity-100"></div>
-                        
-                        <div class="relative z-10">
-                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-2">
-                                <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">{{ edu.degree }}</h3>
-                                <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-700 text-cyan-400 border border-slate-600 shadow-sm whitespace-nowrap w-fit">{{ edu.year }}</span>
-                            </div>
-                            <h4 class="text-lg text-slate-300 mb-4 font-medium flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                {{ edu.school }}
-                            </h4>
-                            <p class="text-slate-400 text-sm leading-relaxed mb-4">
-                                {{ edu.description }}
-                            </p>
-                            
-                            @if (edu.achievements.length > 0) {
-                            <div class="pt-4 border-t border-slate-700/50">
-                                <h5 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                    </svg>
-                                    Achievements
-                                </h5>
-                                <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    @for (achievement of edu.achievements; track achievement) {
-                                    <li class="flex items-start gap-2 text-sm text-slate-400">
-                                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-cyan-500/50 flex-shrink-0"></span>
-                                        {{ achievement }}
-                                    </li>
-                                    }
-                                </ul>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-        </div>
-        } @placeholder {
-            <div class="h-96"></div>
+        @if (current) {
+          <figcaption
+            class="absolute inset-x-6 bottom-6 flex items-center gap-3 rounded-2xl border border-line bg-canvas/90 px-4 py-3 backdrop-blur"
+          >
+            <app-icon name="cap" class="size-5 text-accent" />
+            <span class="text-sm">
+              <span class="block font-semibold text-ink">{{ current.degree }}</span>
+              <span class="block text-muted">{{ current.school }} · {{ current.period }}</span>
+            </span>
+          </figcaption>
         }
-    </div>
-  </section>
-
-  <section class="py-32 bg-slate-50 relative overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none">
-      <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div> 
-      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-cyan-200/50 rounded-full blur-[150px] animate-blob mix-blend-multiply"></div>
-      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-200/50 rounded-full blur-[150px] animate-blob animation-delay-4000 mix-blend-multiply"></div>
+      </figure>
     </div>
 
-    <div class="absolute top-20 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow">
-      <div class="cube cube-purple" style="--cube-size: 50px;" [style.transform]="shapesTransform()[1]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-40 right-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
-      <div class="cube cube-cyan" style="--cube-size: 100px;" [style.transform]="shapesTransform()[2]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-    
-    <div class="container mx-auto px-6 relative z-10 max-w-7xl">
-      @defer (on viewport) {
-      <div class="animate-fade-in-up delay-200">
-        <div class="text-center max-w-3xl mx-auto mb-20">
-          <span class="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 font-bold tracking-widest uppercase text-[10px] mb-6 shadow-sm border border-slate-200">Credentials & Achievements</span>
-          <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">My <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Certifications</span></h2>
-          <p class="text-slate-600 text-lg">A showcase of my continuous learning and verified expertise.</p>
+    <!-- The same data-backed numbers as the homepage. -->
+    <dl
+      class="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-4 lg:mt-20"
+    >
+      @for (stat of stats; track stat.label) {
+        <div class="flex flex-col-reverse gap-1 bg-surface p-5 sm:p-6">
+          <dt class="text-sm text-muted">{{ stat.label }}</dt>
+          <dd class="text-4xl font-bold tabular-nums tracking-tight text-ink sm:text-5xl">
+            <app-count-up [value]="stat.value" />
+          </dd>
         </div>
+      }
+    </dl>
+  </div>
+</section>
 
-        <!-- Filter Buttons -->
-        <div class="flex flex-wrap justify-center gap-4 mb-12">
-          @for (category of ['All', 'Development', 'Marketing', 'SEO']; track category) {
-            <button (click)="setFilter($any(category))"
-                    class="px-6 py-2 rounded-full border transition-all duration-300 font-bold text-sm uppercase tracking-wider"
-                    [class]="filterCategory() === category ? 'bg-cyan-600 text-white border-cyan-600 shadow-lg shadow-cyan-500/30' : 'bg-white text-slate-500 border-slate-200 hover:border-cyan-400 hover:text-cyan-600'">
-              {{ category }}
-            </button>
+<!-- ═══ How I Work ═════════════════════════════════════════════════════════ -->
+<section id="approach" class="band" aria-labelledby="approach-title">
+  <div class="container-page section-y">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow">Approach</p>
+        <h2 id="approach-title" class="mt-4 text-h2 font-bold">How I Work</h2>
+      </div>
+      <p class="max-w-md text-pretty text-muted">My approach to development is grounded in three core principles.</p>
+    </div>
+
+    <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
+      @for (principle of principles; track principle.title; let i = $index, first = $first) {
+        <article class="tile flex flex-col p-6 sm:p-8" [class]="principleSlots[i]" [appReveal]="i * 80">
+          <div class="flex items-start justify-between">
+            <span class="icon-badge"><app-icon [name]="principle.icon" class="size-6" /></span>
+            <span class="font-mono text-sm text-muted" aria-hidden="true">0{{ i + 1 }}</span>
+          </div>
+          <h3 class="mt-8 text-2xl font-semibold tracking-tight">{{ principle.title }}</h3>
+          <p class="mt-3 max-w-lg text-pretty text-muted">{{ principle.body }}</p>
+
+          @if (first) {
+            <!-- Proof for the claim: this site's own design decisions and the classes that carry them. -->
+            <div class="mt-auto pt-8">
+              <table class="w-full text-left text-sm">
+                <caption class="pb-3 text-left text-xs text-muted">
+                  From decision to code, using this site's own design system
+                </caption>
+                <thead class="sr-only">
+                  <tr>
+                    <th scope="col">Design decision</th>
+                    <th scope="col">Tailwind class</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-line border-y border-line">
+                  @for (token of designTokens; track token.label) {
+                    <tr>
+                      <td class="py-3 pr-4">
+                        <span class="flex items-center gap-3">
+                          <span class="token-sample" [attr.data-sample]="token.sample" aria-hidden="true">
+                            @if (token.sample === 'type') {
+                              Aa
+                            }
+                          </span>
+                          <span>
+                            <span class="block font-medium text-ink">{{ token.label }}</span>
+                            <span class="block font-mono text-xs text-muted">{{ token.value }}</span>
+                          </span>
+                        </span>
+                      </td>
+                      <td class="whitespace-nowrap py-3 text-right font-mono text-xs text-accent">{{ token.className }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
           }
-        </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          @for (cert of filteredCertificates(); track cert.id; let i = $index) {
-             <div class="bg-white rounded-[2rem] shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:shadow-cyan-500/10 border border-slate-200 transition-all duration-500 group relative flex flex-col perspective-container overflow-hidden"
-               (mousemove)="onCertificationsMouseMove($event, i)" (mouseleave)="resetCertificationsTilt(i)">
-            <div class="transition-transform duration-100 ease-out will-change-transform h-full flex flex-col bg-white relative z-10" [style.transform]="certificationsTransform()[i]">
-              
-              <div class="relative h-48 bg-slate-100 border-b border-slate-100 overflow-hidden">
-                <img [src]="cert.image" [alt]="cert.title" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </div>
+<!-- ═══ Education ══════════════════════════════════════════════════════════ -->
+<section id="education" aria-labelledby="education-title">
+  <div class="container-page section-y">
+    <p class="eyebrow">Education</p>
+    <h2 id="education-title" class="mt-4 text-h2 font-bold">Educational Background</h2>
 
-              <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-20"
-                   [style.background]="'radial-gradient(600px circle at ' + certificationsSpotlight()[i].x + 'px ' + certificationsSpotlight()[i].y + 'px, ' + cert.spotlight + ', transparent 40%)'"></div>
-              
-              <div class="p-6 flex-grow flex flex-col relative z-10 bg-white">
-                <div class="flex items-center justify-between mb-4">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ cert.provider }}</span>
-                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
-                          [class]="'text-' + cert.color + '-600 bg-' + cert.color + '-50'">
-                        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> Verified
-                    </span>
-                </div>
-                
-                <h3 class="text-lg font-bold text-slate-900 leading-tight mb-3 transition-colors"
-                    [class]="'group-hover:text-' + cert.color + '-600'">{{ cert.title }}</h3>
-                <p class="text-slate-500 text-sm leading-relaxed mb-6 flex-grow">
-                  {{ cert.description }}
-                </p>
+    <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
+      @for (item of education; track item.degree; let i = $index) {
+        <article class="tile flex flex-col p-6 sm:p-8" [class]="educationSlots[i]" [appReveal]="i * 80">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <span class="icon-badge"><app-icon name="cap" class="size-6" /></span>
+            <span class="chip gap-2" [class.text-ink]="item.current">
+              @if (item.current) {
+                <span class="status-dot" aria-hidden="true"></span>
+              }
+              {{ item.period }}
+            </span>
+          </div>
+          <h3 class="mt-8 text-2xl font-semibold tracking-tight">{{ item.degree }}</h3>
+          <p class="mt-1 font-medium text-accent">{{ item.school }}</p>
+          <p class="mt-4 max-w-xl text-pretty text-muted">{{ item.description }}</p>
+          <ul class="mt-auto space-y-2.5 pt-6" [attr.aria-label]="'Achievements at ' + item.school">
+            @for (achievement of item.achievements; track achievement) {
+              <li class="flex gap-2.5 text-sm">
+                <app-icon name="check" class="mt-0.5 size-4 text-accent" />
+                <span>{{ achievement }}</span>
+              </li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </div>
+</section>
 
-                <button class="shiny-sweep w-full py-3 rounded-xl btn-ocean text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:-translate-y-1 overflow-hidden animate-[pulse_4s_ease-in-out_infinite_alternate]"
-                        (click)="openCertificateModal(cert.id, $event)">
-                    <span class="relative z-10">View Credential</span>
-                </button>
-              </div>
+<!-- ═══ Certifications: a filterable collection, so a uniform grid on purpose ═ -->
+<section id="certifications" class="band" aria-labelledby="certs-title">
+  <div class="container-page section-y">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Credentials</p>
+        <h2 id="certs-title" class="mt-4 text-h2 font-bold">My Certifications</h2>
+        <p class="mt-5 text-pretty text-muted">
+          Three freeCodeCamp developer certifications, each about 300 hours of coursework, plus five from HubSpot
+          Academy. Open any of them full size; the freeCodeCamp ones link to their public verification pages.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filter certifications by category">
+        @for (option of filters; track option) {
+          <button
+            type="button"
+            class="filter-chip"
+            [attr.aria-pressed]="filter() === option"
+            (click)="filter.set(option)"
+          >
+            {{ option }}
+            <span class="font-mono text-xs opacity-75">{{ counts[option] }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <p class="sr-only" aria-live="polite">
+      Showing {{ visibleCertificates().length }} of {{ totalCertificates }} certifications
+    </p>
+
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+      @for (cert of visibleCertificates(); track cert.id) {
+        @let status = statuses.get(cert.id)!;
+        <!-- Compact row on phones (thumbnail beside text), a card from sm up. -->
+        <li class="tile lift group grid grid-cols-[6.5rem_1fr] hover:border-accent/50 sm:flex sm:flex-col">
+          <div class="py-4 pl-4 sm:p-3 sm:pb-0">
+            <div class="overflow-hidden rounded-xl bg-white sm:rounded-2xl">
+              <img
+                [src]="cert.image.small"
+                [alt]="cert.image.alt"
+                width="640"
+                height="480"
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[4/3] w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              />
             </div>
           </div>
+          <div class="flex flex-1 flex-col p-4 sm:p-5">
+            <p class="eyebrow">{{ cert.provider }}</p>
+            <h3 class="mt-2 font-semibold leading-snug text-ink">{{ cert.title }}</h3>
+            <p class="mt-2 text-pretty text-sm text-muted">{{ cert.description }}</p>
+            <p class="mt-4 flex items-center gap-2 text-xs font-semibold" [attr.data-status]="status.kind">
+              <span class="cert-status-dot" aria-hidden="true"></span>
+              {{ status.label }}
+            </p>
+            <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-4 sm:pt-5">
+              <button
+                type="button"
+                class="stretched link-arrow text-sm"
+                aria-haspopup="dialog"
+                (click)="activeCertificate.set(cert)"
+              >
+                <app-icon name="expand" class="size-4" />
+                View<span class="sr-only"> certificate: {{ cert.title }}</span>
+              </button>
+              @if (cert.verifyUrl) {
+                <a
+                  [href]="cert.verifyUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link-arrow relative z-[2] text-sm"
+                >
+                  <app-icon name="verified" class="size-4" />
+                  Verify<span class="sr-only"> {{ cert.title }} on freeCodeCamp (opens in a new tab)</span>
+                </a>
+              }
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ Toolkit ════════════════════════════════════════════════════════════ -->
+<section id="toolkit" aria-labelledby="toolkit-title">
+  <div class="container-page section-y">
+    <p class="eyebrow">Toolkit</p>
+    <h2 id="toolkit-title" class="mt-4 text-h2 font-bold">My Toolkit</h2>
+
+    <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
+      <div class="tile p-6 sm:p-8 lg:col-span-8" appReveal>
+        <h3 id="skills-daily" class="eyebrow">Daily drivers</h3>
+        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-daily">
+          @for (skill of skills.daily; track skill) {
+            <li class="chip px-3.5 py-1.5 text-sm text-ink">{{ skill }}</li>
           }
-        </div>
+        </ul>
+        <h3 id="skills-other" class="eyebrow mt-8">Also worked with</h3>
+        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-other">
+          @for (skill of skills.alsoUsed; track skill) {
+            <li class="chip px-3.5 py-1.5 text-sm">{{ skill }}</li>
+          }
+        </ul>
+        <h3 id="skills-tools" class="eyebrow mt-8">Tools</h3>
+        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-tools">
+          @for (tool of skills.tools; track tool) {
+            <li class="chip px-3.5 py-1.5 text-sm">{{ tool }}</li>
+          }
+        </ul>
       </div>
-      } @placeholder {
-        <div class="h-96"></div>
-      }
-    </div>
-  </section>
 
-  <section class="py-32 bg-[#0a0f1a] relative overflow-hidden">
-    
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
-      <div class="absolute inset-0 opacity-[0.04]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E&quot;)"></div>
-      
-      <div class="absolute top-[10%] right-[-10%] w-[700px] h-[700px] bg-gradient-to-bl from-blue-600/20 to-transparent blur-[120px] animate-morph animate-spin-slow mix-blend-screen pointer-events-none"></div>
-      <div class="absolute bottom-[10%] left-[-10%] w-[700px] h-[700px] bg-gradient-to-tr from-cyan-500/20 to-transparent blur-[120px] animate-morph animate-spin-slow-reverse mix-blend-screen pointer-events-none animation-delay-4000"></div>
-    </div>
-
-    <div class="absolute bottom-40 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow">
-      <div class="cube cube-cyan" style="--cube-size: 90px;" [style.transform]="shapesTransform()[0]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="absolute top-20 right-[10%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
-      <div class="cube cube-purple" style="--cube-size: 70px;" [style.transform]="shapesTransform()[3]">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
+      <div class="tile p-6 sm:p-8 lg:col-span-4" [appReveal]="80">
+        <h3 id="skills-soft" class="eyebrow">Soft skills</h3>
+        <ul class="mt-5 space-y-4" aria-labelledby="skills-soft">
+          @for (skill of skills.soft; track skill) {
+            <li class="flex items-center gap-3 text-lg font-medium tracking-tight text-ink">
+              <app-icon name="check" class="size-5 text-accent" />
+              {{ skill }}
+            </li>
+          }
+        </ul>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="container mx-auto px-6 relative z-10">
-      @defer (on viewport) {
-      <div class="perspective-container animate-fade-in-up delay-300" (mousemove)="onToolkitMouseMove($event)" (mouseleave)="resetToolkitTilt()">
-        <div class="bg-slate-900/60 backdrop-blur-2xl rounded-[3rem] p-10 md:p-20 text-center relative overflow-hidden transition-transform duration-100 ease-out will-change-transform border border-slate-700/50 shadow-[0_0_50px_rgba(0,0,0,0.5)] group"
-             [style.transform]="toolkitTransform()">
-           
-           <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10"
-                [style.background]="'radial-gradient(800px circle at ' + toolkitSpotlight().x + 'px ' + toolkitSpotlight().y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-
-           <div class="relative z-10">
-             <h2 class="text-4xl md:text-5xl font-black text-white mb-12 tracking-tight">My <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Toolkit</span></h2>
-             
-             <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-cyan-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(6,182,212,0.4)] hover:bg-cyan-600">Angular</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-purple-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:bg-purple-600">TypeScript</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-blue-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(59,130,246,0.4)] hover:bg-blue-600">Tailwind CSS</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-pink-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(236,72,153,0.4)] hover:bg-pink-600">RxJS</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-emerald-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(16,185,129,0.4)] hover:bg-emerald-600">Figma</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-red-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(239,68,68,0.4)] hover:bg-red-600">Git & GitHub</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-cyan-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(6,182,212,0.4)] hover:bg-cyan-600">VS Code</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-green-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(34,197,94,0.4)] hover:bg-green-600">Node.js</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-orange-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(249,115,22,0.4)] hover:bg-orange-600">Postman</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-cyan-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(6,182,212,0.4)] hover:bg-cyan-600">React</span>
-               <span class="px-6 py-3 rounded-full bg-slate-800/80 text-slate-200 font-bold text-sm border border-slate-700/50 hover:border-emerald-400 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(16,185,129,0.4)] hover:bg-emerald-600">Vue</span>
-             </div>
-
-             <h3 class="text-xl font-bold text-slate-400 mt-16 mb-8 uppercase tracking-widest">Soft Skills</h3>
-             <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-               <span class="px-5 py-2.5 rounded-full bg-slate-800/40 text-slate-300 font-medium text-xs border border-slate-700/30 hover:border-purple-500 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 hover:bg-purple-600 shadow-md">Problem Solving</span>
-               <span class="px-5 py-2.5 rounded-full bg-slate-800/40 text-slate-300 font-medium text-xs border border-slate-700/30 hover:border-cyan-500 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 hover:bg-cyan-600 shadow-md">Communication</span>
-               <span class="px-5 py-2.5 rounded-full bg-slate-800/40 text-slate-300 font-medium text-xs border border-slate-700/30 hover:border-emerald-500 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 hover:bg-emerald-600 shadow-md">Teamwork</span>
-               <span class="px-5 py-2.5 rounded-full bg-slate-800/40 text-slate-300 font-medium text-xs border border-slate-700/30 hover:border-yellow-500 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 hover:bg-yellow-600 shadow-md">Adaptability</span>
-               <span class="px-5 py-2.5 rounded-full bg-slate-800/40 text-slate-300 font-medium text-xs border border-slate-700/30 hover:border-blue-500 hover:text-white transition-all duration-300 cursor-default hover:scale-110 hover:-translate-y-1 hover:bg-blue-600 shadow-md">Time Management</span>
-             </div>
-           </div>
-        </div>
+<!-- ═══ Certificate viewer ═════════════════════════════════════════════════ -->
+<dialog
+  class="dialog"
+  aria-labelledby="certificate-title"
+  [appModal]="activeCertificate() !== null"
+  (closed)="activeCertificate.set(null)"
+  #viewer="appModal"
+>
+  @if (activeCertificate(); as cert) {
+    <header
+      class="sticky top-0 z-10 flex items-start justify-between gap-6 border-b border-line bg-canvas/95 px-6 py-5 backdrop-blur sm:px-8"
+    >
+      <div>
+        <p class="eyebrow">
+          {{ cert.provider }}<span aria-hidden="true"> · </span><span class="sr-only">, </span>{{ cert.category }}
+        </p>
+        <h2 id="certificate-title" class="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{{ cert.title }}</h2>
       </div>
-      } @placeholder {
-        <div class="h-96"></div>
-      }
-    </div>
-  </section>
+      <button type="button" class="icon-btn -mr-2 -mt-1 border border-line" (click)="viewer.close()">
+        <span class="sr-only">Close certificate</span>
+        <app-icon name="close" class="size-5" />
+      </button>
+    </header>
 
-  @if (isProfileModalOpen()) {
-    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md animate-fade-in"
-         (click)="closeProfileModal()">
-      <div class="relative p-2 bg-slate-800 rounded-3xl shadow-2xl transform animate-scale-up max-w-md w-full mx-4 border border-white/10"
-           (click)="$event.stopPropagation()">
-         <button class="absolute top-4 right-4 text-white/80 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-1.5 transition-all z-10 backdrop-blur-sm"
-                 (click)="closeProfileModal()">
-           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-           </svg>
-         </button>
-         <div class="rounded-2xl overflow-hidden aspect-[4/5] relative bg-slate-900">
-           <img src="assets/uploads/profile.png" alt="Profile" class="w-full h-full object-cover" />
-         </div>
+    <div class="px-6 pb-8 pt-6 sm:px-8">
+      <img
+        [src]="cert.image.src"
+        [alt]="cert.image.alt"
+        [width]="cert.image.width"
+        [height]="cert.image.height"
+        decoding="async"
+        class="block h-auto w-full rounded-2xl border border-line bg-white"
+      />
+      <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-sm text-muted">
+          <span class="font-semibold text-ink">{{ statuses.get(cert.id)?.label }}.</span> {{ cert.description }}
+        </p>
+        @if (cert.verifyUrl) {
+          <a [href]="cert.verifyUrl" target="_blank" rel="noopener noreferrer" class="btn btn-primary shrink-0">
+            <app-icon name="verified" class="size-4" />
+            Verify on freeCodeCamp<span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        }
       </div>
     </div>
   }
-
-  @if (selectedCertificate()) {
-    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/95 backdrop-blur-xl animate-fade-in p-4 md:p-10"
-         (click)="closeCertificateModal()">
-      <div class="relative bg-slate-800 rounded-3xl shadow-2xl transform animate-scale-up max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-slate-700"
-           (click)="$event.stopPropagation()">
-         
-         <div class="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800 z-10 shadow-sm">
-           <h3 class="font-black text-white text-xl tracking-tight">{{ getCertificateTitle() }}</h3>
-           <button class="text-slate-400 hover:text-white hover:bg-slate-700 bg-slate-900 border border-slate-700 rounded-full p-2.5 transition-all"
-                   (click)="closeCertificateModal()">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-             </svg>
-           </button>
-         </div>
-         
-         <div class="p-4 md:p-10 bg-slate-900 flex-1 flex items-center justify-center overflow-auto relative">
-            <div class="absolute inset-0 opacity-[0.03]" style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E&quot;)"></div>
-            <img [src]="getCertificateImage()" [alt]="getCertificateTitle()" class="max-w-full max-h-[75vh] object-contain rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-700 bg-slate-800 relative z-10" />
-         </div>
-
-      </div>
-    </div>
-  }
-
-</div>
+</dialog>

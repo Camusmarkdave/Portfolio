@@ -1,53 +1,31 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { certificateStatus, certificates, education } from '../../data/credentials';
+import { experience } from '../../data/experience';
+import { developer, resumePdf } from '../../data/profile';
+import { Project, projects } from '../../data/projects';
+import { skills } from '../../data/skills';
+import { CaseStudyDialogComponent } from '../../shared/case-study-dialog/case-study-dialog';
+import { IconComponent } from '../../shared/icon';
+import { RevealDirective } from '../../shared/reveal.directive';
 
 @Component({
   selector: 'app-resume',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [RouterLink, IconComponent, RevealDirective, CaseStudyDialogComponent],
   templateUrl: './resume.html',
-  styleUrl: './resume.css'
 })
 export class ResumeComponent {
-  // Transforms for the 5 cards on the resume page
-  protected readonly cardTransforms = signal<string[]>(
-    Array(5).fill('perspective(1000px) rotateX(0deg) rotateY(0deg)')
-  );
+  protected readonly developer = developer;
+  protected readonly current = education.find((item) => item.current);
+  protected readonly pdf = resumePdf;
 
-  // Spotlights for the 5 cards
-  protected readonly cardSpotlights = signal<{x: number, y: number}[]>(
-    Array.from({ length: 5 }, () => ({ x: 0, y: 0 }))
-  );
+  protected readonly experience = experience;
+  protected readonly projects = projects;
+  protected readonly education = education;
+  protected readonly skills = skills;
+  protected readonly certificates = certificates;
+  /** Worked out once per visit from today's date, so expiry labels never go stale. */
+  protected readonly statuses = new Map(certificates.map((cert) => [cert.id, certificateStatus(cert)]));
 
-  protected onCardMouseMove(event: MouseEvent, index: number) {
-    const card = event.currentTarget as HTMLElement;
-    const rect = card.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -2; // Subtle tilt
-    const rotateY = ((x - centerX) / centerX) * 2;
-
-    this.cardTransforms.update(transforms => {
-      const newTransforms = [...transforms];
-      newTransforms[index] = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
-      return newTransforms;
-    });
-
-    this.cardSpotlights.update(spotlights => {
-      const newSpotlights = [...spotlights];
-      newSpotlights[index] = {x, y};
-      return newSpotlights;
-    });
-  }
-
-  protected resetCardTilt(index: number) {
-    this.cardTransforms.update(transforms => {
-      const newTransforms = [...transforms];
-      newTransforms[index] = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-      return newTransforms;
-    });
-  }
+  protected readonly activeProject = signal<Project | null>(null);
 }

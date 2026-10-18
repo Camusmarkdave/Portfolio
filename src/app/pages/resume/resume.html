@@ -1,360 +1,229 @@
-<section class="relative py-12 md:py-20 bg-[#0f172a] min-h-screen overflow-hidden">
-  <style>
-    @keyframes waterFlow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
-    }
-    .water-flow {
-      background: linear-gradient(90deg, #06b6d4, #a5f3fc, #06b6d4);
-      background-size: 200% 100%;
-      animation: waterFlow 2s linear infinite;
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
-    }
-    .perspective-container { perspective: 1000px; }
-    
-    .animate-fade-in-up { 
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-      opacity: 0; 
-    }
-    @keyframes fadeInUp { 
-      from { opacity: 0; transform: translateY(30px) scale(0.95); } 
-      to { opacity: 1; transform: translateY(0) scale(1); } 
-    }
-    
-    @keyframes fillWidth {
-      from { width: 0%; }
-    }
-    .animate-fill {
-      animation: fillWidth 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    }
+<!-- ═══ Hero ═══════════════════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden" aria-labelledby="resume-title">
+  <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-    .delay-100 { animation-delay: 100ms; }
-    .delay-200 { animation-delay: 200ms; }
-    .delay-300 { animation-delay: 300ms; }
-    .delay-400 { animation-delay: 400ms; }
-    .delay-500 { animation-delay: 500ms; }
-    
-    .will-change-transform { will-change: transform; }
-    
-    @keyframes gridMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 40px; }
-    }
-    .animate-grid-move { animation: gridMove 3s linear infinite; }
-    
-    @keyframes blob {
-      0% { transform: translate(0px, 0px) scale(1); }
-      33% { transform: translate(30px, -50px) scale(1.1); }
-      66% { transform: translate(-20px, 20px) scale(0.9); }
-      100% { transform: translate(0px, 0px) scale(1); }
-    }
-    .animate-blob { animation: blob 7s infinite; }
-    .animation-delay-2000 { animation-delay: 2s; }
-    
-    /* Cube Styles */
-    .cube {
-      --cube-size: 100px;
-      width: var(--cube-size);
-      height: var(--cube-size);
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.1s ease-out;
-    }
-    .cube-face {
-      position: absolute;
-      width: var(--cube-size);
-      height: var(--cube-size);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(5px);
-    }
-    .cube-cyan .cube-face { border-color: rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.05); }
-    .cube-purple .cube-face { border-color: rgba(168, 85, 247, 0.3); background: rgba(168, 85, 247, 0.05); }
-    .face-front  { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-back   { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-right  { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-top    { transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2)); }
-    .face-bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2)); }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    .animate-float-slow { animation: float 8s ease-in-out infinite; }
-    
-    .shiny-sweep {
-      position: relative;
-      overflow: hidden;
-    }
-    .shiny-sweep::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transform: skewX(-20deg);
-      transition: all 0.5s ease;
-    }
-    .shiny-sweep:hover::after {
-      left: 150%;
-      transition: all 0.7s ease-in-out;
-    }
-  </style>
-
-  <div class="absolute inset-0 z-0 pointer-events-none">
-    <div class="absolute inset-0 opacity-[0.1] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] animate-grid-move"></div>
-    
-    <div class="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 bg-cyan-500/20 rounded-full blur-[100px] animate-blob"></div>
-    <div class="absolute bottom-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000"></div>
-
-    <div class="absolute top-40 right-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow">
-      <div class="cube cube-cyan" style="--cube-size: 80px;">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-40 left-[5%] perspective-wrap pointer-events-none z-0 animate-float-slow animation-delay-2000">
-      <div class="cube cube-purple" style="--cube-size: 60px;">
-        <div class="cube-face face-front"></div>
-        <div class="cube-face face-back"></div>
-        <div class="cube-face face-right"></div>
-        <div class="cube-face face-left"></div>
-        <div class="cube-face face-top"></div>
-        <div class="cube-face face-bottom"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container mx-auto px-4 md:px-6 relative z-10">
-    
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 md:mb-16 animate-fade-in-up">
-      <div class="text-center md:text-left relative">
-        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 relative z-10">
-          My <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Resume</span>
-        </h1>
-        <div class="absolute -inset-x-6 -inset-y-4 bg-cyan-500/10 blur-xl rounded-full z-0 opacity-0 animate-[fadeInUp_1s_ease-out_forwards_0.5s]"></div>
-        <p class="text-lg text-slate-400 relative z-10">IT Student & UI/Frontend Developer</p>
-      </div>
-      
-      <a href="assets/uploads/Resume.pdf" download class="shiny-sweep group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-cyan-600 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-cyan-500 transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] w-full md:w-auto overflow-hidden animate-[pulse_3s_ease-in-out_infinite_alternate]">
-        <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        <span class="relative z-10">Download PDF</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 h-5 w-5 md:h-6 md:w-6 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
+  <div class="container-page relative pb-16 pt-28 sm:pt-32 lg:pb-20">
+    <p class="eyebrow">Resume</p>
+    <h1 id="resume-title" class="mt-6 max-w-4xl text-balance text-display font-extrabold text-ink">
+      Resume, <span class="text-gradient">at a glance.</span>
+    </h1>
+    <p class="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
+      I'm a {{ developer.role }}
+      @if (current) {
+        <span>finishing my {{ current.degree }} at {{ current.school }}</span>
+      }<span>. Experience, education, and skills on one page, with a PDF copy to keep.</span>
+    </p>
+    <div class="rise-in mt-9 flex flex-col gap-3 sm:flex-row" style="--rise-delay: 150ms">
+      <a [href]="pdf.href" [attr.download]="pdf.fileName" class="btn btn-primary">
+        <app-icon name="download" class="size-4" />
+        Download PDF
+        <span class="font-normal opacity-75">({{ pdf.size }})</span>
       </a>
+      <a routerLink="/contact" class="btn btn-secondary">Contact Me</a>
     </div>
-
-    @defer (on viewport) {
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12">
-      
-      <div class="lg:col-span-2 space-y-6 md:space-y-12">
-        
-        <div class="perspective-container animate-fade-in-up delay-100" (mousemove)="onCardMouseMove($event, 0)" (mouseleave)="resetCardTilt(0)">
-        <div class="bg-slate-800 p-6 md:p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-             [style.transform]="cardTransforms()[0]">
-          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[0].x + 'px ' + cardSpotlights()[0].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-          <div class="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 relative z-20">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-900/30 flex items-center justify-center text-cyan-400 border border-cyan-800/50 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 animate-[pulse_2s_ease-in-out_infinite]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-              </svg>
-            </div>
-            <h3 class="text-xl md:text-2xl font-black text-white group-hover:text-cyan-300 transition-colors">Education</h3>
-          </div>
-          
-          <div class="space-y-8 border-l-2 border-slate-700 ml-1 md:ml-6 pl-8 relative z-20">
-            <div class="group/item relative p-4 -my-4 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
-              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] group-hover/item:scale-125 transition-transform duration-300 pulse-glow"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-cyan-500/50 group-hover/item:text-cyan-300 transition-colors">Expected 2027</span>
-              <h4 class="text-lg font-bold text-white group-hover/item:text-cyan-400 transition-colors">BS Information Technology</h4>
-              <p class="text-cyan-400 font-medium mb-2 group-hover/item:text-cyan-300">Holy Angel University | Major in Web Development</p>
-              <p class="text-slate-400 text-sm leading-relaxed group-hover/item:text-slate-300 transition-colors">
-                Relevant Coursework: Web Systems and Technologies, Mobile Programming, Object-Oriented Programming.
-              </p>
-            </div>
-          </div>
-        </div>
-        </div>
-
-        <div class="perspective-container animate-fade-in-up delay-200" (mousemove)="onCardMouseMove($event, 1)" (mouseleave)="resetCardTilt(1)">
-        <div class="bg-slate-800 p-6 md:p-10 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-             [style.transform]="cardTransforms()[1]">
-          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[1].x + 'px ' + cardSpotlights()[1].y + 'px, rgba(168,85,247,0.15), transparent 40%)'"></div>
-          <div class="flex items-center gap-4 mb-8 relative z-20">
-            <div class="w-12 h-12 rounded-xl bg-purple-900/30 flex items-center justify-center text-purple-400 border border-purple-800/50 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-[pulse_2s_ease-in-out_infinite]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 class="text-2xl font-black text-white group-hover:text-purple-300 transition-colors">Projects & Experience</h3>
-          </div>
-          
-          <div class="space-y-2 border-l-2 border-slate-700 ml-1 md:ml-6 pl-8 relative z-20">
-            <div class="group/item relative p-4 -my-2 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
-              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] group-hover/item:scale-125 transition-transform duration-300 pulse-glow"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-purple-500/50 group-hover/item:text-purple-300 transition-colors">Feb 2026</span>
-              <h4 class="text-lg font-bold text-white group-hover/item:text-purple-400 transition-colors">Frontend Developer</h4>
-              <p class="text-purple-400 font-medium mb-2 group-hover/item:text-purple-300">Danono's Donuts | Business Showcase Website</p>
-              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1 group-hover/item:text-slate-300 transition-colors">
-                <li>Integrated frontend templates with the PHP/MySQL backend.</li>
-                <li>Dynamically rendered database-driven content for menus, blogs, and locations directly into the DOM.</li>
-              </ul>
-            </div>
-            <div class="group/item relative p-4 -my-2 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
-              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-slate-600 group-hover/item:bg-purple-400 group-hover/item:shadow-[0_0_10px_rgba(192,132,252,0.8)] group-hover/item:scale-125 transition-all duration-300"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-purple-500/50 group-hover/item:text-purple-300 transition-colors">Dec 2025</span>
-              <h4 class="text-lg font-bold text-white group-hover/item:text-purple-400 transition-colors">Frontend Lead & Material UI Specialist</h4>
-              <p class="text-purple-400 font-medium mb-2 group-hover/item:text-purple-300">The Four Who Adore | Group Profile Dashboard</p>
-              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1 group-hover/item:text-slate-300 transition-colors">
-                <li>Translated wireframes into functional code, ensuring consistent styling across all pages.</li>
-                <li>Utilized Git & GitHub for version control to manage team contributions and resolve merge conflicts.</li>
-              </ul>
-            </div>
-            <div class="group/item relative p-4 -my-2 -mx-4 rounded-xl hover:bg-slate-700/30 transition-all duration-300 hover:scale-[1.02]">
-              <span class="absolute left-[-24px] md:left-[-41px] top-5 h-5 w-5 rounded-full border-4 border-slate-800 bg-slate-600 group-hover/item:bg-purple-400 group-hover/item:shadow-[0_0_10px_rgba(192,132,252,0.8)] group-hover/item:scale-125 transition-all duration-300"></span>
-              <span class="inline-block px-3 py-1 rounded-full bg-slate-700 text-slate-300 text-xs font-bold mb-2 border border-slate-600 group-hover/item:border-purple-500/50 group-hover/item:text-purple-300 transition-colors">Oct 2025</span>
-              <h4 class="text-lg font-bold text-white group-hover/item:text-purple-400 transition-colors">UI/UX Designer & Frontend Lead</h4>
-              <p class="text-purple-400 font-medium mb-2 group-hover/item:text-purple-300">Eco Quest | Gamified Web Application</p>
-              <ul class="list-disc list-inside text-slate-400 text-sm leading-relaxed space-y-1 group-hover/item:text-slate-300 transition-colors">
-                <li>Designed the complete user interface in Figma from scratch.</li>
-                <li>Created a gamified experience to drive user engagement in environmental awareness.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        </div>
-
-      </div>
-
-      <div class="space-y-6 md:space-y-8">
-        
-        <div class="perspective-container animate-fade-in-up delay-300" (mousemove)="onCardMouseMove($event, 2)" (mouseleave)="resetCardTilt(2)">
-        <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 md:p-8 rounded-3xl shadow-lg text-white relative overflow-hidden border border-slate-700 transition-transform duration-100 ease-out will-change-transform group"
-             [style.transform]="cardTransforms()[2]">
-          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[2].x + 'px ' + cardSpotlights()[2].y + 'px, rgba(6,182,212,0.15), transparent 40%)'"></div>
-          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider relative z-20">Technical Skills</h3>
-          <div class="space-y-5 relative z-20">
-            <div class="group/skill">
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
-                <span>Figma</span>
-                <span class="text-cyan-400">90%</span>
-              </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
-                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 90%" title="90%"></div>
-              </div>
-            </div>
-            <div class="group/skill">
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
-                <span>HTML5, CSS3</span>
-                <span class="text-cyan-400">85%</span>
-              </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
-                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 85%" title="85%"></div>
-              </div>
-            </div>
-            <div class="group/skill">
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
-                <span>Git / GitHub</span>
-                <span class="text-cyan-400">75%</span>
-              </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
-                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 75%" title="75%"></div>
-              </div>
-            </div>
-            <div class="group/skill">
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
-                <span>Angular</span>
-                <span class="text-cyan-400">70%</span>
-              </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
-                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 70%" title="70%"></div>
-              </div>
-            </div>
-            <div class="group/skill">
-              <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 group-hover/skill:text-cyan-300 transition-colors">
-                <span>JavaScript (ES6+)</span>
-                <span class="text-cyan-400">65%</span>
-              </div>
-              <div class="h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
-                <div class="h-full water-flow rounded-full animate-fill origin-left" style="width: 65%" title="65%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-
-        <div class="perspective-container animate-fade-in-up delay-400" (mousemove)="onCardMouseMove($event, 3)" (mouseleave)="resetCardTilt(3)">
-        <div class="bg-slate-800 p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-             [style.transform]="cardTransforms()[3]">
-          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[3].x + 'px ' + cardSpotlights()[3].y + 'px, rgba(168,85,247,0.15), transparent 40%)'"></div>
-          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider relative z-20">Tools</h3>
-          <div class="flex flex-wrap gap-3 relative z-20">
-            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-cyan-600 hover:text-white hover:border-cyan-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(8,145,178,0.4)] cursor-default">VS Code</span>
-            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-purple-600 hover:text-white hover:border-purple-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(147,51,234,0.4)] cursor-default">Git/GitHub</span>
-            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-pink-600 hover:text-white hover:border-pink-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(219,39,119,0.4)] cursor-default">Adobe XD</span>
-            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-yellow-500 hover:text-white hover:border-yellow-400 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(234,179,8,0.4)] cursor-default">Firebase</span>
-            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-slate-500 hover:text-white hover:border-slate-400 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(100,116,139,0.4)] cursor-default">Notion</span>
-            <span class="px-4 py-2 bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-600 hover:bg-emerald-600 hover:text-white hover:border-emerald-500 hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_15px_rgba(16,185,129,0.4)] cursor-default">DevTools</span>
-          </div>
-        </div>
-        </div>
-
-        <div class="perspective-container animate-fade-in-up delay-500" (mousemove)="onCardMouseMove($event, 4)" (mouseleave)="resetCardTilt(4)">
-        <div class="bg-slate-800 p-8 rounded-3xl shadow-lg border border-slate-700 transition-transform duration-100 ease-out will-change-transform group relative overflow-hidden"
-             [style.transform]="cardTransforms()[4]">
-          <div class="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 z-10 rounded-3xl"
-               [style.background]="'radial-gradient(600px circle at ' + cardSpotlights()[4].x + 'px ' + cardSpotlights()[4].y + 'px, rgba(16,185,129,0.15), transparent 40%)'"></div>
-          <div class="relative z-20">
-          <h3 class="text-lg font-black text-white mb-6 uppercase tracking-wider group-hover:text-emerald-400 transition-colors">Certifications</h3>
-          <div class="space-y-3">
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-emerald-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-emerald-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#10b981] transition-all"></span> Responsive Web Design
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-yellow-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-yellow-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#eab308] transition-all"></span> JS Algorithms & Data Structures
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-indigo-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-indigo-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#6366f1] transition-all"></span> Back End Dev & APIs
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-emerald-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-emerald-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#10b981] transition-all"></span> SEO Certified
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-cyan-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-cyan-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#06b6d4] transition-all"></span> HubSpot SEO II
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-orange-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-orange-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#f97316] transition-all"></span> Content Marketing
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-purple-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-purple-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#a855f7] transition-all"></span> Digital Marketing
-             </div>
-             <div class="flex items-center gap-3 text-slate-300 text-sm font-medium hover:text-red-300 transition-colors p-2 -my-2 -mx-2 hover:bg-slate-700/50 rounded-lg cursor-default group/cert">
-                <span class="w-3 h-3 rounded-full bg-red-500 group-hover/cert:scale-150 group-hover/cert:shadow-[0_0_8px_#ef4444] transition-all"></span> Digital Advertising
-             </div>
-          </div>
-          </div>
-        </div>
-        </div>
-
-      </div>
-    </div>
-    } @placeholder {
-      <div class="h-96"></div>
-    }
   </div>
 </section>
+
+<!-- ═══ Experience: the OJT, then my role on each project ══════════════════ -->
+<section id="experience" class="band" aria-labelledby="experience-title">
+  <div class="container-page section-y">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="eyebrow">Experience</p>
+        <h2 id="experience-title" class="mt-4 text-h2 font-bold">Work &amp; Projects</h2>
+      </div>
+      <p class="max-w-md text-pretty text-muted">
+        On-the-job training first, then the role I played on each project: what I did, and the stack it used.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-4 lg:gap-5">
+      @for (job of experience; track job.organization) {
+        <article class="tile p-6 sm:p-8 lg:grid lg:grid-cols-12 lg:gap-10" appReveal>
+          <div class="lg:col-span-5">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <span class="icon-badge"><app-icon name="briefcase" class="size-6" /></span>
+              <span class="chip">{{ job.period }}</span>
+            </div>
+            <h3 class="mt-8 text-2xl font-semibold tracking-tight">{{ job.role }}</h3>
+            <p class="mt-1 font-medium text-accent">{{ job.organization }}</p>
+            @if (job.highlights.length) {
+              <ul class="mt-5 space-y-2.5" [attr.aria-label]="'What I did at ' + job.organization">
+                @for (item of job.highlights; track item) {
+                  <li class="flex gap-2.5 text-sm">
+                    <app-icon name="check" class="mt-0.5 size-4 text-accent" />
+                    <span>{{ item }}</span>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+
+          @if (job.recommendation; as rec) {
+            <figure
+              class="mt-8 border-t border-line pt-6 lg:col-span-7 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
+            >
+              <blockquote class="text-pretty text-lg font-medium leading-relaxed tracking-tight text-ink sm:text-xl">
+                “{{ rec.quote }}”
+              </blockquote>
+              <figcaption class="mt-5 text-sm">
+                <span class="font-semibold text-ink">{{ rec.name }}</span>
+                <span class="text-muted"> · {{ rec.title }}, my supervisor</span>
+              </figcaption>
+            </figure>
+          }
+        </article>
+      }
+
+      <div class="tile p-6 sm:p-8" [appReveal]="80">
+        <h3 class="eyebrow">Project roles</h3>
+        <ol class="mt-6 divide-y divide-line">
+          @for (project of projects; track project.slug) {
+            <li class="grid gap-4 py-7 first:pt-0 last:pb-0 lg:grid-cols-12 lg:gap-10">
+              <div class="lg:col-span-4">
+                <p class="eyebrow">
+                  @if (project.year) {
+                    {{ project.year }}<span aria-hidden="true"> · </span><span class="sr-only">, </span>
+                  }
+                  {{ project.category }}
+                </p>
+                <h4 class="mt-2 text-xl font-semibold tracking-tight">{{ project.title }}</h4>
+                <button
+                  type="button"
+                  class="link-arrow mt-3 text-sm"
+                  aria-haspopup="dialog"
+                  (click)="activeProject.set(project)"
+                >
+                  Read case study<span class="sr-only">: {{ project.title }}</span>
+                  <app-icon name="arrow-right" class="size-4" />
+                </button>
+              </div>
+              <div class="lg:col-span-8">
+                <p class="font-semibold text-ink">{{ project.caseStudy.role }}</p>
+                <ul class="mt-3 space-y-2 text-muted">
+                  @for (item of project.caseStudy.contributions; track item) {
+                    <li class="flex gap-2.5">
+                      <app-icon name="check" class="mt-1 size-4 text-accent" />
+                      <span>{{ item }}</span>
+                    </li>
+                  }
+                </ul>
+                <ul class="mt-4 flex flex-wrap gap-2" [attr.aria-label]="project.title + ' stack'">
+                  @for (tech of project.caseStudy.stack; track tech) {
+                    <li class="chip">{{ tech }}</li>
+                  }
+                </ul>
+              </div>
+            </li>
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Education, skills, and certifications ══════════════════════════════ -->
+<section id="qualifications" aria-labelledby="qualifications-title">
+  <div class="container-page section-y">
+    <p class="eyebrow">Qualifications</p>
+    <h2 id="qualifications-title" class="mt-4 text-h2 font-bold">Education &amp; Skills</h2>
+
+    <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
+      <div class="tile p-6 sm:p-8 lg:col-span-7" appReveal>
+        <span class="icon-badge"><app-icon name="cap" class="size-6" /></span>
+        <h3 class="mt-8 text-2xl font-semibold tracking-tight">Education</h3>
+        <ol class="mt-6 divide-y divide-line">
+          @for (item of education; track item.degree) {
+            <li class="py-6 first:pt-0 last:pb-0">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <h4 class="text-lg font-semibold tracking-tight">{{ item.degree }}</h4>
+                <span class="font-mono text-xs text-muted">{{ item.period }}</span>
+              </div>
+              <p class="mt-1 font-medium text-accent">{{ item.school }}</p>
+              <p class="mt-3 text-pretty text-sm text-muted">{{ item.description }}</p>
+              @if (item.coursework; as coursework) {
+                <p class="mt-3 text-pretty text-sm">
+                  <span class="font-semibold text-ink">Relevant coursework:</span>
+                  <span class="text-muted"> {{ coursework.join(', ') }}</span>
+                </p>
+              }
+              <ul class="mt-4 space-y-2" [attr.aria-label]="'Achievements at ' + item.school">
+                @for (achievement of item.achievements; track achievement) {
+                  <li class="flex gap-2.5 text-sm">
+                    <app-icon name="check" class="mt-0.5 size-4 text-accent" />
+                    <span>{{ achievement }}</span>
+                  </li>
+                }
+              </ul>
+            </li>
+          }
+        </ol>
+      </div>
+
+      <!-- Grouped by how often I use them; no self-scored percentages. -->
+      <div class="tile p-6 sm:p-8 lg:col-span-5" [appReveal]="80">
+        <span class="icon-badge"><app-icon name="code" class="size-6" /></span>
+        <h3 class="mt-8 text-2xl font-semibold tracking-tight">Skills</h3>
+        <p class="mt-3 text-pretty text-sm text-muted">
+          Grouped by how often I reach for them. The project roles above list the stack behind each build.
+        </p>
+        <h4 id="resume-skills-daily" class="mt-6 text-sm font-semibold text-ink">Daily drivers</h4>
+        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-daily">
+          @for (skill of skills.daily; track skill) {
+            <li class="chip text-ink">{{ skill }}</li>
+          }
+        </ul>
+        <h4 id="resume-skills-other" class="mt-6 text-sm font-semibold text-ink">Also worked with</h4>
+        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-other">
+          @for (skill of skills.alsoUsed; track skill) {
+            <li class="chip">{{ skill }}</li>
+          }
+        </ul>
+        <h4 id="resume-skills-tools" class="mt-6 text-sm font-semibold text-ink">Tools</h4>
+        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-tools">
+          @for (tool of skills.tools; track tool) {
+            <li class="chip">{{ tool }}</li>
+          }
+        </ul>
+        <h4 id="resume-skills-soft" class="mt-6 text-sm font-semibold text-ink">Soft skills</h4>
+        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-soft">
+          @for (skill of skills.soft; track skill) {
+            <li class="chip">{{ skill }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="tile p-6 sm:p-8 lg:col-span-12" [appReveal]="160">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span class="icon-badge"><app-icon name="verified" class="size-6" /></span>
+            <h3 class="mt-8 text-2xl font-semibold tracking-tight">Certifications</h3>
+          </div>
+          <a routerLink="/about" fragment="certifications" class="link-arrow text-sm">
+            See them full size<span class="sr-only"> on the About page</span>
+            <app-icon name="arrow-right" class="size-4" />
+          </a>
+        </div>
+        <ul
+          class="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4"
+        >
+          @for (cert of certificates; track cert.id) {
+            <li class="flex flex-col bg-surface p-5">
+              <p class="eyebrow">{{ cert.provider }}</p>
+              <p class="mt-2 font-semibold leading-snug text-ink">{{ cert.title }}</p>
+              <p class="mt-auto pt-3 text-xs font-medium text-muted">{{ statuses.get(cert.id)?.label }}</p>
+              @if (cert.verifyUrl) {
+                <a [href]="cert.verifyUrl" target="_blank" rel="noopener noreferrer" class="link-arrow mt-2 w-fit text-xs">
+                  <app-icon name="verified" class="size-3.5" />
+                  Verify<span class="sr-only"> {{ cert.title }} on freeCodeCamp (opens in a new tab)</span>
+                </a>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-case-study-dialog [project]="activeProject()" (closed)="activeProject.set(null)" />

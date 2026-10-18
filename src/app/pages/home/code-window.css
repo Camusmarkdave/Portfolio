@@ -1,0 +1,115 @@
+:host {
+  display: block;
+}
+
+.code-window {
+  box-shadow: 0 40px 80px -40px rgb(2 6 23 / 0.55);
+}
+
+.dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 999px;
+  background: rgb(var(--c-muted) / 0.35);
+}
+
+/* Wraps instead of scrolling sideways on phones, with a hanging indent past the line numbers. */
+.code {
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  counter-reset: line;
+}
+
+@media (min-width: 640px) {
+  .code {
+    padding: 1.5rem 1.5rem 1.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+.line {
+  display: block;
+  padding-left: 3ch;
+  text-indent: -3ch;
+  counter-increment: line;
+  /* Typed in line by line; --line is the line's index. */
+  animation: type-line 0.45s steps(18, end) both;
+  animation-delay: calc(0.5s + var(--line, 0) * 0.16s);
+}
+
+@keyframes type-line {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+/* The cursor blinks a few times once the last line lands, then rests. */
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.15em;
+  margin-left: 0.15em;
+  vertical-align: text-bottom;
+  background: rgb(var(--c-accent));
+  animation: caret-blink 1s steps(1, end) 6 both;
+  animation-delay: calc(0.95s + var(--line, 0) * 0.16s);
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.line::before {
+  content: counter(line);
+  content: counter(line) / ''; /* empty alt text: screen readers skip the numbers */
+  display: inline-block;
+  width: 2ch;
+  margin-right: 1ch;
+  text-align: right;
+  text-indent: 0;
+  color: rgb(var(--c-muted) / 0.6);
+  user-select: none;
+}
+
+/* Syntax colors: all 7:1+ on the navy background. */
+.tok-kw { color: #c4b5fd; }
+.tok-def { color: #fde68a; }
+.tok-key { color: #7dd3fc; }
+.tok-str { color: #6ee7b7; }
+.tok-lit { color: #fdba74; }
+.tok-pun { color: rgb(var(--c-muted)); }
+
+/* Lighthouse gauges, in Lighthouse's own colors. */
+.gauge-track,
+.gauge-value {
+  fill: none;
+  stroke-width: 3;
+}
+
+.gauge-track {
+  stroke: rgb(var(--c-line));
+}
+
+.gauge-value {
+  stroke: currentColor;
+  stroke-dasharray: 100;
+  stroke-linecap: round;
+  animation: gauge-fill 1.4s var(--ease-out) 1s both;
+}
+
+/* Rings fill from empty to the measured score (the stroke-dashoffset attribute). */
+@keyframes gauge-fill {
+  from {
+    stroke-dashoffset: 100;
+  }
+}
+
+.gauge-pass { color: #0cce6b; }
+.gauge-average { color: #ffa400; }
+.gauge-fail { color: #ff4e42; }

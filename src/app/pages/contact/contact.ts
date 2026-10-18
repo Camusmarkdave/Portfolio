@@ -1,141 +1,96 @@
-import { Component, signal, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, Injector, afterNextRender, inject, signal } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { developer, emailHref, resumePdf, socials } from '../../data/profile';
+import { IconComponent } from '../../shared/icon';
+import { contactDetails } from './contact.data';
+
+type Field = 'name' | 'email' | 'subject' | 'message';
+type Status = 'idle' | 'sending' | 'sent' | 'error';
+
+/** FormSubmit relays each message to my inbox, so the site needs no backend. */
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${developer.email}`;
+const FIELDS: Field[] = ['name', 'email', 'subject', 'message'];
+/** Validators.email accepts "name@gmail"; a reply needs a real domain, so require a dot in it. */
+const HAS_DOMAIN = /@[^\s@]+\.[^\s@]{2,}$/;
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconComponent],
   templateUrl: './contact.html',
-  styleUrl: './contact.css'
+  styleUrl: './contact.css',
 })
 export class ContactComponent {
-  private fb = inject(FormBuilder);
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
+  private readonly injector = inject(Injector);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  protected contactForm: FormGroup = this.fb.group({
+  protected readonly developer = developer;
+  protected readonly emailHref = emailHref;
+  protected readonly pdf = resumePdf;
+  protected readonly details = contactDetails;
+  protected readonly profiles = socials.filter((social) => social.icon !== 'mail');
+
+  protected readonly form = inject(NonNullableFormBuilder).group({
     name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(HAS_DOMAIN)]],
     subject: ['', Validators.required],
-    message: ['', Validators.required]
+    message: ['', Validators.required],
   });
 
-  protected isSubmitting = signal(false);
-  protected isSent = signal(false);
-  protected submitError = signal(false);
+  protected readonly status = signal<Status>('idle');
+  /** Set by the first submit; from then on every invalid field shows its error. */
+  protected readonly submitted = signal(false);
+  /** Read out by screen readers when a submit stops on invalid fields. */
+  protected readonly announcement = signal('');
+  /** The sender's address, echoed in the success message. */
+  protected readonly replyTo = signal('');
 
-  onSubmit() {
-    if (this.contactForm.valid) {
-      this.isSubmitting.set(true);
-      this.submitError.set(false);
-      
-      const formData = {
-        ...this.contactForm.value,
-        _subject: `Portfolio Contact: ${this.contactForm.value.subject}`,
-        _captcha: 'false', // Disables the captcha page for a smoother UX
-        _template: 'table'
-      };
+  /** A field's error shows once it has been edited and left, or after a submit attempt. */
+  protected showError(field: Field): boolean {
+    const control = this.form.controls[field];
+    return control.invalid && (this.submitted() || (control.dirty && control.touched));
+  }
 
-      this.http.post('https://formsubmit.co/ajax/camusmarkdave@gmail.com', formData, { responseType: 'text' }).subscribe({
-        next: (response) => {
-          console.log('FormSubmit success:', response);
-          this.isSubmitting.set(false);
-          this.isSent.set(true);
-          this.contactForm.reset();
-        },
-        error: (error) => {
-          console.error('FormSubmit error:', error);
-          this.isSubmitting.set(false);
-          this.submitError.set(true);
-        }
-      });
+  protected onSubmit(): void {
+    if (this.status() === 'sending') return;
+    this.submitted.set(true);
+
+    const invalid = FIELDS.filter((field) => this.form.controls[field].invalid);
+    if (invalid.length) {
+      this.announcement.set(`Not sent yet: ${invalid.length === 1 ? '1 field needs' : `${invalid.length} fields need`} attention.`);
+      // After render, so the error text exists when the field's description is read out.
+      afterNextRender(() => this.focus(`contact-${invalid[0]}`), { injector: this.injector });
+      return;
     }
+
+    const { name, email, subject, message } = this.form.getRawValue();
+    this.announcement.set('');
+    this.status.set('sending');
+    this.http
+      .post(
+        FORM_ENDPOINT,
+        { name, email, subject, message, _subject: `Portfolio Contact: ${subject}`, _captcha: 'false', _template: 'table' },
+        { responseType: 'text' },
+      )
+      .subscribe({
+        next: () => {
+          this.replyTo.set(email);
+          this.form.reset();
+          this.submitted.set(false);
+          this.status.set('sent');
+          afterNextRender(() => this.focus('contact-sent'), { injector: this.injector });
+        },
+        error: () => this.status.set('error'),
+      });
   }
 
-  // Form Tilt State
-  protected readonly formTransform = signal('rotateX(0deg) rotateY(0deg)');
-
-  // Cards Tilt State (5 cards)
-  protected readonly cardTransforms = signal<string[]>([
-    'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)',
-    'rotateX(0deg) rotateY(0deg)'
-  ]);
-
-  // Cards Spotlight State
-  protected readonly cardSpotlights = signal<{x: number, y: number}[]>([
-    {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
-  ]);
-
-  protected onFormMouseMove(event: MouseEvent) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Calculate rotation (max 2 degrees for form)
-    const rotateX = ((y - centerY) / centerY) * -2;
-    const rotateY = ((x - centerX) / centerX) * 2;
-
-    this.formTransform.set(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
+  protected sendAnother(): void {
+    this.status.set('idle');
+    afterNextRender(() => this.focus('contact-name'), { injector: this.injector });
   }
 
-  protected resetFormTilt() {
-    this.formTransform.set('perspective(1000px) rotateX(0deg) rotateY(0deg)');
-  }
-
-  protected onCardMouseMove(event: MouseEvent, index: number) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Calculate rotation (max 5 degrees for cards)
-    const rotateX = ((y - centerY) / centerY) * -5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-
-    const newTransforms = [...this.cardTransforms()];
-    newTransforms[index] = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-    this.cardTransforms.set(newTransforms);
-
-    const newSpotlights = [...this.cardSpotlights()];
-    newSpotlights[index] = {x, y};
-    this.cardSpotlights.set(newSpotlights);
-  }
-
-  protected resetCardTilt(index: number) {
-    const newTransforms = [...this.cardTransforms()];
-    newTransforms[index] = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-    this.cardTransforms.set(newTransforms);
-  }
-
-  // Background 3D Shapes
-  protected readonly shapesTransform = signal<string[]>([
-    'rotateX(20deg) rotateY(20deg)',
-    'rotateX(-20deg) rotateY(-20deg)'
-  ]);
-
-  protected onSectionMouseMove(event: MouseEvent) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * 45; 
-    const rotateY = ((x - centerX) / centerX) * 45;
-
-    this.shapesTransform.set([
-      `rotateX(${20 + rotateX}deg) rotateY(${20 + rotateY}deg)`,
-      `rotateX(${-20 - rotateX}deg) rotateY(${-20 - rotateY}deg)`
-    ]);
+  private focus(id: string): void {
+    this.host.nativeElement.querySelector<HTMLElement>(`#${id}`)?.focus();
   }
 }

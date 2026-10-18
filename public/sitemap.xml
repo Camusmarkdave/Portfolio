@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- One <url> per route in src/app/app.routes.ts. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://markdavecamus.vercel.app/</loc></url>
+  <url><loc>https://markdavecamus.vercel.app/about</loc></url>
+  <url><loc>https://markdavecamus.vercel.app/projects</loc></url>
+  <url><loc>https://markdavecamus.vercel.app/resume</loc></url>
+  <url><loc>https://markdavecamus.vercel.app/contact</loc></url>
+</urlset>

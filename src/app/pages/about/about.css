@@ -1,86 +1,79 @@
-@keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
-}
-.animate-blob {
-  animation: blob 7s infinite;
-}
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-.perspective-container {
-  perspective: 1000px;
+/* Samples in the "design to code" table (How I Work). */
+.token-sample {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgb(var(--c-line));
+  border-radius: 0.625rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: rgb(var(--c-ink));
 }
 
-/* Moving Grid Animation */
-@keyframes grid-move {
-  0% { background-position: 0 0; }
-  100% { background-position: 40px 40px; }
-}
-.animate-grid-move {
-  animation: grid-move 3s linear infinite;
+.token-sample[data-sample='navy'] {
+  background: #0f172a;
 }
 
-.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-.animate-scale-up { animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-/* Staggered Fade In Up */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(4px); }
-  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+/* One swatch, both themes: light accent on the left, dark accent on the right. */
+.token-sample[data-sample='accent'] {
+  background: linear-gradient(90deg, #0f766e 50%, #22d3ee 50%);
 }
 
-.animate-fade-in-up {
-  opacity: 0;
-  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.token-sample[data-sample='radius'] {
+  border: 2px solid rgb(var(--c-accent));
+  border-radius: 0.75rem 0.25rem 0.25rem;
 }
 
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-
-/* 3D Cube Styles */
-.perspective-wrap {
-  perspective: 1000px;
+/* Certificate validity. The label carries the meaning; the dot only echoes it.
+   Deep green and amber on the light theme's sand band, light ones on navy. */
+:host {
+  --status-valid: #047857; /* emerald-700 · 5.4:1 on the light tiles */
+  --status-valid-dot: #10b981;
+  --status-expiring: #b45309; /* amber-700 · 4.9:1 */
+  --status-expiring-dot: #f59e0b;
 }
 
-.cube {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.1s ease-out;
-  will-change: transform;
+:host-context([data-theme='dark']) {
+  --status-valid: #6ee7b7;
+  --status-valid-dot: #34d399;
+  --status-expiring: #fcd34d;
+  --status-expiring-dot: #fbbf24;
 }
 
-.cube-face {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  border: 1px solid;
-  opacity: 0.4;
-  background: rgba(255, 255, 255, 0.05);
+.cert-status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgb(var(--c-accent));
 }
 
-.cube-cyan .cube-face { border-color: #06b6d4; background: rgba(6, 182, 212, 0.05); }
-.cube-purple .cube-face { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
-
-.face-front  { transform: translateZ(50px); }
-.face-back   { transform: rotateY(180deg) translateZ(50px); }
-.face-right  { transform: rotateY(90deg) translateZ(50px); }
-.face-left   { transform: rotateY(-90deg) translateZ(50px); }
-.face-top    { transform: rotateX(90deg) translateZ(50px); }
-.face-bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-/* Floating Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+[data-status='earned'] {
+  color: rgb(var(--c-ink));
 }
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+
+[data-status='valid'] {
+  color: var(--status-valid);
+}
+
+[data-status='valid'] .cert-status-dot {
+  background: var(--status-valid-dot);
+}
+
+[data-status='expiring'] {
+  color: var(--status-expiring);
+}
+
+[data-status='expiring'] .cert-status-dot {
+  background: var(--status-expiring-dot);
+}
+
+[data-status='expired'] {
+  color: rgb(var(--c-muted));
+}
+
+[data-status='expired'] .cert-status-dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px rgb(var(--c-muted));
 }
