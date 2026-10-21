@@ -85,8 +85,8 @@
               <p class="eyebrow">
                 <span class="text-ink">{{ numbers.get(project.slug) }}</span><span aria-hidden="true"> · </span
                 ><span class="sr-only">, </span>{{ project.category }}
-                @if (project.year) {
-                  <span aria-hidden="true"> · </span><span class="sr-only">, </span>{{ project.year }}
+                @if (project.date) {
+                  <span aria-hidden="true"> · </span><span class="sr-only">, </span>{{ project.date }}
                 }
               </p>
               <h3 [id]="'project-' + project.slug" class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">

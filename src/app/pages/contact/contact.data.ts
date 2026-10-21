@@ -5,5 +5,5 @@
 
 export const contactDetails = {
   phone: { label: '+63 919 235 9881', href: 'tel:+639192359881' },
-  location: { label: 'Pampanga, Philippines', mapUrl: 'https://maps.app.goo.gl/1i2z63tqzUNGrcq8A' },
+  location: { label: 'Mabalacat City, Pampanga, Philippines', mapUrl: 'https://maps.app.goo.gl/1i2z63tqzUNGrcq8A' },
 };

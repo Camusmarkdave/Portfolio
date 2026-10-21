@@ -1,3 +1,11 @@
 [build]
   command = "npm run build"
-  publish = "dist/markdaveportfolio/browser"
+  # Must match the Angular project name in angular.json ("my-portfolio").
+  publish = "dist/my-portfolio/browser"
+
+# Single-page app: send every route (/about, /projects…) to index.html so
+# refreshing or opening a deep link doesn't 404. Real files are served first.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

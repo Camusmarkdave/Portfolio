@@ -30,7 +30,8 @@ export interface Project {
   /** Short tech / role tags shown on the card. */
   tags: string[];
   summary: string;
-  year?: string;
+  /** When it shipped, as on the resume, e.g. "Feb 2026". */
+  date?: string;
   /** `src` is the ~1280px original; `small` (optional) is a 640px copy phones download instead. */
   cover?: { src: string; small?: string; width: number; height: number; alt: string };
   /** Decorative glow + placeholder color. Never used for text. */
@@ -43,17 +44,17 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'danonos-donut',
-    title: 'Danonos Donut',
+    title: "Danono's Donuts",
     category: 'Web Design',
     tags: ['Front-end', 'Branding'],
-    year: '2026',
+    date: 'Feb 2026',
     summary: 'A business showcase site for a local donut shop, with the menu, blog, and store locations in one place.',
     cover: {
       src: 'assets/work/danonos-donut.webp',
       small: 'assets/work/danonos-donut-640.webp',
       width: 1280,
       height: 490,
-      alt: 'Danonos Donut homepage: a “More Choices, More Value” headline beside assorted donuts on a cooling rack.',
+      alt: 'Danono’s Donuts homepage: a “More Choices, More Value” headline beside assorted donuts on a cooling rack.',
     },
     accent: 'amber',
     links: { live: 'https://danonos.com', repo: 'https://github.com/gabewebd/WSEA' },
@@ -108,7 +109,7 @@ export const projects: Project[] = [
     title: 'The Four Who Adore',
     category: 'Fashion & Lifestyle',
     tags: ['Design', 'Front-end'],
-    year: '2025',
+    date: 'Dec 2025',
     summary: 'A fashion and lifestyle group profile site, built by a team of four.',
     cover: {
       src: 'assets/work/the-four-who-adore.webp',
@@ -138,17 +139,17 @@ export const projects: Project[] = [
   },
   {
     slug: 'ecoquest',
-    title: 'Ecoquest',
+    title: 'Eco Quest',
     category: 'Web App',
     tags: ['UI/UX', 'MERN'],
-    year: '2025',
+    date: 'Oct 2025',
     summary: 'A gamified web app that turns environmental education into quests.',
     cover: {
       src: 'assets/work/ecoquest.webp',
       small: 'assets/work/ecoquest-640.webp',
       width: 1280,
       height: 531,
-      alt: 'Ecoquest landing page: an “Imagine a place…” headline with Start Your Quest and Learn More buttons beside an illustration of two hikers with a map and compass.',
+      alt: 'Eco Quest landing page: an “Imagine a place…” headline with Start Your Quest and Learn More buttons beside an illustration of two hikers with a map and compass.',
     },
     accent: 'emerald',
     links: {
@@ -159,8 +160,8 @@ export const projects: Project[] = [
       problem: 'Make ecological education engaging enough that students keep coming back to it.',
       role: 'UI/UX Designer & Frontend Lead',
       contributions: [
-        'Designed the complete interface in Figma from scratch.',
-        'Built a gamified quest experience to drive engagement with environmental topics.',
+        'Designed the complete gamified interface and interactive prototypes in Figma.',
+        'Led frontend development of the quest-based environmental learning app.',
       ],
       stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Figma'],
       outcome: 'A live MERN web app with a quest-based learning flow, designed end to end in Figma.',

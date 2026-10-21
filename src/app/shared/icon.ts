@@ -27,7 +27,8 @@ export type IconName =
   | 'map-pin'
   | 'alert'
   | 'pause'
-  | 'play';
+  | 'play'
+  | 'award';
 
 /**
  * Inline SVG icons (24×24 grid, 1.75px stroke). Always decorative: give the
@@ -152,6 +153,10 @@ export type IconName =
         }
         @case ('play') {
           <path d="M8 5.5v13l10.5-6.5L8 5.5Z" />
+        }
+        @case ('award') {
+          <circle cx="12" cy="9" r="6" />
+          <path d="M8.6 13.9 7 21.5l5-2.8 5 2.8-1.6-7.6" />
         }
       }
     </svg>

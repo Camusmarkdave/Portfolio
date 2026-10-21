@@ -36,7 +36,7 @@ export const resumePdf = {
   /** The name the download saves under. */
   fileName: 'Mark-Dave-Camus-Resume.pdf',
   /** Shown on the download buttons. Update it whenever you replace the file. */
-  size: '5.1 MB',
+  size: '2.2 MB',
 };
 
 /**

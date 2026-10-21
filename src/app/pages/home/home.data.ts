@@ -65,6 +65,6 @@ export const testimonials: Testimonial[] = [
     quote:
       'A second voice from a client or instructor helps. Ask them how you communicate, handle feedback, and deliver.',
     name: 'Client name',
-    role: 'Owner · Danonos Donut',
+    role: "Owner · Danono's Donuts",
   },
 ];

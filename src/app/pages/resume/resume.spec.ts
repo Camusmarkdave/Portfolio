@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { certificates, education } from '../../data/credentials';
 import { experience } from '../../data/experience';
-import { projects } from '../../data/projects';
+import { skills } from '../../data/skills';
 import { ResumeComponent } from './resume';
 
 describe('ResumeComponent', () => {
@@ -26,12 +26,26 @@ describe('ResumeComponent', () => {
     expect(link?.textContent).toContain('Download PDF');
   });
 
-  it('reads experience, project roles, education, and certificates from the shared data', () => {
+  it('mirrors the PDF: every job with its highlights, the current degree, and the listed certificates', () => {
     const text = el.textContent ?? '';
-    for (const job of experience) expect(text).toContain(job.organization);
-    for (const project of projects) expect(text).toContain(project.caseStudy.role);
-    for (const item of education) expect(text).toContain(item.degree);
-    expect(el.querySelectorAll('#qualifications li.bg-surface').length).toBe(certificates.length);
+    for (const job of experience) {
+      expect(text).toContain(job.role);
+      for (const item of job.highlights) expect(text).toContain(item);
+    }
+    expect(text).toContain('Best Intern Award');
+    for (const item of education) {
+      if (item.current) expect(text).toContain(item.degree);
+      else expect(text).not.toContain(item.degree);
+    }
+    expect(el.querySelectorAll('.cert-list > li').length).toBe(
+      certificates.filter((cert) => cert.category !== 'Marketing').length,
+    );
+    for (const skill of skills.networking) expect(text).toContain(skill);
+  });
+
+  it('lists the academic projects from the PDF, in its order', () => {
+    const titles = [...el.querySelectorAll('#experience ol h4')].map((h) => h.textContent?.trim());
+    expect(titles).toEqual(["Danono's Donuts", 'The Four Who Adore', 'Eco Quest']);
   });
 
   it('quotes the recommendation word for word', () => {
@@ -45,10 +59,10 @@ describe('ResumeComponent', () => {
     expect(el.querySelector('[role="progressbar"]')).toBeNull();
   });
 
-  it('opens the case study for a project role', async () => {
-    el.querySelectorAll<HTMLButtonElement>('#experience button[aria-haspopup="dialog"]')[1].click();
+  it('opens the case study for a project', async () => {
+    el.querySelectorAll<HTMLButtonElement>('#experience button[aria-haspopup="dialog"]')[2].click();
     await fixture.whenStable();
 
-    expect(el.querySelector('#case-study-title')?.textContent).toContain(projects[1].title);
+    expect(el.querySelector('#case-study-title')?.textContent).toContain('Eco Quest');
   });
 });

@@ -191,8 +191,8 @@ export interface Education {
   period: string;
   description: string;
   achievements: string[];
-  /** Courses worth naming on the Resume page. */
-  coursework?: string[];
+  location?: string;
+  /** The current program; the Resume page shows only this one, as the PDF does. */
   current?: boolean;
 }
 
@@ -204,7 +204,7 @@ export const education: Education[] = [
     description:
       'Major in Web Development, building strong fundamentals in software engineering, database management, and user interface design.',
     achievements: ["Consistent Dean's Lister, 1st to 3rd year", 'Working student since 1st year', 'Active member of CodeGeeks'],
-    coursework: ['Web Systems and Technologies', 'Mobile Programming', 'Object-Oriented Programming'],
+    location: 'Angeles City, Pampanga',
     current: true,
   },
   {

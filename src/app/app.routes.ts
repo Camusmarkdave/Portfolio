@@ -38,7 +38,7 @@ export const routes: Routes = [
     title: 'Resume | Mark Dave Camus',
     data: {
       description:
-        'Resume of Mark Dave Camus: on-the-job training at Clark Development Corporation, project roles, IT education at Holy Angel University, skills, and certifications.',
+        'Resume of Mark Dave Camus: Best Intern Award as an IT intern at Clark Development Corporation, academic projects, a BS IT at Holy Angel University, skills, and certifications.',
     },
   },
   {
