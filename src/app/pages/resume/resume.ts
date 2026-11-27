@@ -4,10 +4,11 @@ import { certificateStatus, certificates, education } from '../../data/credentia
 import { experience } from '../../data/experience';
 import { resumePdf } from '../../data/profile';
 import { Project, projects } from '../../data/projects';
-import { skills } from '../../data/skills';
+import { chipStart, skills } from '../../data/skills';
 import { CaseStudyDialogComponent } from '../../shared/case-study-dialog/case-study-dialog';
 import { IconComponent } from '../../shared/icon';
 import { RevealDirective } from '../../shared/reveal.directive';
+import { WordsComponent } from '../../shared/words';
 
 /** The academic projects the resume PDF lists, in its order. The Projects page has them all. */
 const RESUME_PROJECTS = ['danonos-donut', 'the-four-who-adore', 'ecoquest'];
@@ -19,7 +20,7 @@ const RESUME_PROJECTS = ['danonos-donut', 'the-four-who-adore', 'ecoquest'];
  */
 @Component({
   selector: 'app-resume',
-  imports: [RouterLink, IconComponent, RevealDirective, CaseStudyDialogComponent],
+  imports: [RouterLink, IconComponent, RevealDirective, CaseStudyDialogComponent, WordsComponent],
   templateUrl: './resume.html',
 })
 export class ResumeComponent {
@@ -32,6 +33,7 @@ export class ResumeComponent {
   protected readonly totalProjects = projects.length;
   protected readonly education = education.filter((item) => item.current);
   protected readonly skills = skills;
+  protected readonly chipStart = chipStart;
   /** The resume lists the development and SEO certificates; the About page shows every one. */
   protected readonly certificates = certificates.filter((cert) => cert.category !== 'Marketing');
   protected readonly totalCertificates = certificates.length;

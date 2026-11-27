@@ -11,6 +11,7 @@ import { CountUpComponent } from '../../shared/count-up';
 import { IconComponent } from '../../shared/icon';
 import { ProjectCardComponent } from '../../shared/project-card/project-card';
 import { RevealDirective } from '../../shared/reveal.directive';
+import { WordsComponent } from '../../shared/words';
 import { CodeWindowComponent } from './code-window';
 import { performanceNotes, services, testimonials } from './home.data';
 
@@ -27,6 +28,7 @@ const CASE_PREFIX = 'case-';
     CaseStudyDialogComponent,
     CodeWindowComponent,
     CountUpComponent,
+    WordsComponent,
   ],
   templateUrl: './home.html',
 })

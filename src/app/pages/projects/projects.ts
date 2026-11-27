@@ -6,6 +6,7 @@ import { socials } from '../../data/profile';
 import { Project, coverSrcset, projects } from '../../data/projects';
 import { CaseStudyDialogComponent } from '../../shared/case-study-dialog/case-study-dialog';
 import { IconComponent } from '../../shared/icon';
+import { injectListTransition } from '../../shared/list-transition';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { processSteps } from './projects.data';
 
@@ -24,6 +25,7 @@ const ALL = 'All';
 })
 export class ProjectsComponent {
   private readonly location = inject(Location);
+  private readonly transition = injectListTransition();
 
   protected readonly total = projects.length;
   protected readonly processSteps = processSteps;
@@ -58,6 +60,11 @@ export class ProjectsComponent {
         const project = projects.find((candidate) => candidate.slug === slug);
         if (project) this.activeProject.set(project);
       });
+  }
+
+  /** Filters the list; the rows glide to their new places instead of jumping. */
+  protected pick(option: string, list: HTMLElement): void {
+    this.transition(list, () => this.filter.set(option));
   }
 
   protected openCase(project: Project): void {

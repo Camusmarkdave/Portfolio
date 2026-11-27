@@ -1,5 +1,5 @@
 <!-- ═══ Hero ═══════════════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden" aria-labelledby="about-title">
+<section class="hero relative overflow-hidden" aria-labelledby="about-title">
   <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   <div class="container-page relative pb-20 pt-28 sm:pt-32 lg:pb-24">
@@ -27,21 +27,25 @@
 
       <figure class="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
         <div class="tile p-2">
-          <img
-            src="assets/about/profile-960.webp"
-            srcset="assets/about/profile-480.webp 480w, assets/about/profile-960.webp 960w"
-            sizes="(min-width: 1024px) 440px, (min-width: 480px) 448px, calc(100vw - 2rem)"
-            width="960"
-            height="885"
-            fetchpriority="high"
-            decoding="async"
-            alt="Portrait of Mark Dave Camus smiling, in a black blazer and white shirt."
-            class="block aspect-[4/5] w-full rounded-[1.125rem] object-cover"
-          />
+          <!-- The photo is visible from the first frame and only settles in scale, so it never delays the page. -->
+          <div class="overflow-hidden rounded-[1.125rem]">
+            <img
+              src="assets/about/profile-960.webp"
+              srcset="assets/about/profile-480.webp 480w, assets/about/profile-960.webp 960w"
+              sizes="(min-width: 1024px) 440px, (min-width: 480px) 448px, calc(100vw - 2rem)"
+              width="960"
+              height="885"
+              fetchpriority="high"
+              decoding="async"
+              alt="Portrait of Mark Dave Camus smiling, in a black blazer and white shirt."
+              class="portrait block aspect-[4/5] w-full object-cover"
+            />
+          </div>
         </div>
         @if (current) {
           <figcaption
-            class="absolute inset-x-6 bottom-6 flex items-center gap-3 rounded-2xl border border-line bg-canvas/90 px-4 py-3 backdrop-blur"
+            class="rise-in absolute inset-x-6 bottom-6 flex items-center gap-3 rounded-2xl border border-line bg-canvas/90 px-4 py-3 backdrop-blur"
+            style="--rise-delay: 450ms"
           >
             <app-icon name="cap" class="size-5 text-accent" />
             <span class="text-sm">
@@ -72,7 +76,7 @@
 <!-- ═══ How I Work ═════════════════════════════════════════════════════════ -->
 <section id="approach" class="band" aria-labelledby="approach-title">
   <div class="container-page section-y">
-    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between" appReveal>
       <div>
         <p class="eyebrow">Approach</p>
         <h2 id="approach-title" class="mt-4 text-h2 font-bold">How I Work</h2>
@@ -91,7 +95,8 @@
           <p class="mt-3 max-w-lg text-pretty text-muted">{{ principle.body }}</p>
 
           @if (first) {
-            <!-- Proof for the claim: this site's own design decisions and the classes that carry them. -->
+            <!-- Proof for the claim: this site's own design decisions and the classes that carry them.
+                 Each swatch pops in as its class name types itself, like the homepage code window. -->
             <div class="mt-auto pt-8">
               <table class="w-full text-left text-sm">
                 <caption class="pb-3 text-left text-xs text-muted">
@@ -104,11 +109,16 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-line border-y border-line">
-                  @for (token of designTokens; track token.label) {
+                  @for (token of designTokens; track token.label; let row = $index) {
                     <tr>
                       <td class="py-3 pr-4">
                         <span class="flex items-center gap-3">
-                          <span class="token-sample" [attr.data-sample]="token.sample" aria-hidden="true">
+                          <span
+                            class="token-sample pop"
+                            [style.--i]="row"
+                            [attr.data-sample]="token.sample"
+                            aria-hidden="true"
+                          >
                             @if (token.sample === 'type') {
                               Aa
                             }
@@ -119,7 +129,9 @@
                           </span>
                         </span>
                       </td>
-                      <td class="whitespace-nowrap py-3 text-right font-mono text-xs text-accent">{{ token.className }}</td>
+                      <td class="whitespace-nowrap py-3 text-right font-mono text-xs text-accent">
+                        <span class="type-in" [style.--i]="row">{{ token.className }}</span>
+                      </td>
                     </tr>
                   }
                 </tbody>
@@ -135,8 +147,10 @@
 <!-- ═══ Education ══════════════════════════════════════════════════════════ -->
 <section id="education" aria-labelledby="education-title">
   <div class="container-page section-y">
-    <p class="eyebrow">Education</p>
-    <h2 id="education-title" class="mt-4 text-h2 font-bold">Educational Background</h2>
+    <div appReveal>
+      <p class="eyebrow">Education</p>
+      <h2 id="education-title" class="mt-4 text-h2 font-bold">Educational Background</h2>
+    </div>
 
     <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
       @for (item of education; track item.degree; let i = $index) {
@@ -170,7 +184,7 @@
 <!-- ═══ Certifications: a filterable collection, so a uniform grid on purpose ═ -->
 <section id="certifications" class="band" aria-labelledby="certs-title">
   <div class="container-page section-y">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between" appReveal>
       <div class="max-w-2xl">
         <p class="eyebrow">Credentials</p>
         <h2 id="certs-title" class="mt-4 text-h2 font-bold">My Certifications</h2>
@@ -185,7 +199,7 @@
             type="button"
             class="filter-chip"
             [attr.aria-pressed]="filter() === option"
-            (click)="filter.set(option)"
+            (click)="pick(option, certList)"
           >
             {{ option }}
             <span class="font-mono text-xs opacity-75">{{ counts[option] }}</span>
@@ -198,11 +212,15 @@
       Showing {{ visibleCertificates().length }} of {{ totalCertificates }} certifications
     </p>
 
-    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+    <!-- .vt-list + --vt-name: filtering animates each card to its new place (shared/list-transition.ts). -->
+    <ul #certList class="vt-list mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
       @for (cert of visibleCertificates(); track cert.id) {
         @let status = statuses.get(cert.id)!;
         <!-- Compact row on phones (thumbnail beside text), a card from sm up. -->
-        <li class="tile lift group grid grid-cols-[6.5rem_1fr] hover:border-accent/50 sm:flex sm:flex-col">
+        <li
+          class="tile lift group grid grid-cols-[6.5rem_1fr] hover:border-accent/50 sm:flex sm:flex-col"
+          [style.--vt-name]="'cert-' + cert.id"
+        >
           <div class="py-4 pl-4 sm:p-3 sm:pb-0">
             <div class="overflow-hidden rounded-xl bg-white sm:rounded-2xl">
               <img
@@ -256,40 +274,43 @@
 <!-- ═══ Toolkit ════════════════════════════════════════════════════════════ -->
 <section id="toolkit" aria-labelledby="toolkit-title">
   <div class="container-page section-y">
-    <p class="eyebrow">Toolkit</p>
-    <h2 id="toolkit-title" class="mt-4 text-h2 font-bold">My Toolkit</h2>
+    <div appReveal>
+      <p class="eyebrow">Toolkit</p>
+      <h2 id="toolkit-title" class="mt-4 text-h2 font-bold">My Toolkit</h2>
+    </div>
 
     <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
+      <!-- The chips pop in as one run, top to bottom: --i is each chip's place in it (see `chipStart`). -->
       <div class="tile p-6 sm:p-8 lg:col-span-8" appReveal>
         <h3 id="skills-daily" class="eyebrow">Daily drivers</h3>
-        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-daily">
-          @for (skill of skills.daily; track skill) {
-            <li class="chip px-3.5 py-1.5 text-sm text-ink">{{ skill }}</li>
+        <ul class="cascade mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-daily">
+          @for (skill of skills.daily; track skill; let i = $index) {
+            <li class="chip px-3.5 py-1.5 text-sm text-ink" [style.--i]="chipStart.daily + i">{{ skill }}</li>
           }
         </ul>
         <h3 id="skills-other" class="eyebrow mt-8">Also worked with</h3>
-        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-other">
-          @for (skill of skills.alsoUsed; track skill) {
-            <li class="chip px-3.5 py-1.5 text-sm">{{ skill }}</li>
+        <ul class="cascade mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-other">
+          @for (skill of skills.alsoUsed; track skill; let i = $index) {
+            <li class="chip px-3.5 py-1.5 text-sm" [style.--i]="chipStart.alsoUsed + i">{{ skill }}</li>
           }
         </ul>
         <h3 id="skills-networking" class="eyebrow mt-8">Networking</h3>
-        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-networking">
-          @for (skill of skills.networking; track skill) {
-            <li class="chip px-3.5 py-1.5 text-sm">{{ skill }}</li>
+        <ul class="cascade mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-networking">
+          @for (skill of skills.networking; track skill; let i = $index) {
+            <li class="chip px-3.5 py-1.5 text-sm" [style.--i]="chipStart.networking + i">{{ skill }}</li>
           }
         </ul>
         <h3 id="skills-tools" class="eyebrow mt-8">Tools</h3>
-        <ul class="mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-tools">
-          @for (tool of skills.tools; track tool) {
-            <li class="chip px-3.5 py-1.5 text-sm">{{ tool }}</li>
+        <ul class="cascade mt-4 flex flex-wrap gap-2.5" aria-labelledby="skills-tools">
+          @for (tool of skills.tools; track tool; let i = $index) {
+            <li class="chip px-3.5 py-1.5 text-sm" [style.--i]="chipStart.tools + i">{{ tool }}</li>
           }
         </ul>
       </div>
 
       <div class="tile p-6 sm:p-8 lg:col-span-4" [appReveal]="80">
         <h3 id="skills-soft" class="eyebrow">Soft skills</h3>
-        <ul class="mt-5 space-y-4" aria-labelledby="skills-soft">
+        <ul class="stagger mt-5 space-y-4" aria-labelledby="skills-soft">
           @for (skill of skills.soft; track skill) {
             <li class="flex items-center gap-3 text-lg font-medium tracking-tight text-ink">
               <app-icon name="check" class="size-5 text-accent" />

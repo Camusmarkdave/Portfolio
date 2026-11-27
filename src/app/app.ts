@@ -44,25 +44,27 @@ export class AppComponent {
       }
     });
 
-    this.trackTileSpotlight();
+    this.trackSpotlight();
   }
 
   /**
-   * Feeds the pointer position to whichever .tile it's over, for the hover
-   * spotlight in styles.css. A plain DOM listener, so it never triggers change
-   * detection; mouse and trackpad only.
+   * Feeds the pointer position to the .tile and the .hero section it's over,
+   * for the hover spotlights in styles.css. A plain DOM listener, so it never
+   * triggers change detection; mouse and trackpad only.
    */
-  private trackTileSpotlight(): void {
+  private trackSpotlight(): void {
     if (!this.doc.defaultView?.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return;
     let frame = 0;
     const onMove = (event: PointerEvent) => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        const tile = (event.target as Element | null)?.closest?.('.tile');
-        if (!(tile instanceof HTMLElement)) return;
-        const box = tile.getBoundingClientRect();
-        tile.style.setProperty('--spot-x', `${event.clientX - box.left}px`);
-        tile.style.setProperty('--spot-y', `${event.clientY - box.top}px`);
+        const target = event.target as Element | null;
+        for (const lit of [target?.closest?.('.tile'), target?.closest?.('.hero')]) {
+          if (!(lit instanceof HTMLElement)) continue;
+          const box = lit.getBoundingClientRect();
+          lit.style.setProperty('--spot-x', `${event.clientX - box.left}px`);
+          lit.style.setProperty('--spot-y', `${event.clientY - box.top}px`);
+        }
       });
     };
     this.doc.addEventListener('pointermove', onMove, { passive: true });

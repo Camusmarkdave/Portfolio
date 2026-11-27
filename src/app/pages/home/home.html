@@ -1,5 +1,5 @@
 <!-- ═══ Hero ═══════════════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden" aria-labelledby="hero-title">
+<section class="hero relative overflow-hidden" aria-labelledby="hero-title">
   <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   <div class="container-page relative pb-20 pt-28 sm:pt-32 lg:pb-28">
@@ -78,16 +78,17 @@
 
       <div class="tile p-6 sm:col-span-2 sm:p-7 lg:col-span-4" [appReveal]="160">
         <h3 class="eyebrow">Toolbox</h3>
+        <!-- The chips pop in as one run: --i is each chip's place in it. -->
         <h4 id="tools-daily" class="mt-6 text-sm font-semibold text-ink">Daily drivers</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="tools-daily">
-          @for (tool of dailyTools; track tool) {
-            <li class="chip text-ink">{{ tool }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="tools-daily">
+          @for (tool of dailyTools; track tool; let i = $index) {
+            <li class="chip text-ink" [style.--i]="i">{{ tool }}</li>
           }
         </ul>
         <h4 id="tools-other" class="mt-6 text-sm font-semibold text-ink">Also worked with</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="tools-other">
-          @for (tool of otherTools; track tool) {
-            <li class="chip">{{ tool }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="tools-other">
+          @for (tool of otherTools; track tool; let i = $index) {
+            <li class="chip" [style.--i]="dailyTools.length + i">{{ tool }}</li>
           }
         </ul>
       </div>
@@ -224,7 +225,8 @@
       <h2 id="quotes-title" class="eyebrow">Kind words</h2>
       <div class="mt-6 grid gap-4 lg:gap-5" [class]="testimonials.length > 1 ? 'md:grid-cols-2' : ''">
         @for (item of testimonials; track item.name) {
-          <figure class="tile flex flex-col p-6 sm:p-8" appReveal>
+          <!-- .quote: the words brighten in sequence when the quote scrolls into view. -->
+          <figure class="quote tile flex flex-col p-6 sm:p-8" appReveal>
             @if (item.sample) {
               <span
                 class="mb-5 w-fit rounded-full border border-dashed border-amber-600/60 px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-wider text-amber-800 dark:border-amber-300/50 dark:text-amber-200"
@@ -233,7 +235,7 @@
               </span>
             }
             <blockquote class="text-pretty text-xl font-medium leading-relaxed tracking-tight text-ink">
-              “{{ item.quote }}”
+              “<app-words [text]="item.quote" />”
             </blockquote>
             <figcaption class="mt-auto pt-6 text-sm">
               <span class="font-semibold text-ink">{{ item.name }}</span>

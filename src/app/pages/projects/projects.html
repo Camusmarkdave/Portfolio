@@ -1,5 +1,5 @@
 <!-- ═══ Hero ═══════════════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden" aria-labelledby="projects-title">
+<section class="hero relative overflow-hidden" aria-labelledby="projects-title">
   <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   <div class="container-page relative pb-16 pt-28 sm:pt-32 lg:pb-20">
@@ -17,7 +17,7 @@
 <!-- ═══ All projects: filterable showcase rows, each screenshot shown whole ══ -->
 <section id="all-projects" class="band" aria-labelledby="all-projects-title">
   <div class="container-page section-y">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between" appReveal>
       <div>
         <p class="eyebrow">Work</p>
         <h2 id="all-projects-title" class="mt-4 text-h2 font-bold">All Projects</h2>
@@ -28,7 +28,7 @@
             type="button"
             class="filter-chip"
             [attr.aria-pressed]="filter() === option"
-            (click)="filter.set(option)"
+            (click)="pick(option, list)"
           >
             {{ option }}
             <span class="font-mono text-xs opacity-75">{{ counts[option] }}</span>
@@ -39,9 +39,10 @@
 
     <p class="sr-only" aria-live="polite">Showing {{ visibleProjects().length }} of {{ total }} projects</p>
 
-    <ol class="mt-10 space-y-5 lg:space-y-6">
+    <!-- .vt-list + --vt-name: filtering animates each row to its new place (shared/list-transition.ts). -->
+    <ol #list class="vt-list mt-10 space-y-5 lg:space-y-6">
       @for (project of visibleProjects(); track project.slug; let odd = $odd) {
-        <li appReveal>
+        <li [style.--vt-name]="'project-' + project.slug" appReveal>
           <!-- `isolate` keeps the accent glow behind the text; the stretched button makes the whole row open the case study. -->
           <article
             class="project-card tile lift group isolate grid hover:border-[rgb(var(--project)/0.5)] lg:grid-cols-12 lg:items-center"
@@ -79,7 +80,7 @@
             </div>
 
             <div
-              class="flex flex-col gap-4 px-6 pb-7 pt-3 sm:px-8 sm:pb-8 lg:col-span-5 lg:py-10"
+              class="stagger flex flex-col gap-4 px-6 pb-7 pt-3 sm:px-8 sm:pb-8 lg:col-span-5 lg:py-10"
               [class]="odd ? 'lg:pl-10 lg:pr-4' : 'lg:pl-4 lg:pr-10'"
             >
               <p class="eyebrow">
@@ -133,7 +134,7 @@
 <section id="process" aria-labelledby="process-title">
   <div class="container-page section-y">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:gap-5">
-      <div class="pb-6 sm:col-span-2 lg:col-span-4 lg:row-span-2 lg:pb-0 lg:pr-8">
+      <div class="pb-6 sm:col-span-2 lg:col-span-4 lg:row-span-2 lg:pb-0 lg:pr-8" appReveal>
         <p class="eyebrow">Process</p>
         <h2 id="process-title" class="mt-4 text-h2 font-bold">How a Project Comes Together</h2>
         <p class="mt-5 max-w-md text-pretty text-lg text-muted">
@@ -143,6 +144,8 @@
 
       @for (step of processSteps; track step.title; let i = $index) {
         <article class="tile flex flex-col p-6 sm:p-7 lg:col-span-4" [appReveal]="i * 80">
+          <!-- The steps' top bars fill in order, so the process reads 1 → 2 → 3. -->
+          <span class="step-progress" aria-hidden="true" [style.--i]="i"></span>
           <div class="flex items-start justify-between">
             <span class="icon-badge"><app-icon [name]="step.icon" class="size-6" /></span>
             <span class="font-mono text-sm text-muted" aria-hidden="true">0{{ i + 1 }}</span>

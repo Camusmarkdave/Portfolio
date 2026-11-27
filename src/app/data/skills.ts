@@ -21,3 +21,15 @@ export const skills = {
   tools: ['VS Code', 'Postman'],
   soft: ['Problem Solving', 'Time Management', 'Teamwork', 'Communication', 'Working Under Pressure', 'Patience'],
 };
+
+/**
+ * Where each chip group starts when the groups pop in as one run, top to
+ * bottom (the `.cascade` animation in styles.css reads it as --i).
+ */
+export const chipStart = {
+  daily: 0,
+  alsoUsed: skills.daily.length,
+  networking: skills.daily.length + skills.alsoUsed.length,
+  tools: skills.daily.length + skills.alsoUsed.length + skills.networking.length,
+  soft: skills.daily.length + skills.alsoUsed.length + skills.networking.length + skills.tools.length,
+};

@@ -10,8 +10,14 @@
                   pins one element, the code window, to navy in both.
    3. Base        Document defaults, focus rings, reduced motion
    4. Components  Shared building blocks (container, buttons, tiles, chips…)
-                  and their motion: hover spotlight, lifts, reveals, progress
-   5. Transitions Page-to-page animation
+                  and their motion: press feedback, hover spotlight, lifts,
+                  reveals and what plays inside them, timeline, progress
+   5. Transitions Page-to-page animation, and animated list filtering
+
+   Motion rules (NN/g, Emil Kowalski): it answers the visitor or marks a state
+   change; ease-out; one-shot pieces finish within a second; only transform,
+   opacity, and clip-path move; nothing gates content; and all of it switches
+   off under prefers-reduced-motion.
 
    New pages should use these classes plus the semantic Tailwind colors in
    tailwind.config.js (bg-canvas, bg-surface, text-ink, text-muted,
@@ -64,6 +70,7 @@
     --grad-to: 14 116 144;
     --shadow-tile: 0 1px 2px rgb(41 37 36 / 0.05), 0 14px 34px -20px rgb(41 37 36 / 0.22);
     --shadow-frame: 0 24px 48px -28px rgb(41 37 36 / 0.35);
+    --glint: rgb(255 255 255 / 0.75); /* the highlight that sweeps across .award */
     --radius-tile: 1.5rem;
     --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   }
@@ -94,6 +101,7 @@
     --grad-to: 96 165 250;
     --shadow-tile: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 16px 40px -24px rgb(0 0 0 / 0.6);
     --shadow-frame: 0 30px 60px -30px rgb(0 0 0 / 0.55);
+    --glint: rgb(255 255 255 / 0.16);
   }
 
   /* In dark mode the bands (and the navy code window) sink one step deeper, so the rhythm survives. */
@@ -143,6 +151,7 @@
     *,
     *::before,
     *::after {
+      animation-delay: 0s !important; /* so staggered pieces don't sit hidden waiting their turn */
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -324,6 +333,30 @@
     @apply inline-flex min-h-10 items-center gap-2 rounded-full border border-line px-4 text-sm font-medium text-muted transition-colors duration-200 hover:border-ink/40 hover:text-ink aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-canvas;
   }
 
+  /* Press feedback: controls dip to 97% while held, so every click feels answered. */
+  :is(.btn, .filter-chip, .icon-btn) {
+    transition-property: color, background-color, border-color, scale;
+    transition-duration: 0.15s;
+  }
+
+  :is(.btn, .filter-chip, .icon-btn):active {
+    scale: 0.97;
+  }
+
+  /* On a clickable tile, the icon badge fills with the accent on hover: "yes, this is a link". */
+  .icon-badge {
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .lift:hover .icon-badge {
+    border-color: transparent;
+    background-color: rgb(var(--c-accent-fill));
+    color: rgb(var(--c-on-accent));
+  }
+
   /* Faint engineering grid behind a page hero, fading out, plus one soft glow. */
   .hero-backdrop {
     background-image:
@@ -333,6 +366,23 @@
     background-size: auto, 48px 48px, 48px 48px;
     -webkit-mask-image: radial-gradient(ellipse 80% 70% at 40% 20%, #000 30%, transparent 80%);
     mask-image: radial-gradient(ellipse 80% 70% at 40% 20%, #000 30%, transparent 80%);
+  }
+
+  /* A second glow follows the pointer across the grid of a `.hero` section
+     (app.ts sets --spot-x/y on it, as it does for tiles). Mouse and trackpad only. */
+  @media (hover: hover) and (pointer: fine) {
+    .hero-backdrop::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(20rem circle at var(--spot-x, 50%) var(--spot-y, 40%), rgb(var(--c-glow) / 0.16), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .hero:hover .hero-backdrop::after {
+      opacity: 1;
+    }
   }
 
   .status-pill {
@@ -395,20 +445,20 @@
   }
 
   .reveal.is-revealed {
-    animation: reveal-in 0.7s var(--ease-out) var(--reveal-delay, 0ms) both;
+    animation: reveal-in 0.5s var(--ease-out) var(--reveal-delay, 0ms) both;
   }
 
   @keyframes reveal-in {
     from {
       opacity: 0;
       translate: 0 1.25rem;
-      filter: blur(4px);
+      filter: blur(3px);
     }
   }
 
   /* Hero pieces that rise in on load. Never the headline or lead paragraph: they're what Lighthouse times. */
   .rise-in {
-    animation: rise-in 0.7s var(--ease-out) var(--rise-delay, 0ms) both;
+    animation: rise-in 0.5s var(--ease-out) var(--rise-delay, 0ms) both;
   }
 
   @keyframes rise-in {
@@ -425,6 +475,236 @@
 
     .reveal.is-revealed,
     .rise-in {
+      animation: none;
+    }
+  }
+
+  /* Reveal choreography ---------------------------------------------------
+     What happens inside a `.reveal` once it scrolls into view. Each piece runs
+     once, is over in under a second, and only moves things a few pixels, so
+     nothing is ever waiting on an animation to be readable. */
+
+  /* .stagger: direct children rise in one after another, in reading order. */
+  .reveal.is-revealed .stagger > * {
+    animation: rise-in 0.45s var(--ease-out) both;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 120ms + var(--i, 0) * 55ms);
+  }
+
+  .stagger > :nth-child(2) {
+    --i: 1;
+  }
+
+  .stagger > :nth-child(3) {
+    --i: 2;
+  }
+
+  .stagger > :nth-child(4) {
+    --i: 3;
+  }
+
+  .stagger > :nth-child(5) {
+    --i: 4;
+  }
+
+  .stagger > :nth-child(6) {
+    --i: 5;
+  }
+
+  .stagger > :nth-child(n + 7) {
+    --i: 6;
+  }
+
+  /* .cascade: chips pop in as one quick run. Set --i on each chip (its place in the run). */
+  .reveal.is-revealed .cascade > * {
+    animation: pop-in 0.3s var(--ease-out) both;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 150ms + var(--i, 0) * 18ms);
+  }
+
+  /* .pop: one small thing pops in on a slower beat (set --i), e.g. a swatch beside a typed line. */
+  .reveal.is-revealed .pop {
+    animation: pop-in 0.35s var(--ease-out) both;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 300ms + var(--i, 0) * 140ms);
+  }
+
+  /* Never from nothing: things that pop start at 92%, not 0. */
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      scale: 0.92;
+    }
+  }
+
+  /* .type-in: mono text types itself in, like the homepage code window (set --i per line). */
+  .type-in {
+    display: inline-block;
+  }
+
+  .reveal.is-revealed .type-in {
+    animation: type-in 0.45s steps(16, end) both;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 350ms + var(--i, 0) * 140ms);
+  }
+
+  @keyframes type-in {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+  }
+
+  /* .quote (with appReveal) + <app-words>: the words brighten in sequence, at reading pace. */
+  .quote.is-revealed .word {
+    animation: word-in 0.4s var(--ease-out) both;
+    animation-delay: calc(250ms + var(--i, 0) * 22ms);
+  }
+
+  @keyframes word-in {
+    from {
+      opacity: 0.2;
+    }
+  }
+
+  /* .award: the one thing on a page that deserves a second look gets a single glint. */
+  .award {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .award::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, var(--glint) 50%, transparent 60%);
+    translate: -120% 0;
+  }
+
+  .reveal.is-revealed .award::after {
+    animation: glint 1s var(--ease-out) calc(var(--reveal-delay, 0ms) + 600ms) both;
+  }
+
+  .reveal.is-revealed .award > app-icon {
+    animation: pop-in 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) calc(var(--reveal-delay, 0ms) + 450ms) both;
+  }
+
+  @keyframes glint {
+    to {
+      translate: 120% 0;
+    }
+  }
+
+  /* .step-progress: a bar across the top of each process step fills in turn, 1 → 2 → 3 (set --i). */
+  .step-progress {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: rgb(var(--c-accent));
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  .reveal.is-revealed .step-progress {
+    animation: step-fill 0.5s var(--ease-out) both;
+    animation-delay: calc(300ms + var(--i, 0) * 260ms);
+  }
+
+  @keyframes step-fill {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Items a filter adds arrive through the view transition instead of the
+     scroll reveal (shared/list-transition.ts marks them). */
+  .reveal-skip,
+  .reveal-skip *,
+  .reveal-skip *::before,
+  .reveal-skip *::after {
+    animation: none !important;
+  }
+
+  .vt-list.is-filtering > * {
+    view-transition-name: var(--vt-name);
+    view-transition-class: vt-item;
+  }
+
+  /* Timeline (resume.html): a rail beside the entries, from tablets up. Its
+     accent line fills as you scroll through it (scroll-driven where the browser
+     supports it, simply full elsewhere); each entry's node lights up on reveal. */
+  @media (min-width: 640px) {
+    .timeline {
+      position: relative;
+      padding-left: 2.25rem;
+    }
+
+    .timeline::before,
+    .timeline-fill {
+      content: '';
+      position: absolute;
+      top: 0.75rem;
+      bottom: 0.75rem;
+      left: 0.5rem;
+      width: 2px;
+      border-radius: 1px;
+    }
+
+    .timeline::before {
+      background: rgb(var(--c-line));
+    }
+
+    .timeline-fill {
+      background: linear-gradient(rgb(var(--grad-from)), rgb(var(--grad-to)));
+      transform-origin: 50% 0;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    /* The node sits on the rail, level with the entry's icon badge. */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 3.125rem;
+      left: calc(-1.75rem - 5px);
+      z-index: 1;
+      width: 0.75rem;
+      height: 0.75rem;
+      border: 2px solid rgb(var(--c-line));
+      border-radius: 999px;
+      background: rgb(var(--c-canvas));
+      transition:
+        background-color 0.3s,
+        border-color 0.3s;
+    }
+
+    .timeline-item.is-revealed::before {
+      border-color: rgb(var(--c-accent));
+      background: rgb(var(--c-accent));
+    }
+
+    /* The fill's tip tracks a line 55% of the way down the screen. */
+    @supports (animation-timeline: view()) {
+      .timeline-fill {
+        animation: rail-fill linear both;
+        animation-timeline: view();
+        animation-range: cover 45vh cover calc(100% - 55vh);
+      }
+    }
+  }
+
+  @keyframes rail-fill {
+    from {
+      transform: scaleY(0);
+    }
+  }
+
+  @media (max-width: 639.98px) {
+    .timeline-fill {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-fill {
       animation: none;
     }
   }
@@ -475,11 +755,50 @@
   }
 
   .browser-frame-bar {
-    @apply flex items-center gap-1.5 border-b border-line px-3.5 py-2.5;
+    @apply relative flex items-center gap-1.5 border-b border-line px-3.5 py-2.5;
   }
 
   .browser-frame-bar > span {
     @apply size-2 rounded-full bg-muted/35;
+  }
+
+  /* A screenshot "loads" into its browser frame when its card arrives: a
+     progress line runs under the address bar, then the page clears. */
+  .reveal.is-revealed .browser-frame-bar::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 -1px;
+    height: 2px;
+    background: rgb(var(--c-accent));
+    transform-origin: 0 50%;
+    animation: frame-progress 0.85s var(--ease-out) calc(var(--reveal-delay, 0ms) + 100ms) both;
+  }
+
+  .reveal.is-revealed .browser-frame img {
+    animation: frame-load 0.55s var(--ease-out) calc(var(--reveal-delay, 0ms) + 350ms) both;
+  }
+
+  @keyframes frame-progress {
+    from {
+      transform: scaleX(0);
+    }
+
+    70% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+
+    to {
+      transform: scaleX(1);
+      opacity: 0;
+    }
+  }
+
+  @keyframes frame-load {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+    }
   }
 
   /* Archive marquee (home.html): two identical copies slide left by one copy's
@@ -641,5 +960,45 @@
   from {
     opacity: 0;
     translate: 0 0.75rem;
+  }
+}
+
+/* Filtering a list (shared/list-transition.ts adds .vt-filter to <html> while
+   it runs): the page itself doesn't cross-fade. Each item glides to its new
+   place, and items that leave or arrive scale-fade. */
+
+html.vt-filter::view-transition-old(root) {
+  display: none;
+}
+
+html.vt-filter::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(.vt-item) {
+  animation-duration: 0.4s;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(.vt-item):only-child {
+  animation: 0.2s ease-out both vt-item-out;
+}
+
+::view-transition-new(.vt-item):only-child {
+  animation: 0.35s var(--ease-out) 0.1s both vt-item-in;
+}
+
+@keyframes vt-item-out {
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes vt-item-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
   }
 }

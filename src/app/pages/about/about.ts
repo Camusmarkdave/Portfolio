@@ -9,9 +9,10 @@ import {
   education,
 } from '../../data/credentials';
 import { stats } from '../../data/profile';
-import { skills } from '../../data/skills';
+import { chipStart, skills } from '../../data/skills';
 import { CountUpComponent } from '../../shared/count-up';
 import { IconComponent } from '../../shared/icon';
+import { injectListTransition } from '../../shared/list-transition';
 import { ModalDirective } from '../../shared/modal.directive';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { designTokens, principles } from './about.data';
@@ -30,7 +31,9 @@ export class AboutComponent {
   protected readonly designTokens = designTokens;
   protected readonly education = education;
   protected readonly skills = skills;
+  protected readonly chipStart = chipStart;
   protected readonly current = education.find((item) => item.current);
+  private readonly transition = injectListTransition();
 
   /** Bento placement, matched by position (full class names so Tailwind can find them). */
   protected readonly principleSlots = ['lg:col-span-7 lg:row-span-2', 'lg:col-span-5', 'lg:col-span-5'];
@@ -49,4 +52,9 @@ export class AboutComponent {
   );
   protected readonly activeCertificate = signal<Certificate | null>(null);
   protected readonly totalCertificates = certificates.length;
+
+  /** Filters the certificates; the cards glide to their new places instead of jumping. */
+  protected pick(option: Filter, list: HTMLElement): void {
+    this.transition(list, () => this.filter.set(option));
+  }
 }

@@ -1,8 +1,13 @@
-<section class="relative overflow-hidden" aria-labelledby="contact-title">
+<section class="hero relative overflow-hidden" aria-labelledby="contact-title">
   <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   <div class="container-page relative pb-20 pt-28 sm:pt-32 lg:pb-28">
-    <p class="eyebrow">Contact</p>
+    <!-- Availability is the first thing a visitor here wants to know. -->
+    @if (developer.available) {
+      <p class="status-pill rise-in"><span class="status-dot" aria-hidden="true"></span>Available for projects</p>
+    } @else {
+      <p class="eyebrow">Contact</p>
+    }
     <h1 id="contact-title" class="mt-6 max-w-4xl text-balance text-display font-extrabold text-ink">
       Let's start a <span class="text-gradient">conversation.</span>
     </h1>
@@ -16,13 +21,33 @@
       <div class="tile rise-in p-6 sm:p-8 lg:col-span-7" style="--rise-delay: 150ms">
         @if (status() === 'sent') {
           <div class="py-4">
-            <span class="icon-badge"><app-icon name="check" class="size-6" /></span>
-            <h2 id="contact-sent" tabindex="-1" class="mt-6 text-3xl font-semibold tracking-tight">Message sent</h2>
-            <p class="mt-3 max-w-md text-pretty text-muted">
+            <!-- A ring closes, like the homepage's Lighthouse gauges, then the check draws itself. -->
+            <span class="sent-mark" aria-hidden="true">
+              <svg viewBox="0 0 48 48" focusable="false">
+                <circle class="sent-ring" cx="24" cy="24" r="21" pathLength="100" />
+                <path class="sent-check" d="M15.5 24.5 21.5 30.5 33 18.5" pathLength="100" />
+              </svg>
+            </span>
+            <h2
+              id="contact-sent"
+              tabindex="-1"
+              class="rise-in mt-6 text-3xl font-semibold tracking-tight"
+              style="--rise-delay: 250ms"
+            >
+              Message sent
+            </h2>
+            <p class="rise-in mt-3 max-w-md text-pretty text-muted" style="--rise-delay: 330ms">
               Thanks for reaching out. I'll reply to <strong class="font-semibold text-ink">{{ replyTo() }}</strong>
               as soon as I can.
             </p>
-            <button type="button" class="btn btn-secondary mt-8" (click)="sendAnother()">Send another message</button>
+            <button
+              type="button"
+              class="rise-in btn btn-secondary mt-8"
+              style="--rise-delay: 410ms"
+              (click)="sendAnother()"
+            >
+              Send another message
+            </button>
           </div>
         } @else {
           <h2 class="text-3xl font-semibold tracking-tight">Send a Message</h2>
@@ -34,7 +59,7 @@
             class="mt-8 grid gap-5 sm:grid-cols-2"
             [attr.aria-busy]="status() === 'sending'"
           >
-            <div>
+            <div class="field-group">
               <label for="contact-name" class="text-sm font-semibold text-ink">Name</label>
               <input
                 id="contact-name"
@@ -53,7 +78,7 @@
               }
             </div>
 
-            <div>
+            <div class="field-group">
               <label for="contact-email" class="text-sm font-semibold text-ink">Email</label>
               <input
                 id="contact-email"
@@ -77,7 +102,7 @@
               }
             </div>
 
-            <div class="sm:col-span-2">
+            <div class="field-group sm:col-span-2">
               <label for="contact-subject" class="text-sm font-semibold text-ink">Subject</label>
               <input
                 id="contact-subject"
@@ -95,7 +120,7 @@
               }
             </div>
 
-            <div class="sm:col-span-2">
+            <div class="field-group sm:col-span-2">
               <label for="contact-message" class="text-sm font-semibold text-ink">Message</label>
               <textarea
                 id="contact-message"
@@ -126,9 +151,11 @@
             }
 
             <div class="sm:col-span-2">
+              <!-- While sending, the button's shine sweeps on a loop: progress without a made-up percentage. -->
               <button
                 type="submit"
                 class="btn btn-primary w-full sm:w-auto"
+                [class.is-sending]="status() === 'sending'"
                 [attr.aria-disabled]="status() === 'sending' || null"
               >
                 @if (status() === 'sending') {

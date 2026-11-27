@@ -1,5 +1,5 @@
 <!-- ═══ Hero: the resume's summary ═════════════════════════════════════════ -->
-<section class="relative overflow-hidden" aria-labelledby="resume-title">
+<section class="hero relative overflow-hidden" aria-labelledby="resume-title">
   <div class="hero-backdrop pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
   <div class="container-page relative pb-16 pt-28 sm:pt-32 lg:pb-20">
@@ -29,7 +29,7 @@
 <!-- ═══ Experience, then the academic projects from the resume ═════════════ -->
 <section id="experience" class="band" aria-labelledby="experience-title">
   <div class="container-page section-y">
-    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between" appReveal>
       <div>
         <p class="eyebrow">Experience</p>
         <h2 id="experience-title" class="mt-4 text-h2 font-bold">Work &amp; Projects</h2>
@@ -39,116 +39,127 @@
       </p>
     </div>
 
-    <div class="mt-12 grid gap-4 lg:gap-5">
-      @for (job of experience; track job.organization) {
-        <article class="tile p-6 sm:p-8" appReveal>
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <span class="icon-badge"><app-icon name="briefcase" class="size-6" /></span>
-            <span class="chip">{{ job.period }}</span>
-          </div>
+    <!-- A timeline: the rail's accent line fills as you scroll, and each entry's node lights up as it arrives. -->
+    <div class="timeline mt-12">
+      <span class="timeline-fill" aria-hidden="true"></span>
+      <ol class="grid gap-4 lg:gap-5">
+        @for (job of experience; track job.organization) {
+          <li class="timeline-item" appReveal>
+            <article class="tile p-6 sm:p-8">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <span class="icon-badge"><app-icon name="briefcase" class="size-6" /></span>
+                <span class="chip">{{ job.period }}</span>
+              </div>
 
-          <div class="mt-8 lg:grid lg:grid-cols-12 lg:gap-10">
-            <div [class]="job.recommendation ? 'lg:col-span-7' : 'lg:col-span-12'">
-              <h3 class="text-2xl font-semibold tracking-tight">{{ job.role }}</h3>
-              <p class="mt-1 font-medium text-accent">
-                {{ job.organization }}
-                @if (job.unit) {
-                  <span class="text-muted"><span aria-hidden="true">· </span>{{ job.unit }}</span>
-                }
-              </p>
-              <p class="mt-1 text-sm text-muted">
-                {{ job.location }}
-                @if (job.summary) {
-                  <span aria-hidden="true">· </span>{{ job.summary }}
-                }
-              </p>
-
-              @if (job.award; as award) {
-                <div class="mt-5 flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent/10 p-4">
-                  <app-icon name="award" class="mt-0.5 size-5 text-accent" />
-                  <p class="text-sm">
-                    <span class="font-semibold text-ink">{{ award.title }}.</span>
-                    <span class="text-muted"> {{ award.reason }}</span>
+              <div class="mt-8 lg:grid lg:grid-cols-12 lg:gap-10">
+                <div [class]="job.recommendation ? 'lg:col-span-7' : 'lg:col-span-12'">
+                  <h3 class="text-2xl font-semibold tracking-tight">{{ job.role }}</h3>
+                  <p class="mt-1 font-medium text-accent">
+                    {{ job.organization }}
+                    @if (job.unit) {
+                      <span class="text-muted"><span aria-hidden="true">· </span>{{ job.unit }}</span>
+                    }
                   </p>
+                  <p class="mt-1 text-sm text-muted">
+                    {{ job.location }}
+                    @if (job.summary) {
+                      <span aria-hidden="true">· </span>{{ job.summary }}
+                    }
+                  </p>
+
+                  @if (job.award; as award) {
+                    <!-- .award: a single glint crosses it once, when the entry arrives. -->
+                    <div class="award mt-5 flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent/10 p-4">
+                      <app-icon name="award" class="mt-0.5 size-5 text-accent" />
+                      <p class="text-sm">
+                        <span class="font-semibold text-ink">{{ award.title }}.</span>
+                        <span class="text-muted"> {{ award.reason }}</span>
+                      </p>
+                    </div>
+                  }
+
+                  <ul class="stagger mt-5 space-y-2.5" [attr.aria-label]="'What I did at ' + job.organization">
+                    @for (item of job.highlights; track item) {
+                      <li class="flex gap-2.5 text-sm">
+                        <app-icon name="check" class="mt-0.5 size-4 text-accent" />
+                        <span>{{ item }}</span>
+                      </li>
+                    }
+                  </ul>
                 </div>
-              }
 
-              <ul class="mt-5 space-y-2.5" [attr.aria-label]="'What I did at ' + job.organization">
-                @for (item of job.highlights; track item) {
-                  <li class="flex gap-2.5 text-sm">
-                    <app-icon name="check" class="mt-0.5 size-4 text-accent" />
-                    <span>{{ item }}</span>
-                  </li>
+                @if (job.recommendation; as rec) {
+                  <!-- Its own reveal, so the words brighten when the quote itself comes into view. -->
+                  <figure
+                    class="quote mt-8 border-t border-line pt-6 lg:col-span-5 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
+                    appReveal
+                  >
+                    <blockquote class="text-pretty text-lg font-medium leading-relaxed tracking-tight text-ink">
+                      “<app-words [text]="rec.quote" />”
+                    </blockquote>
+                    <figcaption class="mt-5 text-sm">
+                      <span class="font-semibold text-ink">{{ rec.name }}</span>
+                      <span class="text-muted"> · {{ rec.title }}, my supervisor</span>
+                    </figcaption>
+                  </figure>
                 }
-              </ul>
+              </div>
+            </article>
+          </li>
+        }
+
+        <li class="timeline-item" [appReveal]="80">
+          <div class="tile p-6 sm:p-8">
+            <div class="flex flex-wrap items-baseline justify-between gap-4">
+              <h3 class="eyebrow">Academic projects</h3>
+              <a routerLink="/projects" class="link-arrow text-sm">
+                See all {{ totalProjects }} projects
+                <app-icon name="arrow-right" class="size-4" />
+              </a>
             </div>
-
-            @if (job.recommendation; as rec) {
-              <figure
-                class="mt-8 border-t border-line pt-6 lg:col-span-5 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
-              >
-                <blockquote class="text-pretty text-lg font-medium leading-relaxed tracking-tight text-ink">
-                  “{{ rec.quote }}”
-                </blockquote>
-                <figcaption class="mt-5 text-sm">
-                  <span class="font-semibold text-ink">{{ rec.name }}</span>
-                  <span class="text-muted"> · {{ rec.title }}, my supervisor</span>
-                </figcaption>
-              </figure>
-            }
+            <ol class="mt-6 divide-y divide-line">
+              @for (project of projects; track project.slug) {
+                <li class="grid gap-4 py-7 first:pt-0 last:pb-0 lg:grid-cols-12 lg:gap-10">
+                  <div class="lg:col-span-4">
+                    <p class="eyebrow">
+                      @if (project.date) {
+                        {{ project.date }}<span aria-hidden="true"> · </span><span class="sr-only">, </span>
+                      }
+                      {{ project.category }}
+                    </p>
+                    <h4 class="mt-2 text-xl font-semibold tracking-tight">{{ project.title }}</h4>
+                    <button
+                      type="button"
+                      class="link-arrow mt-3 text-sm"
+                      aria-haspopup="dialog"
+                      (click)="activeProject.set(project)"
+                    >
+                      Read case study<span class="sr-only">: {{ project.title }}</span>
+                      <app-icon name="arrow-right" class="size-4" />
+                    </button>
+                  </div>
+                  <div class="lg:col-span-8">
+                    <p class="font-semibold text-ink">{{ project.caseStudy.role }}</p>
+                    <ul class="mt-3 space-y-2 text-muted">
+                      @for (item of project.caseStudy.contributions; track item) {
+                        <li class="flex gap-2.5">
+                          <app-icon name="check" class="mt-1 size-4 text-accent" />
+                          <span>{{ item }}</span>
+                        </li>
+                      }
+                    </ul>
+                    <ul class="mt-4 flex flex-wrap gap-2" [attr.aria-label]="project.title + ' stack'">
+                      @for (tech of project.caseStudy.stack; track tech) {
+                        <li class="chip">{{ tech }}</li>
+                      }
+                    </ul>
+                  </div>
+                </li>
+              }
+            </ol>
           </div>
-        </article>
-      }
-
-      <div class="tile p-6 sm:p-8" [appReveal]="80">
-        <div class="flex flex-wrap items-baseline justify-between gap-4">
-          <h3 class="eyebrow">Academic projects</h3>
-          <a routerLink="/projects" class="link-arrow text-sm">
-            See all {{ totalProjects }} projects
-            <app-icon name="arrow-right" class="size-4" />
-          </a>
-        </div>
-        <ol class="mt-6 divide-y divide-line">
-          @for (project of projects; track project.slug) {
-            <li class="grid gap-4 py-7 first:pt-0 last:pb-0 lg:grid-cols-12 lg:gap-10">
-              <div class="lg:col-span-4">
-                <p class="eyebrow">
-                  @if (project.date) {
-                    {{ project.date }}<span aria-hidden="true"> · </span><span class="sr-only">, </span>
-                  }
-                  {{ project.category }}
-                </p>
-                <h4 class="mt-2 text-xl font-semibold tracking-tight">{{ project.title }}</h4>
-                <button
-                  type="button"
-                  class="link-arrow mt-3 text-sm"
-                  aria-haspopup="dialog"
-                  (click)="activeProject.set(project)"
-                >
-                  Read case study<span class="sr-only">: {{ project.title }}</span>
-                  <app-icon name="arrow-right" class="size-4" />
-                </button>
-              </div>
-              <div class="lg:col-span-8">
-                <p class="font-semibold text-ink">{{ project.caseStudy.role }}</p>
-                <ul class="mt-3 space-y-2 text-muted">
-                  @for (item of project.caseStudy.contributions; track item) {
-                    <li class="flex gap-2.5">
-                      <app-icon name="check" class="mt-1 size-4 text-accent" />
-                      <span>{{ item }}</span>
-                    </li>
-                  }
-                </ul>
-                <ul class="mt-4 flex flex-wrap gap-2" [attr.aria-label]="project.title + ' stack'">
-                  @for (tech of project.caseStudy.stack; track tech) {
-                    <li class="chip">{{ tech }}</li>
-                  }
-                </ul>
-              </div>
-            </li>
-          }
-        </ol>
-      </div>
+        </li>
+      </ol>
     </div>
   </div>
 </section>
@@ -156,8 +167,10 @@
 <!-- ═══ Education, skills, and certifications ══════════════════════════════ -->
 <section id="qualifications" aria-labelledby="qualifications-title">
   <div class="container-page section-y">
-    <p class="eyebrow">Qualifications</p>
-    <h2 id="qualifications-title" class="mt-4 text-h2 font-bold">Education &amp; Skills</h2>
+    <div appReveal>
+      <p class="eyebrow">Qualifications</p>
+      <h2 id="qualifications-title" class="mt-4 text-h2 font-bold">Education &amp; Skills</h2>
+    </div>
 
     <div class="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-5">
       <div class="tile p-6 sm:p-8 lg:col-span-7" appReveal>
@@ -195,34 +208,35 @@
         <p class="mt-3 text-pretty text-sm text-muted">
           Grouped by how often I use them. The networking skills come from my internship.
         </p>
+        <!-- The chips pop in as one run, top to bottom: --i is each chip's place in it (see `chipStart`). -->
         <h4 id="resume-skills-daily" class="mt-6 text-sm font-semibold text-ink">Daily drivers</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-daily">
-          @for (skill of skills.daily; track skill) {
-            <li class="chip text-ink">{{ skill }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-daily">
+          @for (skill of skills.daily; track skill; let i = $index) {
+            <li class="chip text-ink" [style.--i]="chipStart.daily + i">{{ skill }}</li>
           }
         </ul>
         <h4 id="resume-skills-other" class="mt-6 text-sm font-semibold text-ink">Also worked with</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-other">
-          @for (skill of skills.alsoUsed; track skill) {
-            <li class="chip">{{ skill }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-other">
+          @for (skill of skills.alsoUsed; track skill; let i = $index) {
+            <li class="chip" [style.--i]="chipStart.alsoUsed + i">{{ skill }}</li>
           }
         </ul>
         <h4 id="resume-skills-networking" class="mt-6 text-sm font-semibold text-ink">Networking</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-networking">
-          @for (skill of skills.networking; track skill) {
-            <li class="chip">{{ skill }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-networking">
+          @for (skill of skills.networking; track skill; let i = $index) {
+            <li class="chip" [style.--i]="chipStart.networking + i">{{ skill }}</li>
           }
         </ul>
         <h4 id="resume-skills-tools" class="mt-6 text-sm font-semibold text-ink">Tools</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-tools">
-          @for (tool of skills.tools; track tool) {
-            <li class="chip">{{ tool }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-tools">
+          @for (tool of skills.tools; track tool; let i = $index) {
+            <li class="chip" [style.--i]="chipStart.tools + i">{{ tool }}</li>
           }
         </ul>
         <h4 id="resume-skills-soft" class="mt-6 text-sm font-semibold text-ink">Soft skills</h4>
-        <ul class="mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-soft">
-          @for (skill of skills.soft; track skill) {
-            <li class="chip">{{ skill }}</li>
+        <ul class="cascade mt-3 flex flex-wrap gap-2" aria-labelledby="resume-skills-soft">
+          @for (skill of skills.soft; track skill; let i = $index) {
+            <li class="chip" [style.--i]="chipStart.soft + i">{{ skill }}</li>
           }
         </ul>
       </div>
@@ -238,7 +252,7 @@
             <app-icon name="arrow-right" class="size-4" />
           </a>
         </div>
-        <ul class="cert-list mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <ul class="cert-list stagger mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           @for (cert of certificates; track cert.id) {
             <li class="flex flex-col rounded-2xl border border-line bg-canvas p-5">
               <p class="eyebrow">{{ cert.provider }}</p>
